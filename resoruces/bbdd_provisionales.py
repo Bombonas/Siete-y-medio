@@ -8,7 +8,7 @@ players = { "11115555A":
                   "bet":4, "points":0, "cards":[], "roundPoints":0},
             "34343434H":
                 { "name":"Bot1", "human":False, "bank":False, "initialCard":"", "priority":0, "type":30,
-                  "bet":4, "points":0, "cards":[], "roundPoints":0}
+                  "bet":4, "points":0, "cards":[], "roundPoints":0},
             "11111111A":
                 { "name":"Bot2", "human":False, "bank":False, "initialCard":"", "priority":0, "type":50,
                   "bet":4, "points":0, "cards":[], "roundPoints":0}
