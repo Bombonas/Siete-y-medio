@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e85ec374-db51-4c32-a0dc-4eb6b88c6916" name="Changes" comment="Commit menús">
+    <list default="true" id="e85ec374-db51-4c32-a0dc-4eb6b88c6916" name="Changes" comment="Commit baraja">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/bbdd_provisionales.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/bbdd_provisionales.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/funciones.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/funciones.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -177,7 +176,21 @@
       <option name="project" value="LOCAL" />
       <updated>1673366257718</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Commit baraja">
+      <created>1673372778201</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1673372778201</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Commit baraja">
+      <created>1673373213879</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1673373213879</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -195,6 +208,7 @@
     <MESSAGE value="19:06" />
     <MESSAGE value="19:22" />
     <MESSAGE value="Commit menús" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit menús" />
+    <MESSAGE value="Commit baraja" />
+    <option name="LAST_COMMIT_MESSAGE" value="Commit baraja" />
   </component>
 </project>
