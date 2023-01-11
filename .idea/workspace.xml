@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e85ec374-db51-4c32-a0dc-4eb6b88c6916" name="Changes" comment="Commit menús">
-      <change beforePath="$PROJECT_DIR$/.idea/Siete-y-medio.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Siete-y-medio.iml" afterDir="false" />
+    <list default="true" id="e85ec374-db51-4c32-a0dc-4eb6b88c6916" name="Changes" comment="Commit gameprio">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/funciones.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/funciones.py" afterDir="false" />
     </list>
@@ -169,7 +168,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673363383785</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Commit gameprio">
+      <created>1673432498991</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1673432498991</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -187,6 +193,7 @@
     <MESSAGE value="19:06" />
     <MESSAGE value="19:22" />
     <MESSAGE value="Commit menús" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit menús" />
+    <MESSAGE value="Commit gameprio" />
+    <option name="LAST_COMMIT_MESSAGE" value="Commit gameprio" />
   </component>
 </project>

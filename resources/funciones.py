@@ -10,7 +10,7 @@ def clear():
     else:
         system('clear')
 
-game = []
+game = list(players)
 def setGamePriority(mazo=[], jugadores=[]):
     cartasRepartidas = {}
     for i in range(len(jugadores)):
@@ -29,6 +29,9 @@ def setGamePriority(mazo=[], jugadores=[]):
                 jugadores[j], jugadores[j + 1] = jugadores[j + 1], jugadores[j]
             elif llista[j] == llista[j + 1] and cartas[cartasRepartidas[jugadores[j]]]['priority'] < cartas[cartasRepartidas[jugadores[j + 1]]]['priority']:
                 jugadores[j], jugadores[j + 1] = jugadores[j + 1], jugadores[j]
+    return jugadores
 
+def resetPoints():
+    for i in game:
+        players[i]['points'] = 20
 
-setGamePriority(list(cartas), list(players))
