@@ -26,4 +26,29 @@ def getOpt(textOpts="",inputOptText="",rangeList=[],exceptions=[]):
             input("Enter to continue")
     return opc
 
-def orderPlayersByPoints(listaJugadores):
+def orderPlayersByPoints(listaDNIs):
+    dic_PL_Points = {}
+    # Llamamos a una funcion que pida los DNIs y calcule los puntos que tiene un jugador a la BBDD,
+    # y los devuelva en formato diccionario; dni : puntos
+
+    for pasada in range(listaDNIs - 1):
+        lista_ordenada = True
+        for i in range(len(listaDNIs) - 1 - pasada):
+            if dic_PL_Points[listaDNIs[i]] < dic_PL_Points[listaDNIs[i + 1]]:
+                lista_ordenada = False
+                aux = listaDNIs[i]
+                listaDNIs[i] = listaDNIs[i + 1]
+                listaDNIs[i + 1] = aux
+        if lista_ordenada:
+            break
+    return listaDNIs
+
+def chanceExceedingSevenAndHalf(id, mazo):
+    bad_cards = 0
+    for i in mazo:
+        if cartas[i]["realValue"] + players[id]["roundPoints"] > 7.5:
+            bad_cards += 1
+
+    return (bad_cards * 100) / len(mazo)
+
+
