@@ -1,3 +1,5 @@
+from resources.bbdd_provisionales import *
+from resources.prints import *
 def getOpt(textOpts="",inputOptText="",rangeList=[],exceptions=[]):
     # PRE:  Al parámetro textOpts se le pasa el string con las opciones del manú
     #       Al parámetro inputOpt se le pasa el string con la frase que pide que escojamos una opción
@@ -24,3 +26,4 @@ def getOpt(textOpts="",inputOptText="",rangeList=[],exceptions=[]):
             input("Enter to continue")
     return opc
 
+def orderPlayersByPoints(listaJugadores):
