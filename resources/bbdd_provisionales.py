@@ -65,3 +65,13 @@ players = {"11115555A":
                {"name": "Bot2", "human": False, "bank": False, "initialCard": "", "priority": 0, "type": 50,
                 "bet": 4, "points": 0, "cards": [], "roundPoints": 0}
            }
+
+cardgame = {'cardgame_id': '', 'players': '', 'start_hour': '', 'rounds': '', 'end_hour': ''}
+
+player_game = {'cardgame_id': {'id_player_1': {'initial_card_id': 'card_id', 'starting_points': '', 'ending_points': ''}}}
+
+player_game_round = {'round': {
+    'id_player_1': {'is_bank': '', 'bet_points': '', 'starting_round_points': '', 'cards_value': '',
+                    'endind_round_points': ''}}}
+
+cardgame_ids = []
