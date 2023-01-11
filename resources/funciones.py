@@ -51,4 +51,19 @@ def chanceExceedingSevenAndHalf(id, mazo):
 
     return (bad_cards * 100) / len(mazo)
 
+def printPlayerStats(id):
+    print("Stats of {}".format(players[id]["name"]).center(140, "*"))
+    for i in players[id]:
+        if i == "cards":
+            print(str(i).ljust(55), end="")
+            primero = True
+            for j in players[id]["cards"]:
+                if primero:
+                    primero = False
+                    print(str(j), sep="", end="")
+                else:
+                    print(";", str(j), sep="", end="")
+            print()
+        else:
+            print(str(i).ljust(55), str(players[id][i]).ljust(4), sep="")
 
