@@ -67,3 +67,39 @@ def printPlayerStats(id):
         else:
             print(str(i).ljust(55), str(players[id][i]).ljust(4), sep="")
 
+def baknOrderNewCard(id, mazo, game):
+        earnings = 0
+        looses = 0
+        ret = True
+        for i in game:
+            if i != id:
+                if(players[i]["roundPoints"] <= 7.5 and players[i]["roundPoints"] <= players[id]["roundPoints"]) or players[i]["roundPoints"] > 7.5:
+                    earnings += players[i]["bet"]
+                else:
+                    if players[i]["roundPoints"] == 7.5:
+                        looses += players[i]["bet"] * 2
+                    else:
+                        looses += players[i]["bet"]
+        if earnings > looses:
+            ret = False
+
+        return ret
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
