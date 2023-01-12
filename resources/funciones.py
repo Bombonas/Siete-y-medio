@@ -3,7 +3,7 @@ from os import *
 from resources.prints import *
 from resources.bbdd_provisionales import *
 import random
-
+import math
 
 def clear():
     if name == 'nt':
@@ -88,7 +88,7 @@ def checkMinimun2PlayerWithPoints():
     return seguir_jugando
 
 def orderAllPlayers():
-    #Funcion que crea una lista con los puntos de los jugadores y ordena la lista de jugadores segun sus puntos, pone la banca al principio
+    #Funcion que crea una lista con los puntos de los jugadores y ordena la lista de jugadores de forma inversa segun sus puntos, pone la banca al principio
     #POST: Devuelve una lista con los ID_player ordenados.
     lista_puntos = []
     for i in game:
@@ -99,15 +99,22 @@ def orderAllPlayers():
 
     for i in range(mida_llista - 1):
         for j in range(0, mida_llista - i - 1):
-            if lista_puntos[j] < lista_puntos[j + 1]:
+            if lista_puntos[j] > lista_puntos[j + 1]:
                 lista_puntos[j], lista_puntos[j + 1] = lista_puntos[j + 1], lista_puntos[j]
                 game[j], game[j + 1] = game[j + 1], game[j]
 
     for i in game:
         if players[i]['bank'] == True:
             game.remove(i)
-            game.insert(0, i)
+            game.append(i)
 
     return game
-
 print(orderAllPlayers())
+def setBets():
+    #Funcion que establece las apuestas según el tipo de jugador
+    for i in game:
+        if players[i]['points'] > 0:
+            players[i]['bet'] = math.ceil(players[i]['points'] / 100 * players[i]['type'])
+
+def standardRound(id, mazo=[]):
+    pass
