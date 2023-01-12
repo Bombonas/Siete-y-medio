@@ -130,8 +130,8 @@ def setMaxRounds():
     correct = False
     while not correct:
         rounds = input("Max Rounds : ")
-        if rounds.isalpha():
-
+        if not rounds.isdigit():
+            print("Please, only introduce numbers")
 def settings():
     menu = "1)Set Game\n2)Set Card's Deck\n3)Set Max Rounds(Default 5 Rounds)\n4)Go back"
     opt = getOpt(menu, "Option: ", [1, 2, 3, 4])
