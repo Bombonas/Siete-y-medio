@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="e85ec374-db51-4c32-a0dc-4eb6b88c6916" name="Changes" comment="Commit setbets">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
+=======
+    <list default="true" id="e85ec374-db51-4c32-a0dc-4eb6b88c6916" name="Changes" comment="19:06" />
+>>>>>>> Stashed changes
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -176,6 +180,7 @@
       <option name="project" value="LOCAL" />
       <updated>1673287603336</updated>
     </task>
+<<<<<<< Updated upstream
     <task id="LOCAL-00002" summary="19:22">
       <created>1673288568705</created>
       <option name="number" value="00002" />
@@ -219,6 +224,9 @@
       <updated>1673543324709</updated>
     </task>
     <option name="localTasksCounter" value="8" />
+=======
+    <option name="localTasksCounter" value="2" />
+>>>>>>> Stashed changes
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -234,11 +242,15 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="19:06" />
+<<<<<<< Updated upstream
     <MESSAGE value="19:22" />
     <MESSAGE value="Commit menús" />
     <MESSAGE value="Commit gameprio" />
     <MESSAGE value="Commit orderplayers" />
     <MESSAGE value="Commit setbets" />
     <option name="LAST_COMMIT_MESSAGE" value="Commit setbets" />
+=======
+    <option name="LAST_COMMIT_MESSAGE" value="19:06" />
+>>>>>>> Stashed changes
   </component>
 </project>
