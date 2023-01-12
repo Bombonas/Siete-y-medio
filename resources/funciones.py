@@ -67,3 +67,76 @@ def printPlayerStats(id):
         else:
             print(str(i).ljust(55), str(players[id][i]).ljust(4), sep="")
 
+def baknOrderNewCard(id, game):
+        earnings = 0
+        looses = 0
+        ret = True
+        for i in game:
+            if i != id:
+                if(players[i]["roundPoints"] <= 7.5 and players[i]["roundPoints"] <= players[id]["roundPoints"]) or players[i]["roundPoints"] > 7.5:
+                    earnings += players[i]["bet"]
+                else:
+                    if players[i]["roundPoints"] == 7.5:
+                        looses += players[i]["bet"] * 2
+                    else:
+                        looses += players[i]["bet"]
+        if earnings > looses:
+            ret = False
+
+        return ret
+
+def nif_validator():
+    # PRE:
+    # POST: Devuelve un NIF válido
+    correct = False
+    newnif = ''
+    while not correct:
+        try:
+            newnif = input('Introduce the NIF: ')
+            if not len(newnif) == 9:
+                raise ValueError('Invalid NIF length')
+            elif not newnif[:8].isdigit():
+                raise ValueError('Invalid NIF numbers')
+            elif not newnif[8].isalpha():
+                raise ValueError('Invalid NIF letter')
+            elif not letrasDni[int(newnif[:8]) % 23].casefold() == newnif[8].casefold():
+                raise ValueError('Incorrect NIF letter')
+            elif newnif.upper() in players:
+                raise ValueError('That NIF already exists in the database')
+            correct = True
+        except ValueError as e:
+            print(e)
+
+    return newnif.upper()
+
+def newPlayer(dni, name, profile, human):
+    dic_aux = {"name": name, "human": human, "bank": False, "initialCard": "", "priority": 0, "type": profile,
+               "bet": 4, "points": 0, "cards": [], "roundPoints": 0}
+    return (dni, dic_aux)
+
+def addRemovePlayers():
+    menu = "1)New Human Player\n\n2)New Bot\n\n3)Show/Remove Players\n\n4)Go back"
+    opt = getOpt(menu, "Option: ", [1, 2, 3, 4])
+    if opt == 1:
+        print("opt1")
+    elif opt == 2:
+        print("opt2")
+    elif opt == 3:
+        print("opt3")
+    elif opt == 4:
+        print("opt4")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

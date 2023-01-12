@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="b86cf3b2-c1e4-4099-8f70-acebc4c00d56" name="Changes" comment="commit printPlayerStats" />
+=======
+    <list default="true" id="b86cf3b2-c1e4-4099-8f70-acebc4c00d56" name="Changes" comment="commit addRemovePlayers" />
+>>>>>>> a14a9782cc24f630008157a493576076e7501fcf
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -105,6 +109,7 @@
       <option name="project" value="LOCAL" />
       <updated>1673458199178</updated>
     </task>
+<<<<<<< HEAD
     <task id="LOCAL-00010" summary="commit printPlayerStats">
       <created>1673461203171</created>
       <option name="number" value="00010" />
@@ -113,6 +118,30 @@
       <updated>1673461203171</updated>
     </task>
     <option name="localTasksCounter" value="11" />
+=======
+    <task id="LOCAL-00010" summary="commit baknOrderNewCard">
+      <created>1673520873973</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1673520873973</updated>
+    </task>
+    <task id="LOCAL-00011" summary="commit nif_validator and newPlayer">
+      <created>1673521765802</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1673521765802</updated>
+    </task>
+    <task id="LOCAL-00012" summary="commit addRemovePlayers">
+      <created>1673522816987</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1673522816987</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
+>>>>>>> a14a9782cc24f630008157a493576076e7501fcf
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -130,7 +159,14 @@
     <MESSAGE value="commit empty files" />
     <MESSAGE value="commit Pablo" />
     <MESSAGE value="commit chanceExeedingSevenAndHalf" />
+<<<<<<< HEAD
     <MESSAGE value="commit printPlayerStats" />
     <option name="LAST_COMMIT_MESSAGE" value="commit printPlayerStats" />
+=======
+    <MESSAGE value="commit baknOrderNewCard" />
+    <MESSAGE value="commit nif_validator and newPlayer" />
+    <MESSAGE value="commit addRemovePlayers" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit addRemovePlayers" />
+>>>>>>> a14a9782cc24f630008157a493576076e7501fcf
   </component>
 </project>
