@@ -128,10 +128,17 @@ def addRemovePlayers():
 
 def setMaxRounds():
     correct = False
+    rounds = 5
     while not correct:
         rounds = input("Max Rounds : ")
         if not rounds.isdigit():
             print("Please, only introduce numbers")
+        elif int(rounds) <= 0:
+            print("Please, introduce a number bigger than 0")
+        else:
+            correct = True
+    contextGame["maxRounds"] = rounds
+    
 def settings():
     menu = "1)Set Game\n2)Set Card's Deck\n3)Set Max Rounds(Default 5 Rounds)\n4)Go back"
     opt = getOpt(menu, "Option: ", [1, 2, 3, 4])
@@ -140,7 +147,7 @@ def settings():
     elif opt == 2:
         print("opt2")
     elif opt == 3:
-        print("opt3")
+        setMaxRounds()
     elif opt == 4:
         print("opt4")
 
