@@ -1,5 +1,6 @@
 from resources.bbdd_provisionales import *
 from resources.prints import *
+import random
 def getOpt(textOpts="",inputOptText="",rangeList=[],exceptions=[]):
     # PRE:  Al parámetro textOpts se le pasa el string con las opciones del manú
     #       Al parámetro inputOpt se le pasa el string con la frase que pide que escojamos una opción
@@ -138,7 +139,7 @@ def setMaxRounds():
         else:
             correct = True
     contextGame["maxRounds"] = rounds
-    
+
 def settings():
     menu = "1)Set Game\n2)Set Card's Deck\n3)Set Max Rounds(Default 5 Rounds)\n4)Go back"
     opt = getOpt(menu, "Option: ", [1, 2, 3, 4])
@@ -151,7 +152,12 @@ def settings():
     elif opt == 4:
         print("opt4")
 
-settings()
+def newRandomDNI():
+    DNI = random.randint(10000000, 99999999)
+    letra = letrasDni[DNI % 23]
+    DNI = str(DNI) + letra.upper()
+    return DNI
+
 
 
 
