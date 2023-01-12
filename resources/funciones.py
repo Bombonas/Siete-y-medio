@@ -115,7 +115,7 @@ def newPlayer(dni, name, profile, human):
     return (dni, dic_aux)
 
 def addRemovePlayers():
-    menu = "1)New Human Player\n\n2)New Bot\n\n3)Show/Remove Players\n\n4)Go back"
+    menu = "1)New Human Player\n2)New Bot\n3)Show/Remove Players\n4)Go back"
     opt = getOpt(menu, "Option: ", [1, 2, 3, 4])
     if opt == 1:
         print("opt1")
@@ -126,6 +126,19 @@ def addRemovePlayers():
     elif opt == 4:
         print("opt4")
 
+def setMaxRounds():
+
+def settings():
+    menu = "1)Set Game\n2)Set Card's Deck\n3)Set Max Rounds(Default 5 Rounds)\n4)Go back"
+    opt = getOpt(menu, "Option: ", [1, 2, 3, 4])
+    if opt == 1:
+        print("opt1")
+    elif opt == 2:
+        print("opt2")
+    elif opt == 3:
+        print("opt3")
+    elif opt == 4:
+        print("opt4")
 
 
 
