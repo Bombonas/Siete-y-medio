@@ -68,6 +68,46 @@ def fill_player_game(gameID, jugadores=[], card_id_list=[], starting_points_list
         else:
             player_game[gameID][jugadores[i]] = {'initial_card_id': card_id_list[i], 'starting_points':
                 starting_points_list[i], 'ending_points': ending_points_list[i]}
-
+    return player_game
 # fill_player_game(generate_game_id(), list(setGamePriority(list(cartas), list(players))), card_id_list(setGamePriority(list(cartas), list(players))),
 #                  [20,20,20,20], [3, 1, 45, 0])
+
+def checkMinimun2PlayerWithPoints():
+    #Funcion que devuelve True si hay 2 o más jugadores con puntos, de lo contrario devuelve False
+
+    contador = 0
+    for i in game:
+        if players[i]['points'] > 0:
+            contador += 1
+
+    if contador < 2:
+        seguir_jugando = False
+    else:
+        seguir_jugando = True
+
+    return seguir_jugando
+
+def orderAllPlayers():
+    #Funcion que crea una lista con los puntos de los jugadores y ordena la lista de jugadores segun sus puntos, pone la banca al principio
+    #POST: Devuelve una lista con los ID_player ordenados.
+    lista_puntos = []
+    for i in game:
+        lista_puntos.append(players[i]['points'])
+
+
+    mida_llista = len(lista_puntos)
+
+    for i in range(mida_llista - 1):
+        for j in range(0, mida_llista - i - 1):
+            if lista_puntos[j] < lista_puntos[j + 1]:
+                lista_puntos[j], lista_puntos[j + 1] = lista_puntos[j + 1], lista_puntos[j]
+                game[j], game[j + 1] = game[j + 1], game[j]
+
+    for i in game:
+        if players[i]['bank'] == True:
+            game.remove(i)
+            game.insert(0, i)
+
+    return game
+
+print(orderAllPlayers())
