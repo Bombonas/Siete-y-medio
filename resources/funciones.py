@@ -127,7 +127,7 @@ def addRemovePlayers():
         print("opt4")
 
 def setMaxRounds():
-
+    input()
 def settings():
     menu = "1)Set Game\n2)Set Card's Deck\n3)Set Max Rounds(Default 5 Rounds)\n4)Go back"
     opt = getOpt(menu, "Option: ", [1, 2, 3, 4])
@@ -140,7 +140,7 @@ def settings():
     elif opt == 4:
         print("opt4")
 
-
+settings()
 
 
 
