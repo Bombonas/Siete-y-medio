@@ -205,4 +205,3 @@ def showhPlayersGame():
     print()
     input("Enter to continue".center(60))
 
-showhPlayersGame()
