@@ -85,7 +85,34 @@ def baknOrderNewCard(id, mazo, game):
 
         return ret
 
+def nif_validator():
+    # PRE:
+    # POST: Devuelve un NIF válido
+    correct = False
+    newnif = ''
+    while not correct:
+        try:
+            newnif = input('Introduce the NIF: ')
+            if not len(newnif) == 9:
+                raise ValueError('Invalid NIF length')
+            elif not newnif[:8].isdigit():
+                raise ValueError('Invalid NIF numbers')
+            elif not newnif[8].isalpha():
+                raise ValueError('Invalid NIF letter')
+            elif not letrasDni[int(newnif[:8]) % 23].casefold() == newnif[8].casefold():
+                raise ValueError('Incorrect NIF letter')
+            elif newnif.upper() in players:
+                raise ValueError('That NIF already exists in the database')
+            correct = True
+        except ValueError as e:
+            print(e)
 
+    return newnif.upper()
+
+def newPlayer(dni, name, profile, human):
+    dic_aux = {"name": name, "human": human, "bank": False, "initialCard": "", "priority": 0, "type": profile,
+               "bet": 4, "points": 0, "cards": [], "roundPoints": 0}
+    return (dni, dic_aux)
 
 
 
