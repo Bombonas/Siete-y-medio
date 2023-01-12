@@ -178,9 +178,30 @@ def setNewPlayer(human=True):
         else:
             correct = True
     tup_player = newPlayer(dni, name, profile, human)
-
+    # FALTA CONECTAR A LA BBDD
 
 def newPlayer(dni, name, profile, human):
     dic_aux = {"name": name, "human": human, "bank": False, "initialCard": "", "priority": 0, "type": profile,
                "bet": 4, "points": 0, "cards": [], "roundPoints": 0}
     return (dni, dic_aux)
+
+
+def showhPlayersGame():
+    print("Actual Players In Game".center(60, "*"))
+    for id in game:
+        p = id.ljust(15) + " "*3 + players[id]["name"].ljust(18) + " "*2
+        if players[id]["human"]:
+            p += "human".rjust(7)
+        else:
+            p += "bot".rjust(7)
+        p += " "*3
+        if players[id]["type"] == 30:
+            p += "Cautious"
+        elif players[id]["type"] == 40:
+            p += "Moderated"
+        elif players[id]["type"] == 50:
+            p += "Bold"
+        print(p)
+    input("Enter to continue".center(60))
+
+showhPlayersGame()
