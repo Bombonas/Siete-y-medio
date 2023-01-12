@@ -117,7 +117,33 @@ def setBets():
             players[i]['bet'] = math.ceil(players[i]['points'] / 100 * players[i]['type'])
 
 def standardRound(id, mazo=[]):
-    pass
+    tirada_cartas = []
+    while True:
+        if players[id]['bank'] == False:
+
+            if players[id]['roundPoints'] == 0:
+                nueva_carta = random.choice(mazo)
+                mazo.remove(nueva_carta)
+                tirada_cartas.append(nueva_carta)
+                players[id]['roundPoints'] += cartas[nueva_carta]['realValue']
+            else:
+                if chanceExceedingSevenAndHalf(id, mazo) <= players[id]['type']:
+                    nueva_carta = random.choice(mazo)
+                    mazo.remove(nueva_carta)
+                    tirada_cartas.append(nueva_carta)
+                    players[id]['roundPoints'] += cartas[nueva_carta]['realValue']
+
+                else:
+                    return tirada_cartas
+        else:
+            if baknOrderNewCard(id) or chanceExceedingSevenAndHalf(id, mazo) <= players[id]['type']:
+                nueva_carta = random.choice(mazo)
+                mazo.remove(nueva_carta)
+                tirada_cartas.append(nueva_carta)
+                players[id]['roundPoints'] += cartas[nueva_carta]['realValue']
+
+            else:
+                return tirada_cartas
 
 def getOpt(textOpts="",inputOptText="",rangeList=[],exceptions=[]):
     # PRE:  Al parámetro textOpts se le pasa el string con las opciones del manú
@@ -186,10 +212,10 @@ def printPlayerStats(id):
         else:
             print(str(i).ljust(55), str(players[id][i]).ljust(4), sep="")
 
-def baknOrderNewCard(id, game):
+def baknOrderNewCard(id):
         earnings = 0
         looses = 0
-        ret = True
+        ret = False
         for i in game:
             if i != id:
                 if(players[i]["roundPoints"] <= 7.5 and players[i]["roundPoints"] <= players[id]["roundPoints"]) or players[i]["roundPoints"] > 7.5:
@@ -199,8 +225,8 @@ def baknOrderNewCard(id, game):
                         looses += players[i]["bet"] * 2
                     else:
                         looses += players[i]["bet"]
-        if earnings > looses:
-            ret = False
+        if looses - earnings >= players[id]['points']:
+            ret = True
 
         return ret
 
