@@ -67,7 +67,7 @@ def printPlayerStats(id):
         else:
             print(str(i).ljust(55), str(players[id][i]).ljust(4), sep="")
 
-def baknOrderNewCard(id, mazo, game):
+def baknOrderNewCard(id, game):
         earnings = 0
         looses = 0
         ret = True
@@ -114,7 +114,17 @@ def newPlayer(dni, name, profile, human):
                "bet": 4, "points": 0, "cards": [], "roundPoints": 0}
     return (dni, dic_aux)
 
-
+def addRemovePlayers():
+    menu = "1)New Human Player\n\n2)New Bot\n\n3)Show/Remove Players\n\n4)Go back"
+    opt = getOpt(menu, "Option: ", [1, 2, 3, 4])
+    if opt == 1:
+        print("opt1")
+    elif opt == 2:
+        print("opt2")
+    elif opt == 3:
+        print("opt3")
+    elif opt == 4:
+        print("opt4")
 
 
 

@@ -65,3 +65,6 @@ players = { "11115555A":
                 { "name":"Bot2", "human":False, "bank":False, "initialCard":"", "priority":0, "type":50,
                   "bet":4, "points":0, "cards":[], "roundPoints":0}
             }
+
+letrasDni = ["T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N",
+             "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"]
