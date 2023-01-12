@@ -110,11 +110,6 @@ def nif_validator():
 
     return newnif.upper()
 
-def newPlayer(dni, name, profile, human):
-    dic_aux = {"name": name, "human": human, "bank": False, "initialCard": "", "priority": 0, "type": profile,
-               "bet": 4, "points": 0, "cards": [], "roundPoints": 0}
-    return (dni, dic_aux)
-
 def addRemovePlayers():
     menu = "1)New Human Player\n2)New Bot\n3)Show/Remove Players\n4)Go back"
     opt = getOpt(menu, "Option: ", [1, 2, 3, 4])
@@ -158,9 +153,37 @@ def newRandomDNI():
     DNI = str(DNI) + letra.upper()
     return DNI
 
+def setNewPlayer(human=True):
+    dni = ""
+    profile = 0
+    name = ""
+    if human:
+        dni = nif_validator()
+    else:
+        dni = newRandomDNI()
+
+    opt = getOpt("Select your Profile:\n1)Cautious\n2)Moderated\n3)Bold", "Option", [1, 2, 3])
+    if opt == 1:
+        profile = 30
+    elif opt == 2:
+        profile = 40
+    else:
+        profile = 50
+
+    correct = False
+    while not correct:
+        name = input("Name: ")
+        if not name.isalnum():
+            print("Incorrect name, please, enter a name not empty with only letters")
+        else:
+            correct = True
+    tup_player = newPlayer(dni, name, profile, human)
 
 
-
+def newPlayer(dni, name, profile, human):
+    dic_aux = {"name": name, "human": human, "bank": False, "initialCard": "", "priority": 0, "type": profile,
+               "bet": 4, "points": 0, "cards": [], "roundPoints": 0}
+    return (dni, dic_aux)
 
 
 
