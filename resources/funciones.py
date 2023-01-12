@@ -202,6 +202,7 @@ def showhPlayersGame():
         elif players[id]["type"] == 50:
             p += "Bold"
         print(p)
+    print()
     input("Enter to continue".center(60))
 
 showhPlayersGame()
