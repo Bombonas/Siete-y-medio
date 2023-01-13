@@ -1,6 +1,15 @@
 from resources.bbdd_provisionales import *
 from resources.prints import *
 import random
+import mysql.connector
+
+db = mysql.connector.connect(user="MAP", password="2023Proyecto",
+                                   host="proyecto1.mysql.database.azure.com",
+                                   database="seven_and_half",
+                                   port="3306")
+
+cursor = db.cursor()
+
 def getOpt(textOpts="",inputOptText="",rangeList=[],exceptions=[]):
     # PRE:  Al parámetro textOpts se le pasa el string con las opciones del manú
     #       Al parámetro inputOpt se le pasa el string con la frase que pide que escojamos una opción
@@ -161,6 +170,7 @@ def setNewPlayer(human=True):
         dni = nif_validator()
     else:
         dni = newRandomDNI()
+        print("DNI:", dni)
 
     opt = getOpt("Select your Profile:\n1)Cautious\n2)Moderated\n3)Bold", "Option", [1, 2, 3])
     if opt == 1:
@@ -177,8 +187,12 @@ def setNewPlayer(human=True):
             print("Incorrect name, please, enter a name not empty with only letters")
         else:
             correct = True
-    tup_player = newPlayer(dni, name, profile, human)
-    # FALTA CONECTAR A LA BBDD
+    insertPlayerBBDD((dni, name, profile, human))
+
+def insertPlayerBBDD(tup_player):
+    insert = "INSERT INTO player (player_id, player_name, player_risk, human) VALUES (%s,%s,%s,%s)"
+    cursor.execute(insert, tup_player)
+    db.commit()
 
 def newPlayer(dni, name, profile, human):
     dic_aux = {"name": name, "human": human, "bank": False, "initialCard": "", "priority": 0, "type": profile,
@@ -213,5 +227,7 @@ def showhPlayersBBDD():
     print()
 def setPlayersGame():
     showhPlayersGame()
+    while(input("")):
+        pass
 
-    while(input(""))
+setNewPlayer()
