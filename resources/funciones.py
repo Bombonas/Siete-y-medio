@@ -188,20 +188,30 @@ def newPlayer(dni, name, profile, human):
 
 def showhPlayersGame():
     print("Actual Players In Game".center(60, "*"))
-    for id in game:
-        p = id.ljust(15) + " "*3 + players[id]["name"].ljust(18) + " "*2
-        if players[id]["human"]:
-            p += "human".rjust(7)
-        else:
-            p += "bot".rjust(7)
-        p += " "*3
-        if players[id]["type"] == 30:
-            p += "Cautious"
-        elif players[id]["type"] == 40:
-            p += "Moderated"
-        elif players[id]["type"] == 50:
-            p += "Bold"
-        print(p)
-    print()
+    if len(game) > 0:
+        for id in game:
+            p = id.ljust(15) + " "*3 + players[id]["name"].ljust(18) + " "*2
+            if players[id]["human"]:
+                p += "human".rjust(7)
+            else:
+                p += "bot".rjust(7)
+            p += " "*3
+            if players[id]["type"] == 30:
+                p += "Cautious"
+            elif players[id]["type"] == 40:
+                p += "Moderated"
+            elif players[id]["type"] == 50:
+                p += "Bold"
+            print(p)
+        print()
+    else:
+        print("There is no players in game")
     input("Enter to continue".center(60))
 
+def showhPlayersBBDD():
+    print(setgameplayers)
+    print()
+def setPlayersGame():
+    showhPlayersGame()
+
+    while(input(""))
