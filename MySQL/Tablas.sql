@@ -13,7 +13,7 @@ create table if not exists deck(
 	deck_name VARCHAR(25) not NULL);
     
 create table if not exists cardgame(
-	cardgame_id INT primary key,
+	cardgame_id INT auto_increment primary key,
 	players TINYINT not NULL,
 	rounds TINYINT not NULL,
 	start_hour DATETIME not NULL,
