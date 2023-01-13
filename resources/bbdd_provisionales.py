@@ -74,6 +74,8 @@ player_game_round = {'round': {
     'id_player_1': {'is_bank': '', 'bet_points': '', 'starting_round_points': '', 'cards_value': '',
                     'endind_round_points': ''}}}
 
+game = []
+
 cardgame_ids = []
 
 

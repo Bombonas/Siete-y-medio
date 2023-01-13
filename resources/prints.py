@@ -58,7 +58,7 @@ showremoveplayers = '''*********************************************************
 
 ********************************************************************************************************************************************'''
 
-settings = '''********************************************************************************************************************************************
+settings_print = '''********************************************************************************************************************************************
                                     .d8888b.           888    888    d8b
                                    d88P  Y88b          888    888    Y8P
                                    Y88b.               888    888
@@ -158,7 +158,17 @@ reports = '''*******************************************************************
 ********************************************************************************************************************************************'''
 
 opts_main = '1)Add/Remove/Show Players,2)Settings,3)PLay Game,4)Ranking,5)Reports,6)Exit'
+opts_bbdd = '1)New Human Player,2)New Bot,3)Show/Remove Players,4)Go back'
+opts_settings = "1)Set Game Players,2)Set Card's Deck,3)Set Max Rounds (Default 5 Rounds),4)Go back"
+opts_ranking = "1)Players With More Earnings,2)Players With More Games Played,3)Players With More Minutes Played,4)Go back"
+
 opt_text = 'Option: '
 enter = 'Enter to continue'.center(140)
 onlynumbers = 'Please, introduce only numbers'.center(140, '=')
 incorrectopt = 'Incorrect option'.center(140, '=')
+
+set_game_players_cabecera = setgameplayers + '\n' + ' Select Players '.center(140, '*') + '\n' + 'Bot Players'.center(69)\
+                            + '||' + 'Human Players'.center(69) + '\n' + '_'*140 + '\n' + 'ID'.ljust(14) + '  ' + \
+                            'Name'.ljust(30) + '  ' + 'Type'.ljust(20) + ' ' + '||' + '  ' + 'ID'.ljust(14) + '  ' + \
+                            'Name'.ljust(30) + '  ' + 'Type'.ljust(18) + ' ' + '\n' + '*'*140 + '\n'
+

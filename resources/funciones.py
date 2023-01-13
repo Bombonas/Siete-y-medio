@@ -13,8 +13,6 @@ def clear():
         os.system('clear')
 
 
-game = list(players)
-
 
 def setGamePriority(mazo=[], jugadores=[]):
     cartasRepartidas = {}
@@ -291,18 +289,43 @@ def setMaxRounds():
             correct = True
     contextGame["maxRounds"] = rounds
 
-def settings():
-    menu = "1)Set Game\n2)Set Card's Deck\n3)Set Max Rounds(Default 5 Rounds)\n4)Go back"
-    opt = getOpt(menu, "Option: ", [1, 2, 3, 4])
-    if opt == 1:
-        print("opt1")
-    elif opt == 2:
-        print("opt2")
-    elif opt == 3:
-        setMaxRounds()
-    elif opt == 4:
-        print("opt4")
 
+
+# USAR UNA FUNCION PARA CADA COSA, QUE NO DEJE SALIR HASTA QUE HAYAN 2 PLAYERS EN "GAME" Y UNA BARAJA ESCOGIDA,
+# DEFAULT ROUND SETTINGS = 5
+def settings():
+    option = getOpt(func_text_opts(opts_settings, settings_print), opt_text, list(range(1, 5)))
+    if option == 1:
+        setPlayersGame()
+    elif option == 2:
+        menu22 = True
+        menu2 = False
+    elif option == 3:
+        menu23 = True
+        menu2 = False
+    elif option == 4:
+        menu2 = False
+        menu00 = True
+
+def setPlayersGame():
+    actualPlayers = setgameplayers + '\n'*3 + '*************** Actual Players In Game ***************'.center(140) + '\n'
+    tabla_jugadores = set_game_players_cabecera
+    bots = []
+    humans = []
+    if len(game) == 0:
+        actualPlayers += 'There is no players in game'.center(140)
+    else:
+        for i in game:
+            actualPlayers += str(i).center(140)
+    print(actualPlayers)
+    input(enter)
+
+    for i in players:
+        if players[i]['human'] == True:
+            humans.append(i)
+        else:
+            bots.append(i)
+    # Crear tabla de players
 def newRandomDNI():
     DNI = random.randint(10000000, 99999999)
     letra = letrasDni[DNI % 23]
