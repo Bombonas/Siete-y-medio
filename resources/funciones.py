@@ -1,15 +1,16 @@
 import datetime
-from os import *
+import os
 from resources.prints import *
 from resources.bbdd_provisionales import *
 import random
 import math
 
+
 def clear():
-    if name == 'nt':
-        system('cls')
+    if os.name == 'nt':
+        os.system('cls')
     else:
-        system('clear')
+        os.system('clear')
 
 
 game = list(players)
@@ -109,7 +110,7 @@ def orderAllPlayers():
             game.append(i)
 
     return game
-print(orderAllPlayers())
+
 def setBets():
     #Funcion que establece las apuestas según el tipo de jugador
     for i in game:
@@ -154,22 +155,33 @@ def getOpt(textOpts="",inputOptText="",rangeList=[],exceptions=[]):
     #       un error
     correct = False
     opc = ''
+    input_text = ''.ljust(50) + inputOptText
     while not correct:
+        clear()
         print(textOpts)
-        opc = input(inputOptText)
+        opc = input(input_text)
         try:
             opc = int(opc)
             if opc not in rangeList and opc not in exceptions:
-                raise TypeError('Incorrect Option')
+                raise TypeError(incorrectopt)
             else:
                 correct = True
         except ValueError:
-            print('Please, introduce only numbers')
-            input("Enter to continue")
+            print(onlynumbers)
+            input(enter)
         except TypeError as e:
             print(e)
-            input("Enter to continue")
+            input(enter)
     return opc
+def func_text_opts(text='', header=''):
+    if header == '':
+        seq = ''
+    else:
+        seq = header + '\n\n'
+    optlist = text.split(',')
+    for i in optlist:
+        seq += ''.ljust(50) + i + '\n'
+    return seq
 
 def orderPlayersByPoints(listaDNIs):
     dic_PL_Points = {}

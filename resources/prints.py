@@ -157,3 +157,8 @@ reports = '''*******************************************************************
 
 ********************************************************************************************************************************************'''
 
+opts_main = '1)Add/Remove/Show Players,2)Settings,3)PLay Game,4)Ranking,5)Reports,6)Exit'
+opt_text = 'Option: '
+enter = 'Enter to continue'.center(140)
+onlynumbers = 'Please, introduce only numbers'.center(140, '=')
+incorrectopt = 'Incorrect option'.center(140, '=')
