@@ -1,6 +1,10 @@
-from resources.bbdd_provisionales import *
-from resources.prints import *
+import datetime
+import os
+from prints import *
+from bbdd_provisionales import *
 import random
+import math
+
 import mysql.connector
 
 db = mysql.connector.connect(user="MAP", password="2023Proyecto",
@@ -9,6 +13,13 @@ db = mysql.connector.connect(user="MAP", password="2023Proyecto",
                                    port="3306")
 
 cursor = db.cursor()
+
+def clear():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
+
 
 def getOpt(textOpts="",inputOptText="",rangeList=[],exceptions=[]):
     # PRE:  Al parámetro textOpts se le pasa el string con las opciones del manú
@@ -201,7 +212,7 @@ def newPlayer(dni, name, profile, human):
 
 
 def showhPlayersGame():
-    print("Actual Players In Game".center(60, "*"))
+    print(" "*40, "Actual Players In Game".center(60, "*"), sep="")
     if len(game) > 0:
         for id in game:
             p = id.ljust(15) + " "*3 + players[id]["name"].ljust(18) + " "*2
@@ -216,11 +227,12 @@ def showhPlayersGame():
                 p += "Moderated"
             elif players[id]["type"] == 50:
                 p += "Bold"
-            print(p)
+            print(" "*40, p, sep="")
         print()
     else:
-        print("There is no players in game")
-    input("Enter to continue".center(60))
+        print(" "*40, "There is no players in game", sep="")
+    print(" "*40, "Enter to continue".center(60), sep="")
+    input()
 
 def showhPlayersBBDD():
     bots = []
@@ -230,6 +242,10 @@ def showhPlayersBBDD():
             humans.append(id)
         else:
             bots.append(id)
+    if len(humans) > 0:
+        order_list(humans, "asc")
+    if len(bots) > 0:
+        order_list(bots, "asc")
     print("Select Players".center(140, "*"))
     print("Bot Players".center(69), "||", "Human Players".center(69), "\n", "-"*140,  sep="")
     print("ID".ljust(11), " "*9, "Name".ljust(18), " "*5, "Type".ljust(26), "||", "ID".ljust(11), " "*9, "Name".ljust(15), " "*5, "Type".ljust(26), sep="")
@@ -263,8 +279,78 @@ def showhPlayersBBDD():
     print("*"*140)
 
 def setPlayersGame():
+    clear()
     showhPlayersGame()
-    while(input("")):
-        pass
+    while True:
+        clear()
+        showhPlayersBBDD()
+        opt = input("Option (id to add to game, -id to remove player, sh to show actual players in game, -1 to go back: ")
+        try:
+            if len(opt) < 2:
+                raise TypeError()
+            elif opt[0] == "-":
+                if opt[1] == "1" and len(opt) == 2:
+                    clear()
+                    break
+                elif len(opt) == 10 and opt[1:] in game:
+                    game.remove(opt[1:])
+                    showhPlayersGame()
+                else:
+                    raise TypeError
+            elif opt == "sh":
+                showhPlayersGame()
+            elif len(opt) == 9 and opt in list(players.keys()):
+                game.append(opt)
+                showhPlayersGame()
+            else:
+                raise TypeError
 
-showhPlayersBBDD()
+        except TypeError:
+            print("Invalid Option".center(140, "="))
+            print(" " * 40, "Enter to continue".center(60), sep="")
+            input("")
+
+
+def order_list(llista, ordre="des"):
+    # PRE: llista con valores no definidos. orde, por defecto "des", ordena de forma desdecendente cuando ordre = des,
+    #      y ordena crecientemente cuando ordre = asc
+    # POST: Devuelve el parametro llista ordenada segun el parametro ordre
+    try:
+        if type(llista) != list:
+            raise ValueError("The parameter llista must to be a list")
+        if ordre not in ["des", "asc"]:
+            raise TypeError("The parameter ordre must to be des or asc")
+        for i in range(1, len(llista) - 1):
+            if type(llista[i]) != type(llista[i - 1]):
+                raise TypeError("The list must to have the same variable type")
+
+        # BUBBLE SORT
+        for pasada in range(len(llista) - 1):
+            lista_ordenada = True
+            for i in range(len(llista) - 1 - pasada):
+
+                if ordre == "des":
+                    if llista[i] < llista[i + 1]:
+                        lista_ordenada = False
+                        aux = llista[i]
+                        llista[i] = llista[i + 1]
+                        llista[i + 1] = aux
+
+                elif ordre == "asc":
+                    if llista[i] > llista[i + 1]:
+                        lista_ordenada = False
+                        aux = llista[i]
+                        llista[i] = llista[i + 1]
+                        llista[i + 1] = aux
+
+            if lista_ordenada:
+                break
+
+    except ValueError as e:
+        print(e)
+    except TypeError as e:
+        print(e)
+    return llista
+
+
+
