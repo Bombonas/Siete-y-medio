@@ -4,6 +4,7 @@ from resources.prints import *
 from resources.bbdd_provisionales import *
 import random
 import math
+import itertools
 
 
 def clear():
@@ -11,7 +12,6 @@ def clear():
         os.system('cls')
     else:
         os.system('clear')
-
 
 
 def setGamePriority(mazo=[], jugadores=[]):
@@ -50,6 +50,7 @@ def generate_game_id():
     new_cardgame_id = len(cardgame_ids)
     return new_cardgame_id
 
+
 def card_id_list(diccionario):
     lista_card_id = []
     for i in diccionario:
@@ -59,7 +60,7 @@ def card_id_list(diccionario):
 
 
 def fill_player_game(gameID, jugadores=[], card_id_list=[], starting_points_list=[], ending_points_list=[]):
-    player_game.update({gameID:''})
+    player_game.update({gameID: ''})
     for i in range(len(jugadores)):
         if i == 0:
             player_game[gameID] = {jugadores[i]: {'initial_card_id': card_id_list[i], 'starting_points':
@@ -68,11 +69,13 @@ def fill_player_game(gameID, jugadores=[], card_id_list=[], starting_points_list
             player_game[gameID][jugadores[i]] = {'initial_card_id': card_id_list[i], 'starting_points':
                 starting_points_list[i], 'ending_points': ending_points_list[i]}
     return player_game
+
+
 # fill_player_game(generate_game_id(), list(setGamePriority(list(cartas), list(players))), card_id_list(setGamePriority(list(cartas), list(players))),
 #                  [20,20,20,20], [3, 1, 45, 0])
 
 def checkMinimun2PlayerWithPoints():
-    #Funcion que devuelve True si hay 2 o más jugadores con puntos, de lo contrario devuelve False
+    # Funcion que devuelve True si hay 2 o más jugadores con puntos, de lo contrario devuelve False
 
     contador = 0
     for i in game:
@@ -86,13 +89,13 @@ def checkMinimun2PlayerWithPoints():
 
     return seguir_jugando
 
+
 def orderAllPlayers():
-    #Funcion que crea una lista con los puntos de los jugadores y ordena la lista de jugadores de forma inversa segun sus puntos, pone la banca al principio
-    #POST: Devuelve una lista con los ID_player ordenados.
+    # Funcion que crea una lista con los puntos de los jugadores y ordena la lista de jugadores de forma inversa segun sus puntos, pone la banca al principio
+    # POST: Devuelve una lista con los ID_player ordenados.
     lista_puntos = []
     for i in game:
         lista_puntos.append(players[i]['points'])
-
 
     mida_llista = len(lista_puntos)
 
@@ -109,11 +112,13 @@ def orderAllPlayers():
 
     return game
 
+
 def setBets():
-    #Funcion que establece las apuestas según el tipo de jugador
+    # Funcion que establece las apuestas según el tipo de jugador
     for i in game:
         if players[i]['points'] > 0:
             players[i]['bet'] = math.ceil(players[i]['points'] / 100 * players[i]['type'])
+
 
 def standardRound(id, mazo=[]):
     tirada_cartas = []
@@ -144,7 +149,8 @@ def standardRound(id, mazo=[]):
             else:
                 return tirada_cartas
 
-def getOpt(textOpts="",inputOptText="",rangeList=[],exceptions=[]):
+
+def getOpt(textOpts="", inputOptText="", rangeList=[], exceptions=[]):
     # PRE:  Al parámetro textOpts se le pasa el string con las opciones del manú
     #       Al parámetro inputOpt se le pasa el string con la frase que pide que escojamos una opción
     #       El parámetro RangeList contiene las opciones contempladas por el menu
@@ -171,6 +177,8 @@ def getOpt(textOpts="",inputOptText="",rangeList=[],exceptions=[]):
             print(e)
             input(enter)
     return opc
+
+
 def func_text_opts(text='', header=''):
     if header == '':
         seq = ''
@@ -180,6 +188,7 @@ def func_text_opts(text='', header=''):
     for i in optlist:
         seq += ''.ljust(50) + i + '\n'
     return seq
+
 
 def orderPlayersByPoints(listaDNIs):
     dic_PL_Points = {}
@@ -198,6 +207,7 @@ def orderPlayersByPoints(listaDNIs):
             break
     return listaDNIs
 
+
 def chanceExceedingSevenAndHalf(id, mazo):
     bad_cards = 0
     for i in mazo:
@@ -205,6 +215,7 @@ def chanceExceedingSevenAndHalf(id, mazo):
             bad_cards += 1
 
     return (bad_cards * 100) / len(mazo)
+
 
 def printPlayerStats(id):
     print("Stats of {}".format(players[id]["name"]).center(140, "*"))
@@ -222,23 +233,26 @@ def printPlayerStats(id):
         else:
             print(str(i).ljust(55), str(players[id][i]).ljust(4), sep="")
 
-def baknOrderNewCard(id):
-        earnings = 0
-        looses = 0
-        ret = False
-        for i in game:
-            if i != id:
-                if(players[i]["roundPoints"] <= 7.5 and players[i]["roundPoints"] <= players[id]["roundPoints"]) or players[i]["roundPoints"] > 7.5:
-                    earnings += players[i]["bet"]
-                else:
-                    if players[i]["roundPoints"] == 7.5:
-                        looses += players[i]["bet"] * 2
-                    else:
-                        looses += players[i]["bet"]
-        if looses - earnings >= players[id]['points']:
-            ret = True
 
-        return ret
+def baknOrderNewCard(id):
+    earnings = 0
+    looses = 0
+    ret = False
+    for i in game:
+        if i != id:
+            if (players[i]["roundPoints"] <= 7.5 and players[i]["roundPoints"] <= players[id]["roundPoints"]) or \
+                    players[i]["roundPoints"] > 7.5:
+                earnings += players[i]["bet"]
+            else:
+                if players[i]["roundPoints"] == 7.5:
+                    looses += players[i]["bet"] * 2
+                else:
+                    looses += players[i]["bet"]
+    if looses - earnings >= players[id]['points']:
+        ret = True
+
+    return ret
+
 
 def nif_validator():
     # PRE:
@@ -264,6 +278,7 @@ def nif_validator():
 
     return newnif.upper()
 
+
 def addRemovePlayers():
     menu = "1)New Human Player\n2)New Bot\n3)Show/Remove Players\n4)Go back"
     opt = getOpt(menu, "Option: ", [1, 2, 3, 4])
@@ -275,6 +290,7 @@ def addRemovePlayers():
         print("opt3")
     elif opt == 4:
         print("opt4")
+
 
 def setMaxRounds():
     correct = False
@@ -290,25 +306,20 @@ def setMaxRounds():
     contextGame["maxRounds"] = rounds
 
 
+def tipo_de_riesgo(id):
+    riesgo = ''
+    if players[id]['type'] == 30:
+        riesgo = 'Cautious'
+    elif players[id]['type'] == 40:
+        riesgo = 'Moderated'
+    elif players[id]['type'] == 50:
+        riesgo = 'Bold'
 
-# USAR UNA FUNCION PARA CADA COSA, QUE NO DEJE SALIR HASTA QUE HAYAN 2 PLAYERS EN "GAME" Y UNA BARAJA ESCOGIDA,
-# DEFAULT ROUND SETTINGS = 5
-def settings():
-    option = getOpt(func_text_opts(opts_settings, settings_print), opt_text, list(range(1, 5)))
-    if option == 1:
-        setPlayersGame()
-    elif option == 2:
-        menu22 = True
-        menu2 = False
-    elif option == 3:
-        menu23 = True
-        menu2 = False
-    elif option == 4:
-        menu2 = False
-        menu00 = True
+    return riesgo
 
 def setPlayersGame():
-    actualPlayers = setgameplayers + '\n'*3 + '*************** Actual Players In Game ***************'.center(140) + '\n'
+    actualPlayers = setgameplayers + '\n' * 3 + '*************** Actual Players In Game ***************'.center(
+        140) + '\n'
     tabla_jugadores = set_game_players_cabecera
     bots = []
     humans = []
@@ -325,12 +336,32 @@ def setPlayersGame():
             humans.append(i)
         else:
             bots.append(i)
-    # Crear tabla de players
+
+    for humanos, boots in itertools.zip_longest(humans, bots, fillvalue=None):
+        if humanos is None:
+            tabla_jugadores += ''.ljust(14) + '  ' + \
+                               ''.ljust(30) + '  ' + ''.ljust(20) + ' ' + '||' + '  ' + boots.ljust(14) + '  ' + \
+                               players[boots]['name'].ljust(30) + '  ' + tipo_de_riesgo(boots).ljust(18) + ' ' + '\n'
+        elif boots is None:
+            tabla_jugadores += humanos.ljust(14) + '  ' + \
+                               players[humanos]['name'].ljust(30) + '  ' + tipo_de_riesgo(humanos).ljust(20)\
+                               + ' ' + '||' + '  ' + ''.ljust(14) + '  ' + ''.ljust(30) + '  ' + ''.ljust(18) + ' ' + '\n'
+        else:
+            tabla_jugadores += humanos.ljust(14) + '  ' + \
+                               players[humanos]['name'].ljust(30) + '  ' + tipo_de_riesgo(humanos).ljust(20)\
+                               + ' ' + '||' + '  ' + boots.ljust(14) + '  ' + \
+                               players[boots]['name'].ljust(30) + '  ' + tipo_de_riesgo(boots).ljust(18) + ' ' + '\n'
+    tabla_jugadores += '*'*140
+
+
+
+
 def newRandomDNI():
     DNI = random.randint(10000000, 99999999)
     letra = letrasDni[DNI % 23]
     DNI = str(DNI) + letra.upper()
     return DNI
+
 
 def setNewPlayer(human=True):
     dni = ""
@@ -363,3 +394,20 @@ def newPlayer(dni, name, profile, human):
     dic_aux = {"name": name, "human": human, "bank": False, "initialCard": "", "priority": 0, "type": profile,
                "bet": 4, "points": 0, "cards": [], "roundPoints": 0}
     return (dni, dic_aux)
+
+
+# USAR UNA FUNCION PARA CADA COSA, QUE NO DEJE SALIR HASTA QUE HAYAN 2 PLAYERS EN "GAME" Y UNA BARAJA ESCOGIDA,
+# DEFAULT ROUND SETTINGS = 5
+def settings():
+    option = getOpt(func_text_opts(opts_settings, settings_print), opt_text, list(range(1, 5)))
+    if option == 1:
+        setPlayersGame()
+    elif option == 2:
+        menu22 = True
+        menu2 = False
+    elif option == 3:
+        menu23 = True
+        menu2 = False
+    elif option == 4:
+        menu2 = False
+        menu00 = True

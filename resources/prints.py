@@ -172,3 +172,5 @@ set_game_players_cabecera = setgameplayers + '\n' + ' Select Players '.center(14
                             'Name'.ljust(30) + '  ' + 'Type'.ljust(20) + ' ' + '||' + '  ' + 'ID'.ljust(14) + '  ' + \
                             'Name'.ljust(30) + '  ' + 'Type'.ljust(18) + ' ' + '\n' + '*'*140 + '\n'
 
+
+
