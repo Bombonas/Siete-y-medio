@@ -187,9 +187,9 @@ def setNewPlayer(human=True):
             print("Incorrect name, please, enter a name not empty with only letters")
         else:
             correct = True
-    insertPlayerBBDD((dni, name, profile, human))
+    savePlayer((dni, name, profile, human))
 
-def insertPlayerBBDD(tup_player):
+def savePlayer(tup_player):
     insert = "INSERT INTO player (player_id, player_name, player_risk, human) VALUES (%s,%s,%s,%s)"
     cursor.execute(insert, tup_player)
     db.commit()
@@ -223,11 +223,19 @@ def showhPlayersGame():
     input("Enter to continue".center(60))
 
 def showhPlayersBBDD():
-    print(setgameplayers)
-    print()
+    bots = []
+    humans = []
+    for id in players:
+        if players[id]["human"]:
+            humans.append(id)
+        else:
+            bots.append(id)
+    print("Select Players".center(140, "*"))
+    print("Bot Players".center(69), "||", "Human Players".center(69), sep="")
+
 def setPlayersGame():
     showhPlayersGame()
     while(input("")):
         pass
 
-setNewPlayer()
+showhPlayersBBDD()
