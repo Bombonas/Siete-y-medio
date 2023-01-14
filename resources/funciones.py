@@ -231,7 +231,36 @@ def showhPlayersBBDD():
         else:
             bots.append(id)
     print("Select Players".center(140, "*"))
-    print("Bot Players".center(69), "||", "Human Players".center(69), sep="")
+    print("Bot Players".center(69), "||", "Human Players".center(69), "\n", "-"*140,  sep="")
+    print("ID".ljust(11), " "*9, "Name".ljust(18), " "*5, "Type".ljust(26), "||", "ID".ljust(11), " "*9, "Name".ljust(15), " "*5, "Type".ljust(26), sep="")
+    print("*"*140)
+
+    while len(bots) > 0 or len(humans) > 0:
+        string = ""
+        if len(bots) > 0:
+            string = bots[0].ljust(11) + " "*9 + players[bots[0]]["name"].ljust(18) + " "*5
+            if players[bots[0]]["type"] == 30:
+                string += "Cautious".ljust(26)
+            elif players[bots[0]]["type"] == 40:
+                string += "Moderated".ljust(26)
+            elif players[bots[0]]["type"] == 50:
+                string += "Bold".ljust(26)
+            bots.remove(bots[0])
+        else:
+            string = " "*69
+        string += "||"
+        if len(humans) > 0:
+            string += humans[0].ljust(11) + " " * 9 + players[humans[0]]["name"].ljust(15) + " " * 5
+            if players[humans[0]]["type"] == 30:
+                string += "Cautious".ljust(26)
+            elif players[humans[0]]["type"] == 40:
+                string += "Moderated".ljust(26)
+            elif players[humans[0]]["type"] == 50:
+                string += "Bold".ljust(26)
+            humans.remove(humans[0])
+
+        print(string)
+    print("*"*140)
 
 def setPlayersGame():
     showhPlayersGame()
