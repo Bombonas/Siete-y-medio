@@ -352,5 +352,32 @@ def order_list(llista, ordre="des"):
         print(e)
     return llista
 
+def removeBBDDPlayer():
+    while True:
+        clear()
+        showhPlayersBBDD()
+        opt = input("Option (-id to remove player, -1 to go back): ")
+        try:
+            if len(opt) < 2:
+                raise TypeError()
+            elif opt[0] == "-":
+                if opt[1] == "1" and len(opt) == 2:
+                    clear()
+                    break
+                elif len(opt) == 10 and opt[1:] in list(players.keys()):
+                    print(opt[1:])
+                    input()
+                    # NO FUNCIONA
+                    insert = "DELETE FROM player WHERE player_id = %s"
+                    cursor.execute(insert, (opt[1:]))
+                    db.commit()
+                else:
+                    raise TypeError()
+            else:
+                raise TypeError()
+        except TypeError:
+            print("Invalid Option".center(140, "="))
+            print(" " * 40, "Enter to continue".center(60), sep="")
+            input("")
 
-
+removeBBDDPlayer()
