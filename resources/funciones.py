@@ -500,4 +500,3 @@ def settings():
         elif option == 4:
             return False
 
-removeBBDDPlayer()
