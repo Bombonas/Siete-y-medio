@@ -155,10 +155,10 @@ def standardRound(id, mazo=[]):
 
 
 def getOpt(textOpts="", inputOptText="", rangeList=[], exceptions=[]):
-    # PRE:  Al parámetro textOpts se le pasa el string con las opciones del menú
-    #       Al parámetro inputOpt se le pasa el string con la frase que pide que escojamos una opción
-    #       El parámetro RangeList contiene las opciones contempladas por el menu
-    #       El parámetro exceptions contiene las posibles excepciones que pueden generarse
+    # PRE: Al parámetro textOpts se le pasa el string con las opciones del menú
+    #      Al parámetro inputOpt se le pasa el string con la frase que pide que escojamos una opción
+    #      El parámetro RangeList contiene las opciones contempladas por el menu
+    #      El parámetro exceptions contiene las posibles excepciones que pueden generarse
     # POST: Devolverá un valor de RangeList si la selección es correcta y devolverá un valor de exceptions si ha ocurrido
     #       un error
     correct = False
@@ -199,8 +199,8 @@ def func_text_opts(text='', header=''):
 
 def orderPlayersByPoints(listaDNIs):
     dic_PL_Points = {}
-    # Llamamos a una funcion que pida los DNIs y calcule los puntos que tiene un jugador a la BBDD,
-    # y los devuelva en formato diccionario; dni : puntos
+    # Llamamos a una funcion que pida los DNI y calcule los puntos que tiene un jugador a la BBDD,
+    # y los devuelva en formato diccionario; dni: puntos
 
     for pasada in range(listaDNIs - 1):
         lista_ordenada = True
