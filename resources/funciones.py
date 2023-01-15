@@ -151,7 +151,7 @@ def standardRound(id, mazo=[]):
 
 
 def getOpt(textOpts="", inputOptText="", rangeList=[], exceptions=[]):
-    # PRE:  Al parámetro textOpts se le pasa el string con las opciones del manú
+    # PRE:  Al parámetro textOpts se le pasa el string con las opciones del menú
     #       Al parámetro inputOpt se le pasa el string con la frase que pide que escojamos una opción
     #       El parámetro RangeList contiene las opciones contempladas por el menu
     #       El parámetro exceptions contiene las posibles excepciones que pueden generarse
@@ -164,18 +164,21 @@ def getOpt(textOpts="", inputOptText="", rangeList=[], exceptions=[]):
         clear()
         print(textOpts)
         opc = input(input_text)
-        try:
-            opc = int(opc)
-            if opc not in rangeList and opc not in exceptions:
-                raise TypeError(incorrectopt)
-            else:
-                correct = True
-        except ValueError:
-            print(onlynumbers)
-            input(enter)
-        except TypeError as e:
-            print(e)
-            input(enter)
+        if opc in exceptions:
+            correct = True
+        else:
+            try:
+                opc = int(opc)
+                if opc not in rangeList and opc not in exceptions:
+                    raise TypeError(incorrectopt)
+                else:
+                    correct = True
+            except ValueError:
+                print(onlynumbers)
+                input(enter)
+            except TypeError as e:
+                print(e)
+                input(enter)
     return opc
 
 
@@ -317,42 +320,91 @@ def tipo_de_riesgo(id):
 
     return riesgo
 
+
 def setPlayersGame():
+    clear()
     actualPlayers = setgameplayers + '\n' * 3 + '*************** Actual Players In Game ***************'.center(
         140) + '\n'
-    tabla_jugadores = set_game_players_cabecera
-    bots = []
-    humans = []
+
+    textinput = 'Option (id to add to game, -id to remove player, sh to show actual players in game, -1 to go back):\n'
+    jugadores_not_in_game = list(players)
+
+    for i in game:
+        if i in jugadores_not_in_game:
+            jugadores_not_in_game.remove(i)
     if len(game) == 0:
         actualPlayers += 'There is no players in game'.center(140)
     else:
         for i in game:
-            actualPlayers += str(i).center(140)
+            actualPlayers += str(i).center(140) + '\n'
     print(actualPlayers)
     input(enter)
 
-    for i in players:
-        if players[i]['human'] == True:
-            humans.append(i)
-        else:
-            bots.append(i)
+    while True:
+        clear()
+        actualPlayers = '\n' * 3 + '*************** Actual Players In Game ***************'.center(140) + '\n'
+        bots = []
+        humans = []
+        for i in jugadores_not_in_game:
+            if players[i]['human'] is True:
+                humans.append(i)
+            else:
+                bots.append(i)
+        tabla_jugadores = set_game_players_cabecera
 
-    for humanos, boots in itertools.zip_longest(humans, bots, fillvalue=None):
-        if humanos is None:
-            tabla_jugadores += ''.ljust(14) + '  ' + \
-                               ''.ljust(30) + '  ' + ''.ljust(20) + ' ' + '||' + '  ' + boots.ljust(14) + '  ' + \
-                               players[boots]['name'].ljust(30) + '  ' + tipo_de_riesgo(boots).ljust(18) + ' ' + '\n'
-        elif boots is None:
-            tabla_jugadores += humanos.ljust(14) + '  ' + \
-                               players[humanos]['name'].ljust(30) + '  ' + tipo_de_riesgo(humanos).ljust(20)\
-                               + ' ' + '||' + '  ' + ''.ljust(14) + '  ' + ''.ljust(30) + '  ' + ''.ljust(18) + ' ' + '\n'
-        else:
-            tabla_jugadores += humanos.ljust(14) + '  ' + \
-                               players[humanos]['name'].ljust(30) + '  ' + tipo_de_riesgo(humanos).ljust(20)\
-                               + ' ' + '||' + '  ' + boots.ljust(14) + '  ' + \
-                               players[boots]['name'].ljust(30) + '  ' + tipo_de_riesgo(boots).ljust(18) + ' ' + '\n'
-    tabla_jugadores += '*'*140
+        for humanos, boots in itertools.zip_longest(humans, bots, fillvalue=None):
+            if boots is None:
+                tabla_jugadores += ''.ljust(14) + '  ' + \
+                                   ''.ljust(30) + '  ' + ''.ljust(20) + ' ' + '||' + '  ' + humanos.ljust(14) + '  ' + \
+                                   players[humanos]['name'].ljust(30) + '  ' + tipo_de_riesgo(humanos).ljust(
+                    18) + ' ' + '\n'
+            elif humanos is None:
+                tabla_jugadores += boots.ljust(14) + '  ' + \
+                                   players[boots]['name'].ljust(30) + '  ' + tipo_de_riesgo(boots).ljust(20) \
+                                   + ' ' + '||' + '  ' + ''.ljust(14) + '  ' + ''.ljust(30) + '  ' + ''.ljust(
+                    18) + ' ' + '\n'
+            else:
+                tabla_jugadores += boots.ljust(14) + '  ' + \
+                                   players[boots]['name'].ljust(30) + '  ' + tipo_de_riesgo(boots).ljust(20) \
+                                   + ' ' + '||' + '  ' + humanos.ljust(14) + '  ' + \
+                                   players[humanos]['name'].ljust(30) + '  ' + tipo_de_riesgo(humanos).ljust(
+                    18) + ' ' + '\n'
+        tabla_jugadores += '*' * 140
 
+        print(tabla_jugadores)
+        nuevo_jugador = input(textinput)
+        if len(nuevo_jugador) == 0:
+            print(invalidoption)
+            input(enter)
+        else:
+            if nuevo_jugador.upper() in jugadores_not_in_game:
+                game.append(nuevo_jugador.upper())
+                jugadores_not_in_game.remove(nuevo_jugador.upper())
+
+            elif nuevo_jugador[0] == '-' and nuevo_jugador[1:].upper() in game:
+                game.remove(nuevo_jugador[1:].upper())
+                jugadores_not_in_game.append(nuevo_jugador[1:].upper())
+            elif nuevo_jugador == 'sh':
+                pass
+            else:
+                try:
+                    if int(nuevo_jugador) == -1:
+                        break
+                    else:
+                        print(invalidoption)
+                        input(enter)
+                        continue
+                except ValueError:
+                    print(invalidoption)
+                    input(enter)
+                    continue
+            if len(game) == 0:
+                actualPlayers += 'There is no players in game'.center(140)
+            else:
+                for i in game:
+                    actualPlayers += str(i).center(140) + '\n'
+            print(actualPlayers)
+            input(enter)
 
 
 
@@ -399,15 +451,15 @@ def newPlayer(dni, name, profile, human):
 # USAR UNA FUNCION PARA CADA COSA, QUE NO DEJE SALIR HASTA QUE HAYAN 2 PLAYERS EN "GAME" Y UNA BARAJA ESCOGIDA,
 # DEFAULT ROUND SETTINGS = 5
 def settings():
-    option = getOpt(func_text_opts(opts_settings, settings_print), opt_text, list(range(1, 5)))
-    if option == 1:
-        setPlayersGame()
-    elif option == 2:
-        menu22 = True
-        menu2 = False
-    elif option == 3:
-        menu23 = True
-        menu2 = False
-    elif option == 4:
-        menu2 = False
-        menu00 = True
+    while True:
+        option = getOpt(func_text_opts(opts_settings, settings_print), opt_text, list(range(1, 5)))
+        if option == 1:
+            setPlayersGame()
+        elif option == 2:
+            menu22 = True
+            menu2 = False
+        elif option == 3:
+            menu23 = True
+            menu2 = False
+        elif option == 4:
+            return False

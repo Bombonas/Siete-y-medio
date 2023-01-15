@@ -82,7 +82,9 @@ while not salir:
 
 
     while menu2:
-        settings()
+        menu2 = settings()
+        if menu2 == False:
+            menu00 = True
 
     while menu21:
         pass

@@ -164,13 +164,12 @@ opts_ranking = "1)Players With More Earnings,2)Players With More Games Played,3)
 
 opt_text = 'Option: '
 enter = 'Enter to continue'.center(140)
-onlynumbers = 'Please, introduce only numbers'.center(140, '=')
-incorrectopt = 'Incorrect option'.center(140, '=')
+onlynumbers = ' Please, introduce only numbers '.center(140, '=')
+incorrectopt = ' Incorrect option '.center(140, '=')
+invalidoption = ' Invalid option '.center(140, '=')
+
 
 set_game_players_cabecera = setgameplayers + '\n' + ' Select Players '.center(140, '*') + '\n' + 'Bot Players'.center(69)\
                             + '||' + 'Human Players'.center(69) + '\n' + '_'*140 + '\n' + 'ID'.ljust(14) + '  ' + \
                             'Name'.ljust(30) + '  ' + 'Type'.ljust(20) + ' ' + '||' + '  ' + 'ID'.ljust(14) + '  ' + \
                             'Name'.ljust(30) + '  ' + 'Type'.ljust(18) + ' ' + '\n' + '*'*140 + '\n'
-
-
-
