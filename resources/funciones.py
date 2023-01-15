@@ -178,6 +178,7 @@ def showhPlayersGame():
         print(" "*40, "There is no players in game", sep="")
     print(" "*40, "Enter to continue".center(60), sep="")
     input()
+
 def orderAllPlayers():
     # Funcion que crea una lista con los puntos de los jugadores y ordena la lista de jugadores de forma inversa segun sus puntos, pone la banca al principio
     # POST: Devuelve una lista con los ID_player ordenados.
@@ -319,9 +320,8 @@ def removeBBDDPlayer():
                 elif len(opt) == 10 and opt[1:] in list(players.keys()):
                     print(opt[1:])
                     input()
-                    # NO FUNCIONA
-                    insert = "DELETE FROM player WHERE player_id = %s"
-                    cursor.execute(insert, (opt[1:]))
+                    insert = "DELETE FROM player WHERE player_id = '" + opt[1:] + "';"
+                    cursor.execute(insert)
                     db.commit()
                 else:
                     raise TypeError()
@@ -499,3 +499,5 @@ def settings():
             menu2 = False
         elif option == 4:
             return False
+
+removeBBDDPlayer()
