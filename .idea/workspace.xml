@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e2eab250-d322-445b-99d7-d4ec8b704d13" name="Changes" comment="commit removeBBDDPlayer">
-      <change beforePath="$PROJECT_DIR$/resources/funciones.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/funciones.py" afterDir="false" />
-    </list>
+    <list default="true" id="e2eab250-d322-445b-99d7-d4ec8b704d13" name="Changes" comment="commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -147,7 +145,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673802844749</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="commit">
+      <created>1673803394587</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1673803394587</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -162,10 +167,10 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="commit" />
     <MESSAGE value="commit SetPlayersGame acabada" />
     <MESSAGE value="commit removeBBDDPlayer no funciona la query" />
     <MESSAGE value="commit removeBBDDPlayer" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit removeBBDDPlayer" />
+    <MESSAGE value="commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit" />
   </component>
 </project>
