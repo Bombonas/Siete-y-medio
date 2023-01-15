@@ -15,8 +15,12 @@ def clear():
 
 
 def setGamePriority(mazo=[], jugadores=[]):
+    # PRE: Introducimos la list(cartas) y la game=[]
+    # Repartimos una carta a cada uno
+    # Creamos otra lista en el mismo orden con los valores de las cartas para ordenarlas
+    # Devolvemos una lista de tuplas con (DNI, CARTA)
     cartasRepartidas = {}
-    cartasOrdenadas = {}
+    cartasOrdenadas = []
     for i in range(len(jugadores)):
         cartaRandom = random.choice(mazo)
         cartasRepartidas[jugadores[i]] = cartaRandom
@@ -36,10 +40,10 @@ def setGamePriority(mazo=[], jugadores=[]):
                 jugadores[j], jugadores[j + 1] = jugadores[j + 1], jugadores[j]
 
     for i in jugadores:
-        cartasOrdenadas.update({i: cartasRepartidas[i]})
+        cartasOrdenadas.append((i, cartasRepartidas[i]))
 
     return cartasOrdenadas
-
+# print(setGamePriority(list(cartas), list(players)))
 
 def resetPoints():
     for i in game:
@@ -299,13 +303,19 @@ def setMaxRounds():
     correct = False
     rounds = 5
     while not correct:
-        rounds = input("Max Rounds : ")
+        clear()
+        print(setmaxrounds)
+        rounds = input(''.ljust(60)+"Max Rounds: ")
         if not rounds.isdigit():
-            print("Please, only introduce numbers")
+            print(''.ljust(60)+"Please, only introduce numbers")
+            input(''.ljust(60)+'Enter to continue')
         elif int(rounds) <= 0:
-            print("Please, introduce a number bigger than 0")
+            print(''.ljust(60)+"Please, introduce a number bigger than 0")
+            input(''.ljust(60)+'Enter to continue')
         else:
             correct = True
+            print(''.ljust(60)+'Established maximum of rounds to', rounds)
+            input(''.ljust(60)+'Enter to continue')
     contextGame["maxRounds"] = rounds
 
 
@@ -320,10 +330,15 @@ def tipo_de_riesgo(id):
 
     return riesgo
 
+def bot_or_human(dni):
+    if players[dni]['human'] is True:
+        return 'Human'
+    elif players[dni]['human'] is False:
+        return 'Bot'
 
 def setPlayersGame():
     clear()
-    actualPlayers = setgameplayers + '\n' * 3 + '*************** Actual Players In Game ***************'.center(
+    actualPlayers = setgameplayers + '\n' * 3 + '********************** Actual Players In Game **********************'.center(
         140) + '\n'
 
     textinput = 'Option (id to add to game, -id to remove player, sh to show actual players in game, -1 to go back):\n'
@@ -336,13 +351,15 @@ def setPlayersGame():
         actualPlayers += 'There is no players in game'.center(140)
     else:
         for i in game:
-            actualPlayers += str(i).center(140) + '\n'
+            centrar_texto = str(i).ljust(12) + '  ' + players[i]['name'].ljust(30) + '  ' + bot_or_human(i).ljust(8) + \
+                            '  ' + tipo_de_riesgo(i).ljust(12)
+            actualPlayers += centrar_texto.center(140) + '\n'
     print(actualPlayers)
     input(enter)
 
     while True:
         clear()
-        actualPlayers = '\n' * 3 + '*************** Actual Players In Game ***************'.center(140) + '\n'
+        actualPlayers = '\n' * 3 + '********************** Actual Players In Game **********************'.center(140) + '\n'
         bots = []
         humans = []
         for i in jugadores_not_in_game:
@@ -402,12 +419,14 @@ def setPlayersGame():
                 actualPlayers += 'There is no players in game'.center(140)
             else:
                 for i in game:
-                    actualPlayers += str(i).center(140) + '\n'
+                    centrar_texto = str(i).ljust(12) + '  ' + players[i]['name'].ljust(30) + '  ' + bot_or_human(
+                        i).ljust(8) + '  ' + tipo_de_riesgo(i).ljust(12)
+                    actualPlayers += centrar_texto.center(140) + '\n'
             print(actualPlayers)
             input(enter)
 
 
-
+#editar para evitar que se repitan dnis
 def newRandomDNI():
     DNI = random.randint(10000000, 99999999)
     letra = letrasDni[DNI % 23]
@@ -448,6 +467,21 @@ def newPlayer(dni, name, profile, human):
     return (dni, dic_aux)
 
 
+#VINCULAR DECK CON LA VARIABLE QUE USAREMOS PARA ESTABLECER EL DECK
+def set_card_deck():
+    opt = getOpt(func_text_opts('1) ESP,2) POK,0) Go Back', deckofcards), 'Option: ', [0, 1, 2])
+    if opt == 1:
+        contextGame['deck'] = 'ESP'
+        print('Established Card Deck ESP, Baraja Española')
+        input(''*50+'Enter to continue')
+    elif opt == 2:
+        contextGame['deck'] = 'POK'
+        print('Established Card Deck POK, Poker Deck')
+        input(''*50+'Enter to continue')
+
+    elif opt == 3:
+        print('Deck not chosen.')
+        input(enter)
 # USAR UNA FUNCION PARA CADA COSA, QUE NO DEJE SALIR HASTA QUE HAYAN 2 PLAYERS EN "GAME" Y UNA BARAJA ESCOGIDA,
 # DEFAULT ROUND SETTINGS = 5
 def settings():
@@ -456,10 +490,20 @@ def settings():
         if option == 1:
             setPlayersGame()
         elif option == 2:
-            menu22 = True
-            menu2 = False
+            set_card_deck()
         elif option == 3:
-            menu23 = True
-            menu2 = False
+            setMaxRounds()
         elif option == 4:
             return False
+
+def play_game():
+    resetPoints()
+
+    order = setGamePriority(list(cartas), list(players))
+    priority = 0
+    for i in order:
+        priority += 1
+        players[i[0]]['priority'] = priority
+        players[i[0]]['initialCard'] = i[1]
+        if priority == 1:
+            players[i[0]]['bank'] = True

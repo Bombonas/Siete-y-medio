@@ -82,4 +82,4 @@ cardgame_ids = []
 letrasDni = ["T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N",
              "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"]
 
-contextGame = {"maxRounds": 5}
+contextGame = {"maxRounds": 5, 'deck': ''}

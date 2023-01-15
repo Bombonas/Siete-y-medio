@@ -157,7 +157,7 @@ reports = '''*******************************************************************
 
 ********************************************************************************************************************************************'''
 
-opts_main = '1)Add/Remove/Show Players,2)Settings,3)PLay Game,4)Ranking,5)Reports,6)Exit'
+opts_main = '1)Add/Remove/Show Players,2)Settings,3)Play Game,4)Ranking,5)Reports,6)Exit'
 opts_bbdd = '1)New Human Player,2)New Bot,3)Show/Remove Players,4)Go back'
 opts_settings = "1)Set Game Players,2)Set Card's Deck,3)Set Max Rounds (Default 5 Rounds),4)Go back"
 opts_ranking = "1)Players With More Earnings,2)Players With More Games Played,3)Players With More Minutes Played,4)Go back"

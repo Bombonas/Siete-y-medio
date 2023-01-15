@@ -34,9 +34,11 @@ while not salir:
         elif option == 2:
             menu2 = True
             menu00 = False
-        elif option == 3 and len(game) >= 2:
+        elif option == 3 and len(game) >= 2 and len(contextGame['deck']) == 3:
             menu3 = True
             menu00 = False
+        elif option == 3 and len(game) >= 2:
+            print(''.ljust(50) + 'Set the deck of cards first')
         elif option == 3:
             print(''.ljust(50) + 'Set the players that compose the game first')
             input(enter)
