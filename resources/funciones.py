@@ -6,7 +6,7 @@ import random
 import math
 import itertools
 import mysql.connector
-import pymysql
+
 db = mysql.connector.connect(user="MAP", password="2023Proyecto",
                                    host="proyecto1.mysql.database.azure.com",
                                    database="seven_and_half",
@@ -321,9 +321,7 @@ def removeBBDDPlayer():
                 elif len(opt) == 10 and opt[1:] in list(players.keys()):
                     print(opt[1:])
                     input()
-                    insert = "DELETE FROM player WHERE player_id = '" + opt[1:] + "';"
-                    cursor.execute(insert)
-                    db.commit()
+                    delBBDDPlayer(opt[1:])
                 else:
                     raise TypeError()
             else:
@@ -501,6 +499,28 @@ def settings():
         elif option == 4:
             return False
 
+def getPlayers():
+    query = "SELECT * FROM player;"
+    cursor.execute(query)
+    result = cursor.fetchall()
+    for i in result:
+        dict_aux = {}
+        dni = i[0]
+        name = i[1]
+        profile = i[2]
+        if i[3] == 1:
+            human = True
+        else:
+            human = False
+        tup = newPlayer(dni, name, profile, human)
+        dict_aux = {tup[0]: tup[1]}
+        players.update(dict_aux)
+
+def delBBDDPlayer(nif):
+    insert = "DELETE FROM player WHERE player_id = '" + nif + "';"
+    cursor.execute(insert)
+    db.commit()
+
 def printStats(idPlayer="", titulo=""):
     # PREGUNTAR LAS VARIABLES
     return
@@ -509,18 +529,8 @@ def reports():
     # MIRAR EL NUEVO getOpt
     return
 
-def getPlayers():
-    query = "SELECT * FROM player;"
-    cursor.execute(query)
-    result = cursor.fetchall()
-    print(result)
-
-
-getPlayers()
-
-
-
-
+def setCardsDeck():
+    return
 
 
 

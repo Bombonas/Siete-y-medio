@@ -6,6 +6,7 @@
     </content>
     <orderEntry type="jdk" jdkName="Python 3.10 (Siete-y-medio)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="pruebas" />
   </component>
   <component name="PyDocumentationSettings">
     <option name="format" value="PLAIN" />
