@@ -521,8 +521,34 @@ def delBBDDPlayer(nif):
     cursor.execute(insert)
     db.commit()
 
-def printStats(idPlayer="", titulo=""):
+
+
+
+def printStats(titulo=""):
     # PREGUNTAR LAS VARIABLES
+    print(titulo.center(140, "*"))
+    lista = ["Name", "Human", "Priority", "Type", "Bank", "Bet", "Points", "Cards", "Roundpoints"]
+    arguments = ["name", "human", "priority", "type", "bank", "bet", "points", "cards", "roundPoints"]
+    for i in range(0, 8):
+        seq = lista[i].ljust(20) + " "*5
+        for j in game:
+            if arguments[i] != "cards":
+                seq += str(players[j][arguments[i]]).ljust(40)
+            else:
+                cards = ""
+                primero = True
+                for k in players[j]["cards"]:
+                    if primero:
+                        primero = False
+                        cards += k
+                    else:
+                        cards += ";" + k
+                seq += cards.ljust(40)
+        print(seq)
+
+
+
+def getBBDDRanking():
     return
 
 def reports():
@@ -532,7 +558,7 @@ def reports():
 def setCardsDeck():
     return
 
-
+printStats("Round 0, Turn of Mario")
 
 
 

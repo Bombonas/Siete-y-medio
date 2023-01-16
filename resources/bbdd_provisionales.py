@@ -52,21 +52,20 @@ cartas = {
     "B12": {"literal": "Rey de Bastos", "value": 12, "priority": 1, "realValue": 0.5},
 }
 
-players_2 = {"11115555A":
-               {"name": "Mario", "human": True, "bank": False, "initialCard": "", "priority": 0, "type": 40,
-                "bet": 4, "points": 0, "cards": [], "roundPoints": 0},
+players = {"11115555A":
+               {"name": "Mario", "human": True, "bank": False, "initialCard": "", "priority": 1, "type": 40,
+                "bet": 4, "points": 8, "cards": ["O12", "O11", "O10", "O07"], "roundPoints": 5},
            "22225555A":
-               {"name": "Pedro", "human": True, "bank": False, "initialCard": "", "priority": 0, "type": 40,
-                "bet": 4, "points": 0, "cards": [], "roundPoints": 0},
+               {"name": "Pedro", "human": True, "bank": True, "initialCard": "", "priority": 2, "type": 40,
+                "bet": 4, "points": 8, "cards": ["C03", "B12"], "roundPoints": 5},
            "34343434H":
-               {"name": "Bot1", "human": False, "bank": False, "initialCard": "", "priority": 0, "type": 30,
-                "bet": 4, "points": 0, "cards": [], "roundPoints": 0},
+               {"name": "Bot1", "human": False, "bank": False, "initialCard": "", "priority": 3, "type": 30,
+                "bet": 4, "points": 8, "cards": ["E10"], "roundPoints": 4},
            "11111111A":
                {"name": "Bot2", "human": False, "bank": False, "initialCard": "", "priority": 0, "type": 50,
                 "bet": 4, "points": 0, "cards": [], "roundPoints": 0}
            }
 
-players = {}
 
 cardgame = {'cardgame_id': '', 'players': '', 'start_hour': '', 'rounds': '', 'end_hour': ''}
 
@@ -76,7 +75,7 @@ player_game_round = {'round': {
     'id_player_1': {'is_bank': '', 'bet_points': '', 'starting_round_points': '', 'cards_value': '',
                     'endind_round_points': ''}}}
 
-game = []
+game = ["11115555A", "22225555A", "34343434H"]
 
 cardgame_ids = []
 
@@ -85,4 +84,3 @@ letrasDni = ["T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N",
 
 contextGame = {"maxRounds": 5}
 
-game = ["11111111A", "34343434H"]

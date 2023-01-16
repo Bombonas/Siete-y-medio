@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e2eab250-d322-445b-99d7-d4ec8b704d13" name="Changes" comment="commit">
-      <change beforePath="$PROJECT_DIR$/.idea/Siete-y-medio.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Siete-y-medio.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="e2eab250-d322-445b-99d7-d4ec8b704d13" name="Changes" comment="commit delBBDDPlayer">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MySQL/Tablas.sql" beforeDir="false" afterPath="$PROJECT_DIR$/MySQL_files/Tablas.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/bbdd_provisionales.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/bbdd_provisionales.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/funciones.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/funciones.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -180,7 +178,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673803394587</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="commit delBBDDPlayer">
+      <created>1673885165853</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1673885165853</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -199,6 +204,18 @@
     <MESSAGE value="commit removeBBDDPlayer no funciona la query" />
     <MESSAGE value="commit removeBBDDPlayer" />
     <MESSAGE value="commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit" />
+    <MESSAGE value="commit delBBDDPlayer" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit delBBDDPlayer" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/resources/funciones.py</url>
+          <line>528</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
