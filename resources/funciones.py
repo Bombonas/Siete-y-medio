@@ -512,12 +512,10 @@ def getPlayers():
     query = "SELECT * FROM player;"
     cursor.execute(query)
     result = cursor.fetchall()
-    for i in result:
-        for j in i:
-            print(j)
+    print(result)
 
 
-
+getPlayers()
 
 
 
