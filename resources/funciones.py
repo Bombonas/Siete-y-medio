@@ -146,8 +146,8 @@ def setNewPlayer(human=True):
     savePlayer((dni, name, profile, human))
 
 def savePlayer(tup_player):
-    insert = "INSERT INTO player (player_id, player_name, player_risk, human) VALUES (%s,%s,%s,%s)"
-    cursor.execute(insert, tup_player)
+    query = "INSERT INTO player (player_id, player_name, player_risk, human) VALUES (%s,%s,%s,%s)"
+    cursor.execute(query, tup_player)
     db.commit()
 
 def newPlayer(dni, name, profile, human):
@@ -499,4 +499,41 @@ def settings():
             menu2 = False
         elif option == 4:
             return False
+
+def printStats(idPlayer="", titulo=""):
+    # PREGUNTAR LAS VARIABLES
+    return
+
+def reports():
+    # MIRAR EL NUEVO getOpt
+    return
+
+def getPlayers():
+    query = "SELECT * FROM player;"
+    cursor.execute(query)
+    result = cursor.fetchall()
+    for i in result:
+        for j in i:
+            print(j)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
