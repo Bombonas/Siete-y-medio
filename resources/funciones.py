@@ -6,6 +6,7 @@ import random
 import math
 import itertools
 import mysql.connector
+import pymysql
 db = mysql.connector.connect(user="MAP", password="2023Proyecto",
                                    host="proyecto1.mysql.database.azure.com",
                                    database="seven_and_half",
