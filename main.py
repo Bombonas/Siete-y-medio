@@ -96,7 +96,7 @@ while not salir:
 
 
     while menu3:
-        pass
+        play_game()
 
 
 

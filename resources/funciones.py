@@ -13,6 +13,47 @@ def clear():
     else:
         os.system('clear')
 
+def order_list(llista, ordre="des"):
+    # PRE: llista con valores no definidos. orde, por defecto "des", ordena de forma desdecendente cuando ordre = des,
+    #      y ordena crecientemente cuando ordre = asc
+    # POST: Devuelve el parametro llista ordenada segun el parametro ordre
+    try:
+        if type(llista) != list:
+            raise ValueError("The parameter llista must to be a list")
+        if ordre not in ["des", "asc"]:
+            raise TypeError("The parameter ordre must to be des or asc")
+        for i in range(1, len(llista) - 1):
+            if type(llista[i]) != type(llista[i - 1]):
+                raise TypeError("The list must to have the same variable type")
+
+        # BUBBLE SORT
+        for pasada in range(len(llista) - 1):
+            lista_ordenada = True
+            for i in range(len(llista) - 1 - pasada):
+
+                if ordre == "des":
+                    if llista[i] < llista[i + 1]:
+                        lista_ordenada = False
+                        aux = llista[i]
+                        llista[i] = llista[i + 1]
+                        llista[i + 1] = aux
+
+                elif ordre == "asc":
+                    if llista[i] > llista[i + 1]:
+                        lista_ordenada = False
+                        aux = llista[i]
+                        llista[i] = llista[i + 1]
+                        llista[i + 1] = aux
+
+            if lista_ordenada:
+                break
+
+    except ValueError as e:
+        print(e)
+    except TypeError as e:
+        print(e)
+    return llista
+
 
 def setGamePriority(mazo=[], jugadores=[]):
     # PRE: Introducimos la list(cartas) y la game=[]
@@ -124,7 +165,7 @@ def setBets():
             players[i]['bet'] = math.ceil(players[i]['points'] / 100 * players[i]['type'])
 
 
-def standardRound(id, mazo=[]):
+def standardRound(id):
     tirada_cartas = []
     while True:
         if players[id]['bank'] == False:
@@ -343,7 +384,6 @@ def setPlayersGame():
 
     textinput = 'Option (id to add to game, -id to remove player, sh to show actual players in game, -1 to go back):\n'
     jugadores_not_in_game = list(players)
-
     for i in game:
         if i in jugadores_not_in_game:
             jugadores_not_in_game.remove(i)
@@ -395,8 +435,11 @@ def setPlayersGame():
             input(enter)
         else:
             if nuevo_jugador.upper() in jugadores_not_in_game:
-                game.append(nuevo_jugador.upper())
-                jugadores_not_in_game.remove(nuevo_jugador.upper())
+                if len(game) == 6:
+                    print('\n'+'Maxim number of players in game reached!!'.center(140)+'\n')
+                else:
+                    game.append(nuevo_jugador.upper())
+                    jugadores_not_in_game.remove(nuevo_jugador.upper())
 
             elif nuevo_jugador[0] == '-' and nuevo_jugador[1:].upper() in game:
                 game.remove(nuevo_jugador[1:].upper())
@@ -426,11 +469,60 @@ def setPlayersGame():
             input(enter)
 
 
+def showhPlayersBBDD():
+    bots = []
+    humans = []
+    for id in players:
+        if players[id]["human"]:
+            humans.append(id)
+        else:
+            bots.append(id)
+    if len(humans) > 0:
+        order_list(humans, "asc")
+    if len(bots) > 0:
+        order_list(bots, "asc")
+    print("Select Players".center(140, "*"))
+    print("Bot Players".center(69), "||", "Human Players".center(69), "\n", "-"*140,  sep="")
+    print("ID".ljust(11), " "*9, "Name".ljust(18), " "*5, "Type".ljust(26), "||", "ID".ljust(11), " "*9, "Name".ljust(15), " "*5, "Type".ljust(26), sep="")
+    print("*"*140)
+
+    while len(bots) > 0 or len(humans) > 0:
+        string = ""
+        if len(bots) > 0:
+            string = bots[0].ljust(11) + " "*9 + players[bots[0]]["name"].ljust(18) + " "*5
+            if players[bots[0]]["type"] == 30:
+                string += "Cautious".ljust(26)
+            elif players[bots[0]]["type"] == 40:
+                string += "Moderated".ljust(26)
+            elif players[bots[0]]["type"] == 50:
+                string += "Bold".ljust(26)
+            bots.remove(bots[0])
+        else:
+            string = " "*69
+        string += "||"
+        if len(humans) > 0:
+            string += humans[0].ljust(11) + " " * 9 + players[humans[0]]["name"].ljust(15) + " " * 5
+            if players[humans[0]]["type"] == 30:
+                string += "Cautious".ljust(26)
+            elif players[humans[0]]["type"] == 40:
+                string += "Moderated".ljust(26)
+            elif players[humans[0]]["type"] == 50:
+                string += "Bold".ljust(26)
+            humans.remove(humans[0])
+        print(string)
+    print("*"*140)
+
 #editar para evitar que se repitan dnis
 def newRandomDNI():
-    DNI = random.randint(10000000, 99999999)
-    letra = letrasDni[DNI % 23]
-    DNI = str(DNI) + letra.upper()
+    correct = False
+    DNI = ''
+    while correct:
+        DNI = random.randint(10000000, 99999999)
+        letra = letrasDni[DNI % 23]
+        DNI = str(DNI) + letra.upper()
+        if DNI not in list(players):
+            correct = True
+
     return DNI
 
 
@@ -443,7 +535,7 @@ def setNewPlayer(human=True):
     else:
         dni = newRandomDNI()
 
-    opt = getOpt("Select your Profile:\n1)Cautious\n2)Moderated\n3)Bold", "Option", [1, 2, 3])
+    opt = getOpt("Select your Profile:,1)Cautious,2)Moderated,3)Bold", "Option", [1, 2, 3])
     if opt == 1:
         profile = 30
     elif opt == 2:
@@ -467,6 +559,27 @@ def newPlayer(dni, name, profile, human):
     return (dni, dic_aux)
 
 
+def printStats(titulo=""):
+    # PREGUNTAR LAS VARIABLES
+    print(titulo.center(140, "*"))
+    lista = ["Name", "Human", "Priority", "Type", "Bank", "Bet", "Points", "Cards", "Roundpoints"]
+    arguments = ["name", "human", "priority", "type", "bank", "bet", "points", "cards", "roundPoints"]
+    for i in range(0, 9):
+        seq = lista[i].ljust(20) + " "*5
+        for j in game:
+            if arguments[i] != "cards":
+                seq += str(players[j][arguments[i]]).ljust(40)
+            else:
+                cards = ""
+                primero = True
+                for k in players[j]["cards"]:
+                    if primero:
+                        primero = False
+                        cards += k
+                    else:
+                        cards += ";" + k
+                seq += cards.ljust(40)
+        print(seq)
 #VINCULAR DECK CON LA VARIABLE QUE USAREMOS PARA ESTABLECER EL DECK
 def set_card_deck():
     opt = getOpt(func_text_opts('1) ESP,2) POK,0) Go Back', deckofcards), 'Option: ', [0, 1, 2])
@@ -474,6 +587,7 @@ def set_card_deck():
         contextGame['deck'] = 'ESP'
         print('Established Card Deck ESP, Baraja Española')
         input(''*50+'Enter to continue')
+
     elif opt == 2:
         contextGame['deck'] = 'POK'
         print('Established Card Deck POK, Poker Deck')
@@ -496,14 +610,30 @@ def settings():
         elif option == 4:
             return False
 
+
+game = list(players)
+contextGame['maxRounds'] = 5
+mazo = list(cartas)
 def play_game():
     resetPoints()
 
     order = setGamePriority(list(cartas), list(players))
+    jugadores_ordenados = []
     priority = 0
     for i in order:
+        jugadores_ordenados.append(i[0])
         priority += 1
         players[i[0]]['priority'] = priority
         players[i[0]]['initialCard'] = i[1]
         if priority == 1:
             players[i[0]]['bank'] = True
+
+    for i in range(0, contextGame['maxRounds']):
+        setBets()
+        #ORDENAR JUGADORES EN JUGADORES_ORDENADOS CADA RONDA
+        for jugador in jugadores_ordenados:
+
+            players[jugador]['cards'] = (standardRound(jugador))
+        printStats()
+        input()
+play_game()
