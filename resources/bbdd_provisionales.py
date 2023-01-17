@@ -72,7 +72,7 @@ player_game = {'cardgame_id': {'id_player_1': {'initial_card_id': 'card_id', 'st
 
 player_game_round = {'round': {
     'id_player_1': {'is_bank': '', 'bet_points': '', 'starting_round_points': '', 'cards_value': '',
-                    'endind_round_points': ''}}}
+                    'ending_round_points': ''}}}
 
 game = []
 

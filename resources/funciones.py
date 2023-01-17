@@ -138,16 +138,16 @@ def checkMinimun2PlayerWithPoints():
 def orderAllPlayers():
     # Funcion que crea una lista con los puntos de los jugadores y ordena la lista de jugadores de forma inversa segun sus puntos, pone la banca al principio
     # POST: Devuelve una lista con los ID_player ordenados.
-    lista_puntos = []
+    prioridad = []
     for i in game:
-        lista_puntos.append(players[i]['points'])
+        prioridad.append(players[i]['points'])
 
-    mida_llista = len(lista_puntos)
+    mida_llista = len(prioridad)
 
     for i in range(mida_llista - 1):
         for j in range(0, mida_llista - i - 1):
-            if lista_puntos[j] > lista_puntos[j + 1]:
-                lista_puntos[j], lista_puntos[j + 1] = lista_puntos[j + 1], lista_puntos[j]
+            if prioridad[j] > prioridad[j + 1]:
+                prioridad[j], prioridad[j + 1] = prioridad[j + 1], prioridad[j]
                 game[j], game[j + 1] = game[j + 1], game[j]
 
     for i in game:
@@ -609,14 +609,14 @@ def settings():
             setMaxRounds()
         elif option == 4:
             return False
-
+orderAllPlayers()
 
 game = list(players)
 contextGame['maxRounds'] = 5
 mazo = list(cartas)
 def play_game():
     resetPoints()
-
+    banca = ''
     order = setGamePriority(list(cartas), list(players))
     jugadores_ordenados = []
     priority = 0
@@ -626,14 +626,16 @@ def play_game():
         players[i[0]]['priority'] = priority
         players[i[0]]['initialCard'] = i[1]
         if priority == 1:
+            banca = i[0]
             players[i[0]]['bank'] = True
 
     for i in range(0, contextGame['maxRounds']):
         setBets()
         #ORDENAR JUGADORES EN JUGADORES_ORDENADOS CADA RONDA
         for jugador in jugadores_ordenados:
-
+            # Si es humano, mostrar menu game
             players[jugador]['cards'] = (standardRound(jugador))
-        printStats()
-        input()
-play_game()
+
+        jugadores_ordenados = #ARREGLAR FUNCION DE ORDENAR PLAYERS PARA QUE ORDENE SEGÚN PRIORIDAD Y PONGA BANCA AL FINAL
+        if players[banca]['roundPoints'] > 7.5:
+            for j in jugadores_ordenados:
