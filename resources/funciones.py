@@ -517,8 +517,8 @@ def getPlayers():
         players.update(dict_aux)
 
 def delBBDDPlayer(nif):
-    insert = "DELETE FROM player WHERE player_id = '" + nif + "';"
-    cursor.execute(insert)
+    query = "DELETE FROM player WHERE player_id = '" + nif + "';"
+    cursor.execute(query)
     db.commit()
 
 
@@ -546,27 +546,37 @@ def printStats(titulo=""):
                 seq += cards.ljust(40)
         print(seq)
 
-
-
 def getBBDDRanking():
+    query = "SELECT * FROM player_earnings;"
+    cursor.execute(query)
+    result = cursor.fetchall()
+    rank = {}
+    for row in result:
+        dict_aux = {"earnings": row[1], "games_played": row[2], "minutes_played": row[3]}
+        rank = {row[0]: dict_aux}
+    return rank
+
+def returnListRanking(field="earnings"):
     return
+
+def ranking():
+    seq = "1)Players With More Earnings\n2)Players With More Games Played\n3)Players With More Minutes Played\n4)Go back"
+    opt = getOpt(seq, "Option: ", [1, 2, 3, 4])
+    if opt == 1:
+        pass
+    elif opt == 2:
+        pass
+    elif opt == 3:
+        pass
 
 def reports():
     # MIRAR EL NUEVO getOpt
     return
 
-def returnListRanking(field="earnings"):
-    return
-
 def setCardsDeck():
     return
 
-
-
-
-
-
-
+getBBDDRanking()
 
 
 
