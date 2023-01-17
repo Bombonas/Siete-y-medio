@@ -555,10 +555,12 @@ def reports():
     # MIRAR EL NUEVO getOpt
     return
 
+def returnListRanking(field="earnings"):
+    return
+
 def setCardsDeck():
     return
 
-printStats("Round 0, Turn of Mario")
 
 
 
