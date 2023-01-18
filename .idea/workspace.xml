@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e2eab250-d322-445b-99d7-d4ec8b704d13" name="Changes" comment="commit funciones preguntar en clase" />
+    <list default="true" id="e2eab250-d322-445b-99d7-d4ec8b704d13" name="Changes" comment="commit funciones preguntar en clase">
+      <change beforePath="$PROJECT_DIR$/.idea/Siete-y-medio.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Siete-y-medio.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_01_2023_09_56_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_01_2023_09_56__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/Pruebas.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/Pruebas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/funciones.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/funciones.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
