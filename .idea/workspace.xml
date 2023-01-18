@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e2eab250-d322-445b-99d7-d4ec8b704d13" name="Changes" comment="commit funciones preguntar en clase">
-      <change beforePath="$PROJECT_DIR$/.idea/Siete-y-medio.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Siete-y-medio.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_01_2023_09_56_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_01_2023_09_56__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Pruebas.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/Pruebas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/funciones.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/funciones.py" afterDir="false" />
-    </list>
+    <list default="true" id="e2eab250-d322-445b-99d7-d4ec8b704d13" name="Changes" comment="commit todo el menu Ranking" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -167,7 +159,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673862263381</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="commit todo el menu Ranking">
+      <created>1674037473886</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1674037473886</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -187,6 +186,7 @@
     <MESSAGE value="commit removeBBDDPlayer" />
     <MESSAGE value="commit" />
     <MESSAGE value="commit funciones preguntar en clase" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit funciones preguntar en clase" />
+    <MESSAGE value="commit todo el menu Ranking" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit todo el menu Ranking" />
   </component>
 </project>
