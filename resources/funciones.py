@@ -84,7 +84,7 @@ def setGamePriority(mazo=[], jugadores=[]):
         cartasOrdenadas.append((i, cartasRepartidas[i]))
 
     return cartasOrdenadas
-# print(setGamePriority(list(cartas), list(players)))
+print(setGamePriority(list(cartas), list(players)))
 
 def resetPoints():
     for i in game:
@@ -133,30 +133,29 @@ def checkMinimun2PlayerWithPoints():
         seguir_jugando = True
 
     return seguir_jugando
-
+game = list(players)
 
 def orderAllPlayers():
     # Funcion que crea una lista con los puntos de los jugadores y ordena la lista de jugadores de forma inversa segun sus puntos, pone la banca al principio
     # POST: Devuelve una lista con los ID_player ordenados.
     prioridad = []
     for i in game:
-        prioridad.append(players[i]['points'])
+        prioridad.append(players[i]['priority'])
 
     mida_llista = len(prioridad)
 
     for i in range(mida_llista - 1):
         for j in range(0, mida_llista - i - 1):
-            if prioridad[j] > prioridad[j + 1]:
+            if prioridad[j] < prioridad[j + 1]:
                 prioridad[j], prioridad[j + 1] = prioridad[j + 1], prioridad[j]
                 game[j], game[j + 1] = game[j + 1], game[j]
 
     for i in game:
-        if players[i]['bank'] == True:
+        if players[i]['bank']:
             game.remove(i)
             game.append(i)
 
     return game
-
 
 def setBets():
     # Funcion que establece las apuestas según el tipo de jugador
@@ -596,6 +595,12 @@ def set_card_deck():
     elif opt == 3:
         print('Deck not chosen.')
         input(enter)
+
+
+def distributionPointAndNewBankCandidates():
+    # SUSTITUIR CODIGO DE JUEGO ACTUAL POR ESTA FUNCION
+
+
 # USAR UNA FUNCION PARA CADA COSA, QUE NO DEJE SALIR HASTA QUE HAYAN 2 PLAYERS EN "GAME" Y UNA BARAJA ESCOGIDA,
 # DEFAULT ROUND SETTINGS = 5
 def settings():
@@ -616,6 +621,7 @@ contextGame['maxRounds'] = 5
 mazo = list(cartas)
 def play_game():
     resetPoints()
+    banca_debe = 0
     banca = ''
     order = setGamePriority(list(cartas), list(players))
     jugadores_ordenados = []
@@ -630,12 +636,34 @@ def play_game():
             players[i[0]]['bank'] = True
 
     for i in range(0, contextGame['maxRounds']):
+        candidatos
+        banca_debe = 0
+        banca_cobra = 0
         setBets()
+        jugadores_ordenados = orderAllPlayers()
         #ORDENAR JUGADORES EN JUGADORES_ORDENADOS CADA RONDA
         for jugador in jugadores_ordenados:
             # Si es humano, mostrar menu game
             players[jugador]['cards'] = (standardRound(jugador))
 
-        jugadores_ordenados = #ARREGLAR FUNCION DE ORDENAR PLAYERS PARA QUE ORDENE SEGÚN PRIORIDAD Y PONGA BANCA AL FINAL
-        if players[banca]['roundPoints'] > 7.5:
+
+        if players[banca]['roundPoints'] == 7.5:
             for j in jugadores_ordenados:
+                banca_cobra += players[j]['bet']
+
+        elif players[banca]['roundPoints'] < 7.5:
+            for j in jugadores_ordenados:
+                if players[banca]['roundPoints'] < players[j]['roundPoints'] < 7.5:
+                    banca_debe += players[j]['bet']
+                elif players[banca]['roundPoints'] > players[j]['roundPoints']:
+                    banca_cobra += players[j]['bet']
+                elif players[j]['roundPoints'] == 7.5:
+                    banca_debe += players[j]['bet'] * 2
+
+
+        elif players[banca]['roundPoints'] > 7.5:
+            for j in jugadores_ordenados:
+                if players[j]['roundPoints'] < 7.5:
+                    banca_debe += players[j]['bet']
+                elif players[j]['roundPoints'] == 7.5:
+                    banca_debe += players[j]['bet'] * 2
