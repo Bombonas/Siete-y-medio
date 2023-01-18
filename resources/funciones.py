@@ -597,8 +597,37 @@ def set_card_deck():
         input(enter)
 
 
-def distributionPointAndNewBankCandidates():
+def distributionPointAndNewBankCandidates(banca, jugadores_ordenados=[]):
     # SUSTITUIR CODIGO DE JUEGO ACTUAL POR ESTA FUNCION
+
+    # Los puntos que pierden los jugadores se les resta inmediatamente, los que ganan se les suma en funcion de la
+    # prioridad, la banca hace una resta entre los puntos ganados y perdidos y se suma o resta el resultado.
+    banca_debe = 0
+    banca_cobra = 0
+    jugadores_ordenados.remove(banca)
+    if players[banca]['roundPoints'] == 7.5:
+        for j in jugadores_ordenados:
+            banca_cobra += players[j]['bet']
+            players[j]['points'] -= players[j]['bet']
+
+
+    elif players[banca]['roundPoints'] < 7.5:
+        for j in jugadores_ordenados:
+            if players[banca]['roundPoints'] < players[j]['roundPoints'] < 7.5:
+                banca_debe += players[j]['bet']
+            elif players[banca]['roundPoints'] > players[j]['roundPoints']:
+                banca_cobra += players[j]['bet']
+                players[j]['points'] -= players[j]['bet']
+            elif players[j]['roundPoints'] == 7.5:
+                banca_debe += players[j]['bet'] * 2
+
+
+    elif players[banca]['roundPoints'] > 7.5:
+        for j in jugadores_ordenados:
+            if players[j]['roundPoints'] < 7.5:
+                banca_debe += players[j]['bet']
+            elif players[j]['roundPoints'] == 7.5:
+                banca_debe += players[j]['bet'] * 2
 
 
 # USAR UNA FUNCION PARA CADA COSA, QUE NO DEJE SALIR HASTA QUE HAYAN 2 PLAYERS EN "GAME" Y UNA BARAJA ESCOGIDA,
@@ -614,11 +643,8 @@ def settings():
             setMaxRounds()
         elif option == 4:
             return False
-orderAllPlayers()
 
-game = list(players)
-contextGame['maxRounds'] = 5
-mazo = list(cartas)
+
 def play_game():
     resetPoints()
     banca_debe = 0
@@ -636,9 +662,7 @@ def play_game():
             players[i[0]]['bank'] = True
 
     for i in range(0, contextGame['maxRounds']):
-        candidatos
-        banca_debe = 0
-        banca_cobra = 0
+
         setBets()
         jugadores_ordenados = orderAllPlayers()
         #ORDENAR JUGADORES EN JUGADORES_ORDENADOS CADA RONDA
@@ -647,23 +671,3 @@ def play_game():
             players[jugador]['cards'] = (standardRound(jugador))
 
 
-        if players[banca]['roundPoints'] == 7.5:
-            for j in jugadores_ordenados:
-                banca_cobra += players[j]['bet']
-
-        elif players[banca]['roundPoints'] < 7.5:
-            for j in jugadores_ordenados:
-                if players[banca]['roundPoints'] < players[j]['roundPoints'] < 7.5:
-                    banca_debe += players[j]['bet']
-                elif players[banca]['roundPoints'] > players[j]['roundPoints']:
-                    banca_cobra += players[j]['bet']
-                elif players[j]['roundPoints'] == 7.5:
-                    banca_debe += players[j]['bet'] * 2
-
-
-        elif players[banca]['roundPoints'] > 7.5:
-            for j in jugadores_ordenados:
-                if players[j]['roundPoints'] < 7.5:
-                    banca_debe += players[j]['bet']
-                elif players[j]['roundPoints'] == 7.5:
-                    banca_debe += players[j]['bet'] * 2
