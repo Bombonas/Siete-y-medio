@@ -12,6 +12,7 @@ db = mysql.connector.connect(user="MAP", password="2023Proyecto",
                                    database="seven_and_half",
                                    port="3306")
 cursor = db.cursor()
+
 def clear():
     if os.name == 'nt':
         os.system('cls')
@@ -522,8 +523,6 @@ def delBBDDPlayer(nif):
     db.commit()
 
 
-
-
 def printStats(titulo=""):
     # PREGUNTAR LAS VARIABLES
     print(titulo.center(140, "*"))
@@ -556,18 +555,41 @@ def getBBDDRanking():
         rank = {row[0]: dict_aux}
     return rank
 
-def returnListRanking(field="earnings"):
-    return
+def returnListRanking(rank, field="earnings"):
+    listR = list(rank.keys())
+    for pasada in range(len(listR) - 1):
+        lista_ordenada = True
+        for i in range(len(listR) - 1 - pasada):
+            if rank[listR[i]][field] < rank[listR[i + 1]][field]:
+                lista_ordenada = False
+                aux = listR[i]
+                listR[i] = listR[i + 1]
+                listR[i + 1] = aux
+        if lista_ordenada:
+            break
+    return listR
 
 def ranking():
     seq = "1)Players With More Earnings\n2)Players With More Games Played\n3)Players With More Minutes Played\n4)Go back"
     opt = getOpt(seq, "Option: ", [1, 2, 3, 4])
+    clear()
+    getPlayers()
+    rank = getBBDDRanking()
     if opt == 1:
-        pass
+        listR = returnListRanking(rank)
+        print(" " * 69, "Name".ljust(20), " " * 5, "Earnings")
+        for i in listR:
+            print(" "*69, players[i]["name"].ljust(20), " "*5, rank[i]["earnings"])
     elif opt == 2:
-        pass
+        listR = returnListRanking(rank, "games_played")
+        print(" " * 69, "Name".ljust(20), " " * 5, "Games Played")
+        for i in listR:
+            print(" " * 69, players[i]["name"].ljust(20), " " * 5, rank[i]["games_played"])
     elif opt == 3:
-        pass
+        listR = returnListRanking(rank, "minutes_played")
+        print(" " * 69, "Name".ljust(20), " " * 5, "Minutes Played")
+        for i in listR:
+            print(" " * 69, players[i]["name"].ljust(20), " " * 5, rank[i]["minutes_played"])
 
 def reports():
     # MIRAR EL NUEVO getOpt
@@ -575,9 +597,6 @@ def reports():
 
 def setCardsDeck():
     return
-
-getBBDDRanking()
-
 
 
 
