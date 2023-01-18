@@ -6,6 +6,7 @@ import random
 import math
 import itertools
 import mysql.connector
+
 db = mysql.connector.connect(user="MAP", password="2023Proyecto",
                                    host="proyecto1.mysql.database.azure.com",
                                    database="seven_and_half",
@@ -320,9 +321,7 @@ def removeBBDDPlayer():
                 elif len(opt) == 10 and opt[1:] in list(players.keys()):
                     print(opt[1:])
                     input()
-                    insert = "DELETE FROM player WHERE player_id = '" + opt[1:] + "';"
-                    cursor.execute(insert)
-                    db.commit()
+                    delBBDDPlayer(opt[1:])
                 else:
                     raise TypeError()
             else:
@@ -500,36 +499,84 @@ def settings():
         elif option == 4:
             return False
 
-def printStats(idPlayer="", titulo=""):
-    # PREGUNTAR LAS VARIABLES
-    return
-
-def reports():
-    # MIRAR EL NUEVO getOpt
-    return
-
 def getPlayers():
     query = "SELECT * FROM player;"
     cursor.execute(query)
     result = cursor.fetchall()
     for i in result:
-        for j in i:
-            print(j)
+        dict_aux = {}
+        dni = i[0]
+        name = i[1]
+        profile = i[2]
+        if i[3] == 1:
+            human = True
+        else:
+            human = False
+        tup = newPlayer(dni, name, profile, human)
+        dict_aux = {tup[0]: tup[1]}
+        players.update(dict_aux)
+
+def delBBDDPlayer(nif):
+    query = "DELETE FROM player WHERE player_id = '" + nif + "';"
+    cursor.execute(query)
+    db.commit()
 
 
 
 
+def printStats(titulo=""):
+    # PREGUNTAR LAS VARIABLES
+    print(titulo.center(140, "*"))
+    lista = ["Name", "Human", "Priority", "Type", "Bank", "Bet", "Points", "Cards", "Roundpoints"]
+    arguments = ["name", "human", "priority", "type", "bank", "bet", "points", "cards", "roundPoints"]
+    for i in range(0, 8):
+        seq = lista[i].ljust(20) + " "*5
+        for j in game:
+            if arguments[i] != "cards":
+                seq += str(players[j][arguments[i]]).ljust(40)
+            else:
+                cards = ""
+                primero = True
+                for k in players[j]["cards"]:
+                    if primero:
+                        primero = False
+                        cards += k
+                    else:
+                        cards += ";" + k
+                seq += cards.ljust(40)
+        print(seq)
 
+def getBBDDRanking():
+    query = "SELECT * FROM player_earnings;"
+    cursor.execute(query)
+    result = cursor.fetchall()
+    rank = {}
+    for row in result:
+        dict_aux = {"earnings": row[1], "games_played": row[2], "minutes_played": row[3]}
+        rank = {row[0]: dict_aux}
+    return rank
 
+def returnListRanking(field="earnings"):
+    return
 
+def ranking():
+    seq = "1)Players With More Earnings\n2)Players With More Games Played\n3)Players With More Minutes Played\n4)Go back"
+    opt = getOpt(seq, "Option: ", [1, 2, 3, 4])
+    if opt == 1:
+        pass
+    elif opt == 2:
+        pass
+    elif opt == 3:
+        pass
 
+def reports():
+    # MIRAR EL NUEVO getOpt
+    return
 
+def setCardsDeck():
+    return
 
-
-
-
-
-
+getBBDDRanking()
 
 
 

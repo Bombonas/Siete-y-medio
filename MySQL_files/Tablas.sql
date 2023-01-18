@@ -13,7 +13,7 @@ create table if not exists deck(
 	deck_name VARCHAR(25) not NULL);
     
 create table if not exists cardgame(
-	cardgame_id INT auto_increment primary key,
+	cardgame_id INT primary key,
 	players TINYINT not NULL,
 	rounds TINYINT not NULL,
 	start_hour DATETIME not NULL,
@@ -24,7 +24,7 @@ create table if not exists cardgame(
 		references deck(deck_id)
 		on update cascade
 		on delete cascade);
-        
+
 create table if not exists player_game(
 	cardgame_id INT not NULL,
     constraint fk_cardgame_id
@@ -80,4 +80,15 @@ create table if not exists card(
         on update cascade
         on delete cascade,
 	primary key(card_id, deck_id));
-    
+
+
+
+
+
+INSERT INTO player(player_id, player_name, player_risk, human) VALUES ("48073623N", "Pablo", 50, True)
+
+INSERT INTO deck (deck_id, deck_name) VALUES ("PRU", "PruebasBBDD")
+
+INSERT INTO cardgame (cardgame_id, players, rounds, start_hour, end_hour, deck_id) VALUES (1, 1, 1, "2023-01-17 16:40:00", "2023-01-17 16:45:00");
+
+INSERT INTO player_game (cardgame_id, player_id, initial_card_id, starting_points, ending_points) VALUES (1, "48073623N", "E01", 20, 857);
