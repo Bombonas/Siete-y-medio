@@ -133,10 +133,9 @@ def checkMinimun2PlayerWithPoints():
         seguir_jugando = True
 
     return seguir_jugando
-game = list(players)
 
 def orderAllPlayers():
-    # Funcion que crea una lista con los puntos de los jugadores y ordena la lista de jugadores de forma inversa segun sus puntos, pone la banca al principio
+    # Funcion que crea una lista con los puntos de los jugadores y ordena la lista de jugadores de forma inversa segun su prioridad, pone la banca al principio
     # POST: Devuelve una lista con los ID_player ordenados.
     prioridad = []
     for i in game:
@@ -354,9 +353,10 @@ def setMaxRounds():
             input(''.ljust(60)+'Enter to continue')
         else:
             correct = True
+
             print(''.ljust(60)+'Established maximum of rounds to', rounds)
             input(''.ljust(60)+'Enter to continue')
-    contextGame["maxRounds"] = rounds
+    contextGame["maxRounds"] = int(rounds)
 
 
 def tipo_de_riesgo(id):
@@ -602,9 +602,15 @@ def distributionPointAndNewBankCandidates(banca, jugadores_ordenados=[]):
 
     # Los puntos que pierden los jugadores se les resta inmediatamente, los que ganan se les suma en funcion de la
     # prioridad, la banca hace una resta entre los puntos ganados y perdidos y se suma o resta el resultado.
+    # Establecemos la nueva banca y eliminamos los jugadores sin puntos.
+
+    candidatos_banca = []
+    nueva_banca = False
     banca_debe = 0
     banca_cobra = 0
+    sieteymedio = []
     jugadores_ordenados.remove(banca)
+    jugadores_para_cobrar = []
     if players[banca]['roundPoints'] == 7.5:
         for j in jugadores_ordenados:
             banca_cobra += players[j]['bet']
@@ -615,19 +621,74 @@ def distributionPointAndNewBankCandidates(banca, jugadores_ordenados=[]):
         for j in jugadores_ordenados:
             if players[banca]['roundPoints'] < players[j]['roundPoints'] < 7.5:
                 banca_debe += players[j]['bet']
+                jugadores_para_cobrar.append(j)
             elif players[banca]['roundPoints'] > players[j]['roundPoints']:
                 banca_cobra += players[j]['bet']
                 players[j]['points'] -= players[j]['bet']
             elif players[j]['roundPoints'] == 7.5:
                 banca_debe += players[j]['bet'] * 2
+                jugadores_para_cobrar.append(j)
+                jugadores_para_cobrar.append(j)
+                candidatos_banca.append(j)
+                nueva_banca = True
+
 
 
     elif players[banca]['roundPoints'] > 7.5:
         for j in jugadores_ordenados:
             if players[j]['roundPoints'] < 7.5:
                 banca_debe += players[j]['bet']
+                jugadores_para_cobrar.append(j)
             elif players[j]['roundPoints'] == 7.5:
                 banca_debe += players[j]['bet'] * 2
+                candidatos_banca.append(j)
+                jugadores_para_cobrar.append(j)
+                jugadores_para_cobrar.append(j)
+                nueva_banca = True
+
+
+    dinero_restante = banca_cobra - banca_debe
+
+    if players[banca]['points'] < dinero_restante:
+        for i in jugadores_para_cobrar:
+            if dinero_restante >= players[i]['bet']:
+                players[i]['points'] += players[i]['bet']
+                dinero_restante -= players[i]['bet']
+            else:
+                players[i]['points'] += dinero_restante
+                dinero_restante = 0
+
+        players[banca]['points'] = 0
+        players[banca]['bank'] = False
+        nueva_banca = True
+
+
+    else:
+        players[banca]['points'] += dinero_restante
+        if len(jugadores_para_cobrar) > 0:
+            for i in jugadores_para_cobrar:
+                players[i]['points'] += players[i]['bet']
+
+    for indice in range(len(game) -1, -1, -1):
+        if players[game[indice]]['points'] < 1:
+            game.remove(game[indice])
+
+    if nueva_banca:
+        players[banca]['bank'] = False
+        lista_ordenada = orderAllPlayers()
+        for i in lista_ordenada:
+            if i not in candidatos_banca:
+                lista_ordenada.remove(i)
+        if len(lista_ordenada) > 0:
+            for i in lista_ordenada:
+                if players[i]['roundPoints'] == 7.5:
+                    sieteymedio.insert(0, i)
+            if len(sieteymedio) > 0:
+                players[sieteymedio[0]]['bank'] = True
+            else:
+                players[lista_ordenada[-1]]['bank'] = True
+        else:
+            players[orderAllPlayers()[-1]]['bank'] = True
 
 
 # USAR UNA FUNCION PARA CADA COSA, QUE NO DEJE SALIR HASTA QUE HAYAN 2 PLAYERS EN "GAME" Y UNA BARAJA ESCOGIDA,
@@ -670,4 +731,11 @@ def play_game():
             # Si es humano, mostrar menu game
             players[jugador]['cards'] = (standardRound(jugador))
 
+        distributionPointAndNewBankCandidates(banca, jugadores_ordenados)
 
+        for j in game:
+            if players[j]['bank'] is True:
+                banca = j
+
+        printStats()
+        input('asdasd')
