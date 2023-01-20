@@ -60,12 +60,13 @@ def setGamePriority(mazo=[], jugadores=[]):
     # Repartimos una carta a cada uno
     # Creamos otra lista en el mismo orden con los valores de las cartas para ordenarlas
     # Devolvemos una lista de tuplas con (DNI, CARTA)
+    mazo1 = mazo.copy()
     cartasRepartidas = {}
     cartasOrdenadas = []
     for i in range(len(jugadores)):
-        cartaRandom = random.choice(mazo)
+        cartaRandom = random.choice(mazo1)
         cartasRepartidas[jugadores[i]] = cartaRandom
-        mazo.remove(cartaRandom)
+        mazo1.remove(cartaRandom)
     mida_llista = len(jugadores)
     llista = []
     for i in cartasRepartidas:
@@ -84,7 +85,6 @@ def setGamePriority(mazo=[], jugadores=[]):
         cartasOrdenadas.append((i, cartasRepartidas[i]))
 
     return cartasOrdenadas
-print(setGamePriority(list(cartas), list(players)))
 
 def resetPoints():
     for i in game:
@@ -163,29 +163,30 @@ def setBets():
             players[i]['bet'] = math.ceil(players[i]['points'] / 100 * players[i]['type'])
 
 
-def standardRound(id):
+def standardRound(id, mazo1):
+
     tirada_cartas = []
     while True:
         if players[id]['bank'] == False:
 
             if players[id]['roundPoints'] == 0:
-                nueva_carta = random.choice(mazo)
-                mazo.remove(nueva_carta)
+                nueva_carta = random.choice(mazo1)
+                mazo1.remove(nueva_carta)
                 tirada_cartas.append(nueva_carta)
                 players[id]['roundPoints'] += cartas[nueva_carta]['realValue']
             else:
-                if chanceExceedingSevenAndHalf(id, mazo) <= players[id]['type']:
-                    nueva_carta = random.choice(mazo)
-                    mazo.remove(nueva_carta)
+                if chanceExceedingSevenAndHalf(id, mazo1) <= players[id]['type']:
+                    nueva_carta = random.choice(mazo1)
+                    mazo1.remove(nueva_carta)
                     tirada_cartas.append(nueva_carta)
                     players[id]['roundPoints'] += cartas[nueva_carta]['realValue']
 
                 else:
                     return tirada_cartas
         else:
-            if baknOrderNewCard(id) or chanceExceedingSevenAndHalf(id, mazo) <= players[id]['type']:
-                nueva_carta = random.choice(mazo)
-                mazo.remove(nueva_carta)
+            if baknOrderNewCard(id) or chanceExceedingSevenAndHalf(id, mazo1) <= players[id]['type']:
+                nueva_carta = random.choice(mazo1)
+                mazo1.remove(nueva_carta)
                 tirada_cartas.append(nueva_carta)
                 players[id]['roundPoints'] += cartas[nueva_carta]['realValue']
 
@@ -254,13 +255,13 @@ def orderPlayersByPoints(listaDNIs):
     return listaDNIs
 
 
-def chanceExceedingSevenAndHalf(id, mazo):
+def chanceExceedingSevenAndHalf(id, mazo2):
     bad_cards = 0
-    for i in mazo:
+    for i in mazo2:
         if cartas[i]["realValue"] + players[id]["roundPoints"] > 7.5:
             bad_cards += 1
 
-    return (bad_cards * 100) / len(mazo)
+    return (bad_cards * 100) / len(mazo2)
 
 
 def printPlayerStats(id):
@@ -584,11 +585,13 @@ def set_card_deck():
     opt = getOpt(func_text_opts('1) ESP,2) POK,0) Go Back', deckofcards), 'Option: ', [0, 1, 2])
     if opt == 1:
         contextGame['deck'] = 'ESP'
+        #IMPORTAR MAZO DETERMINADO A CARTAS
         print('Established Card Deck ESP, Baraja Española')
         input(''*50+'Enter to continue')
 
     elif opt == 2:
         contextGame['deck'] = 'POK'
+        #IMPORTAR MAZO DETERMINADO A CARTAS
         print('Established Card Deck POK, Poker Deck')
         input(''*50+'Enter to continue')
 
@@ -597,7 +600,7 @@ def set_card_deck():
         input(enter)
 
 
-def distributionPointAndNewBankCandidates(banca, jugadores_ordenados=[]):
+def distributionPointAndNewBankCandidates(banco, sorted_players_main=[]):
     # SUSTITUIR CODIGO DE JUEGO ACTUAL POR ESTA FUNCION
 
     # Los puntos que pierden los jugadores se les resta inmediatamente, los que ganan se les suma en funcion de la
@@ -609,20 +612,21 @@ def distributionPointAndNewBankCandidates(banca, jugadores_ordenados=[]):
     banca_debe = 0
     banca_cobra = 0
     sieteymedio = []
-    jugadores_ordenados.remove(banca)
+    sorted_players = sorted_players_main.copy()
+    sorted_players.remove(banco)
     jugadores_para_cobrar = []
-    if players[banca]['roundPoints'] == 7.5:
-        for j in jugadores_ordenados:
+    if players[banco]['roundPoints'] == 7.5:
+        for j in sorted_players:
             banca_cobra += players[j]['bet']
             players[j]['points'] -= players[j]['bet']
 
 
-    elif players[banca]['roundPoints'] < 7.5:
-        for j in jugadores_ordenados:
-            if players[banca]['roundPoints'] < players[j]['roundPoints'] < 7.5:
+    elif players[banco]['roundPoints'] < 7.5:
+        for j in sorted_players:
+            if players[banco]['roundPoints'] < players[j]['roundPoints'] < 7.5:
                 banca_debe += players[j]['bet']
                 jugadores_para_cobrar.append(j)
-            elif players[banca]['roundPoints'] > players[j]['roundPoints']:
+            elif players[banco]['roundPoints'] > players[j]['roundPoints']:
                 banca_cobra += players[j]['bet']
                 players[j]['points'] -= players[j]['bet']
             elif players[j]['roundPoints'] == 7.5:
@@ -634,8 +638,8 @@ def distributionPointAndNewBankCandidates(banca, jugadores_ordenados=[]):
 
 
 
-    elif players[banca]['roundPoints'] > 7.5:
-        for j in jugadores_ordenados:
+    elif players[banco]['roundPoints'] > 7.5:
+        for j in sorted_players:
             if players[j]['roundPoints'] < 7.5:
                 banca_debe += players[j]['bet']
                 jugadores_para_cobrar.append(j)
@@ -649,7 +653,7 @@ def distributionPointAndNewBankCandidates(banca, jugadores_ordenados=[]):
 
     dinero_restante = banca_cobra - banca_debe
 
-    if players[banca]['points'] < dinero_restante:
+    if players[banco]['points'] < dinero_restante:
         for i in jugadores_para_cobrar:
             if dinero_restante >= players[i]['bet']:
                 players[i]['points'] += players[i]['bet']
@@ -658,13 +662,13 @@ def distributionPointAndNewBankCandidates(banca, jugadores_ordenados=[]):
                 players[i]['points'] += dinero_restante
                 dinero_restante = 0
 
-        players[banca]['points'] = 0
-        players[banca]['bank'] = False
+        players[banco]['points'] = 0
+        players[banco]['bank'] = False
         nueva_banca = True
 
 
     else:
-        players[banca]['points'] += dinero_restante
+        players[banco]['points'] += dinero_restante
         if len(jugadores_para_cobrar) > 0:
             for i in jugadores_para_cobrar:
                 players[i]['points'] += players[i]['bet']
@@ -674,7 +678,7 @@ def distributionPointAndNewBankCandidates(banca, jugadores_ordenados=[]):
             game.remove(game[indice])
 
     if nueva_banca:
-        players[banca]['bank'] = False
+        players[banco]['bank'] = False
         lista_ordenada = orderAllPlayers()
         for i in lista_ordenada:
             if i not in candidatos_banca:
@@ -705,12 +709,16 @@ def settings():
         elif option == 4:
             return False
 
+def reset_stats():
+    for i in game:
+        players[i]['roundPoints'] = 0
+        players[i]['cards'] = []
 
 def play_game():
     resetPoints()
     banca_debe = 0
     banca = ''
-    order = setGamePriority(list(cartas), list(players))
+    order = setGamePriority(list(cartas), game)
     jugadores_ordenados = []
     priority = 0
     for i in order:
@@ -723,13 +731,20 @@ def play_game():
             players[i[0]]['bank'] = True
 
     for i in range(0, contextGame['maxRounds']):
+        mazo = list(cartas)
 
+        reset_stats()
         setBets()
+
+        printStats()
+
+        input('asdasd')
         jugadores_ordenados = orderAllPlayers()
         #ORDENAR JUGADORES EN JUGADORES_ORDENADOS CADA RONDA
         for jugador in jugadores_ordenados:
             # Si es humano, mostrar menu game
-            players[jugador]['cards'] = (standardRound(jugador))
+            players[jugador]['cards'] = (standardRound(jugador, mazo))
+            print(players[jugador]['cards'])
 
         distributionPointAndNewBankCandidates(banca, jugadores_ordenados)
 
@@ -737,5 +752,12 @@ def play_game():
             if players[j]['bank'] is True:
                 banca = j
 
+        if not checkMinimun2PlayerWithPoints():
+            break
+
         printStats()
+
         input('asdasd')
+
+    print(gameover)
+    input(enter)

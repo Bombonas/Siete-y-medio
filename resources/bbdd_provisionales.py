@@ -75,9 +75,8 @@ player_game_round = {'round': {
                     'ending_round_points': ''}}}
 
 game = []
-
 cardgame_ids = []
-mazo = []
+mazo = list(cartas)
 
 letrasDni = ["T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N",
              "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"]

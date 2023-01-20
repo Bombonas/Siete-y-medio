@@ -39,6 +39,7 @@ while not salir:
             menu00 = False
         elif option == 3 and len(game) >= 2:
             print(''.ljust(50) + 'Set the deck of cards first')
+            input(enter)
         elif option == 3:
             print(''.ljust(50) + 'Set the players that compose the game first')
             input(enter)
@@ -97,6 +98,9 @@ while not salir:
 
     while menu3:
         play_game()
+        menu3 = False
+        menu00 = True
+        game = []
 
 
 
