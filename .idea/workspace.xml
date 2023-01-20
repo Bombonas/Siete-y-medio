@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e2eab250-d322-445b-99d7-d4ec8b704d13" name="Changes" comment="commit MYSQL files actualizado">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MySQL_files/Tablas.sql" beforeDir="false" afterPath="$PROJECT_DIR$/MySQL_files/Tablas.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/bbdd_provisionales.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/bbdd_provisionales.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/funciones.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/funciones.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

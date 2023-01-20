@@ -13,6 +13,7 @@ db = mysql.connector.connect(user="MAP", password="2023Proyecto",
                                    port="3306")
 cursor = db.cursor()
 
+
 def clear():
     if os.name == 'nt':
         os.system('cls')
@@ -689,7 +690,7 @@ def setCardsDeck():
 
         for row in result:
             dict_aux = {"literal": row[1], "value": row[2], "priority": row[3], "realValue": row[4]}
-            cartas = {row[0]: dict_aux}
+            cartas[row[0]] = dict_aux
 
 
 
