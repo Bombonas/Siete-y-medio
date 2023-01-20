@@ -1,4 +1,6 @@
 from resources.funciones import *
+from resources.bbdd_provisionales import *
+
 
 menu1 = False
 menu11 = False
@@ -19,7 +21,6 @@ menu42 = False
 menu43 = False
 
 menu5 = False
-
 
 menu00 = True
 salir = False
@@ -100,8 +101,6 @@ while not salir:
         play_game()
         menu3 = False
         menu00 = True
-        game = []
-
 
 
 

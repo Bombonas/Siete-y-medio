@@ -6,6 +6,13 @@ import random
 import math
 import itertools
 
+import mysql.connector
+
+db = mysql.connector.connect(user="MAP", password="2023Proyecto",
+                                   host="proyecto1.mysql.database.azure.com",
+                                   database="seven_and_half",
+                                   port="3306")
+cursor = db.cursor()
 
 def clear():
     if os.name == 'nt':
@@ -580,7 +587,7 @@ def printStats(titulo=""):
                         cards += ";" + k
                 seq += cards.ljust(40)
         print(seq)
-#VINCULAR DECK CON LA VARIABLE QUE USAREMOS PARA ESTABLECER EL DECK
+#COPIAR DE GITHUB DE PABLO
 def set_card_deck():
     opt = getOpt(func_text_opts('1) ESP,2) POK,0) Go Back', deckofcards), 'Option: ', [0, 1, 2])
     if opt == 1:
@@ -595,7 +602,7 @@ def set_card_deck():
         print('Established Card Deck POK, Poker Deck')
         input(''*50+'Enter to continue')
 
-    elif opt == 3:
+    elif opt == 0:
         print('Deck not chosen.')
         input(enter)
 
@@ -612,7 +619,9 @@ def distributionPointAndNewBankCandidates(banco, sorted_players_main=[]):
     banca_debe = 0
     banca_cobra = 0
     sieteymedio = []
+
     sorted_players = sorted_players_main.copy()
+    sorted_players.reverse()
     sorted_players.remove(banco)
     jugadores_para_cobrar = []
     if players[banco]['roundPoints'] == 7.5:
@@ -627,6 +636,9 @@ def distributionPointAndNewBankCandidates(banco, sorted_players_main=[]):
                 banca_debe += players[j]['bet']
                 jugadores_para_cobrar.append(j)
             elif players[banco]['roundPoints'] > players[j]['roundPoints']:
+                banca_cobra += players[j]['bet']
+                players[j]['points'] -= players[j]['bet']
+            elif players[banco]['roundPoints'] == players[j]['roundPoints']:
                 banca_cobra += players[j]['bet']
                 players[j]['points'] -= players[j]['bet']
             elif players[j]['roundPoints'] == 7.5:
@@ -651,9 +663,9 @@ def distributionPointAndNewBankCandidates(banco, sorted_players_main=[]):
                 nueva_banca = True
 
 
-    dinero_restante = banca_cobra - banca_debe
+    dinero_restante = players[banco]['points'] + banca_cobra
 
-    if players[banco]['points'] < dinero_restante:
+    if dinero_restante < banca_debe:
         for i in jugadores_para_cobrar:
             if dinero_restante >= players[i]['bet']:
                 players[i]['points'] += players[i]['bet']
@@ -668,7 +680,7 @@ def distributionPointAndNewBankCandidates(banco, sorted_players_main=[]):
 
 
     else:
-        players[banco]['points'] += dinero_restante
+        players[banco]['points'] += banca_cobra - banca_debe
         if len(jugadores_para_cobrar) > 0:
             for i in jugadores_para_cobrar:
                 players[i]['points'] += players[i]['bet']
@@ -679,7 +691,7 @@ def distributionPointAndNewBankCandidates(banco, sorted_players_main=[]):
 
     if nueva_banca:
         players[banco]['bank'] = False
-        lista_ordenada = orderAllPlayers()
+        lista_ordenada = orderAllPlayers().copy()
         for i in lista_ordenada:
             if i not in candidatos_banca:
                 lista_ordenada.remove(i)
@@ -714,6 +726,7 @@ def reset_stats():
         players[i]['roundPoints'] = 0
         players[i]['cards'] = []
 
+
 def play_game():
     resetPoints()
     banca_debe = 0
@@ -731,8 +744,9 @@ def play_game():
             players[i[0]]['bank'] = True
 
     for i in range(0, contextGame['maxRounds']):
+        print(i)
         mazo = list(cartas)
-
+        print(game)
         reset_stats()
         setBets()
 
@@ -756,8 +770,10 @@ def play_game():
             break
 
         printStats()
-
+        print(game)
         input('asdasd')
-
     print(gameover)
+    game.clear()
+    print(game)
     input(enter)
+
