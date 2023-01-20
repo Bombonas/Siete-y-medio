@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e2eab250-d322-445b-99d7-d4ec8b704d13" name="Changes" comment="commit reports entera">
+    <list default="true" id="e2eab250-d322-445b-99d7-d4ec8b704d13" name="Changes" comment="commit reports">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/funciones.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/funciones.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MySQL_files/Tablas.sql" beforeDir="false" afterPath="$PROJECT_DIR$/MySQL_files/Tablas.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,7 +219,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674234077734</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="commit reports">
+      <created>1674234995890</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1674234995890</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -244,6 +251,7 @@
     <MESSAGE value="commit SQL" />
     <MESSAGE value="commit getBBDDRanking" />
     <MESSAGE value="commit reports entera" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit reports entera" />
+    <MESSAGE value="commit reports" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit reports" />
   </component>
 </project>
