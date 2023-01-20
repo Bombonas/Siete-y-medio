@@ -76,9 +76,9 @@ create table if not exists player_game_round(
 create table if not exists card(
     card_id CHAR(3) not NULL,
 	card_name VARCHAR(25) not NULL,
-	card_value DECIMAL(3,1) not NULL,
+	card_value TINYINT(3,1) not NULL,
 	card_priority TINYINT not NULL,
-	card_real_value TINYINT not NULL,
+	card_real_value DECIMAL not NULL,
 	deck_id CHAR(3) not NULL,
     constraint fk_deck_id_C
     foreign key(deck_id)

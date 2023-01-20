@@ -1,4 +1,12 @@
-cartas = {
+import mysql.connector
+
+db = mysql.connector.connect(user="MAP", password="2023Proyecto",
+                                   host="proyecto1.mysql.database.azure.com",
+                                   database="seven_and_half",
+                                   port="3306")
+cursor = db.cursor()
+cartas = {}
+cartas1 = {
     "O01": {"literal": "As de Oros", "value": 1, "priority": 4, "realValue": 1},
     "O02": {"literal": "Dos de Oros", "value": 2, "priority": 4, "realValue": 2},
     "O03": {"literal": "Tres de Oros", "value": 3, "priority": 4, "realValue": 3},
@@ -51,6 +59,74 @@ cartas = {
     "B11": {"literal": "Caballo de Bastos", "value": 11, "priority": 1, "realValue": 0.5},
     "B12": {"literal": "Rey de Bastos", "value": 12, "priority": 1, "realValue": 0.5},
 }
+
+cartas2 = {
+    "D01": {"literal": "As de Diamantes", "value": 1, "priority": 4, "realValue": 1},
+    "D02": {"literal": "Dos de Diamantes", "value": 2, "priority": 4, "realValue": 2},
+    "D03": {"literal": "Tres de Diamantes", "value": 3, "priority": 4, "realValue": 3},
+    "D04": {"literal": "Cuatro de Diamantes", "value": 4, "priority": 4, "realValue": 4},
+    "D05": {"literal": "Cinco de Diamantes", "value": 5, "priority": 4, "realValue": 5},
+    "D06": {"literal": "Seis de Diamantes", "value": 6, "priority": 4, "realValue": 6},
+    "D07": {"literal": "Siete de Diamantes", "value": 7, "priority": 4, "realValue": 7},
+    "D08": {"literal": "Ocho de Diamantes", "value": 8, "priority": 4, "realValue": 0.5},
+    "D09": {"literal": "Nueve de Diamantes", "value": 9, "priority": 4, "realValue": 0.5},
+    "D10": {"literal": "J de Diamantes", "value": 10, "priority": 4, "realValue": 0.5},
+    "D11": {"literal": "Q de Diamantes", "value": 11, "priority": 4, "realValue": 0.5},
+    "D12": {"literal": "K de Diamantes", "value": 12, "priority": 4, "realValue": 0.5},
+
+    "C01": {"literal": "As de Corazones", "value": 1, "priority": 3, "realValue": 1},
+    "C02": {"literal": "Dos de Corazones", "value": 2, "priority": 3, "realValue": 2},
+    "C03": {"literal": "Tres de Corazones", "value": 3, "priority": 3, "realValue": 3},
+    "C04": {"literal": "Cuatro de Corazones", "value": 4, "priority": 3, "realValue": 4},
+    "C05": {"literal": "Cinco de Corazones", "value": 5, "priority": 3, "realValue": 5},
+    "C06": {"literal": "Seis de Corazones", "value": 6, "priority": 3, "realValue": 6},
+    "C07": {"literal": "Siete de Corazones", "value": 7, "priority": 3, "realValue": 7},
+    "C08": {"literal": "Ocho de Corazones", "value": 8, "priority": 3, "realValue": 0.5},
+    "C09": {"literal": "Nueve de Corazones", "value": 9, "priority": 3, "realValue": 0.5},
+    "C10": {"literal": "J de Corazones", "value": 10, "priority": 3, "realValue": 0.5},
+    "C11": {"literal": "Q de Corazones", "value": 11, "priority": 3, "realValue": 0.5},
+    "C12": {"literal": "K de Corazones", "value": 12, "priority": 3, "realValue": 0.5},
+
+    "P01": {"literal": "As de Picas", "value": 1, "priority": 2, "realValue": 1},
+    "P02": {"literal": "Dos de Picas", "value": 2, "priority": 2, "realValue": 2},
+    "P03": {"literal": "Tres de Picas", "value": 3, "priority": 2, "realValue": 3},
+    "P04": {"literal": "Cuatro de Picas", "value": 4, "priority": 2, "realValue": 4},
+    "P05": {"literal": "Cinco de Picas", "value": 5, "priority": 2, "realValue": 5},
+    "P06": {"literal": "Seis de Picas", "value": 6, "priority": 2, "realValue": 6},
+    "P07": {"literal": "Siete de Picas", "value": 7, "priority": 2, "realValue": 7},
+    "P08": {"literal": "Ocho de Picas", "value": 8, "priority": 2, "realValue": 0.5},
+    "P09": {"literal": "Nueve de Picas", "value": 9, "priority": 2, "realValue": 0.5},
+    "P10": {"literal": "J de Picas", "value": 10, "priority": 2, "realValue": 0.5},
+    "P11": {"literal": "Q de Picas", "value": 11, "priority": 2, "realValue": 0.5},
+    "P12": {"literal": "K de Picas", "value": 12, "priority": 2, "realValue": 0.5},
+
+    "T01": {"literal": "As de Trevoles", "value": 1, "priority": 1, "realValue": 1},
+    "T02": {"literal": "Dos de Trevoles", "value": 2, "priority": 1, "realValue": 2},
+    "T03": {"literal": "Tres de Trevoles", "value": 3, "priority": 1, "realValue": 3},
+    "T04": {"literal": "Cuatro de Trevoles", "value": 4, "priority": 1, "realValue": 4},
+    "T05": {"literal": "Cinco de Trevoles", "value": 5, "priority": 1, "realValue": 5},
+    "T06": {"literal": "Seis de Trevoles", "value": 6, "priority": 1, "realValue": 6},
+    "T07": {"literal": "Siete de Trevoles", "value": 7, "priority": 1, "realValue": 7},
+    "T08": {"literal": "Ocho de Trevoles", "value": 8, "priority": 1, "realValue": 0.5},
+    "T09": {"literal": "Nueve de Trevoles", "value": 9, "priority": 1, "realValue": 0.5},
+    "T10": {"literal": "J de Trevoles", "value": 10, "priority": 1, "realValue": 0.5},
+    "T11": {"literal": "Q de Trevoles", "value": 11, "priority": 1, "realValue": 0.5},
+    "T12": {"literal": "K de Trevoles", "value": 12, "priority": 1, "realValue": 0.5},
+}
+
+"""for id in cartas2:
+    query = "INSERT INTO card (card_id, card_name, card_value, card_priority, card_real_value, deck_id) VALUES (%s,%s,%s,%s,%s,%s)"
+    cursor.execute(query, (id, cartas2[id]["literal"], cartas2[id]["value"], cartas2[id]["priority"], cartas2[id]["realValue"], "POK"))
+    db.commit()"""
+
+"""query = "INSERT INTO deck (deck_id, deck_name) VALUES (%s,%s)"
+cursor.execute(query, ("POK", "Poker"))
+db.commit()"""
+
+"""query = "DELETE  FROM card;"
+cursor.execute(query)
+db.commit()"""
+
 
 players = {"11115555A":
                {"name": "Mario", "human": True, "bank": False, "initialCard": "", "priority": 1, "type": 40,

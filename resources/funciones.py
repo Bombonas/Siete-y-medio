@@ -662,9 +662,34 @@ def reports():
 
 
 def setCardsDeck():
-    return
+    query = "select deck_id from deck;"
+    cursor.execute(query)
+    result = cursor.fetchall()
+    id_deck = []
+    seq = ""
+    primero = True
+    for id in result:
+        if primero:
+            primero = False
+            id_deck.append(id[0])
+            seq += id[0]
+        else:
+            id_deck.append(id[0])
+            seq += "," + id[0]
 
+    opt = getOpt(func_text_opts(seq, deckofcards), 'Option(-1 to go back): ', [-1], id_deck)
+    print(opt)
+    if opt == -1:
+        print('Deck not chosen.')
+        input(enter)
+    else:
+        query = "select * from card where deck_id = %s;"
+        cursor.execute(query, (opt,))
+        result = cursor.fetchall()
 
+        for row in result:
+            dict_aux = {"literal": row[1], "value": row[2], "priority": row[3], "realValue": row[4]}
+            cartas = {row[0]: dict_aux}
 
 
 
