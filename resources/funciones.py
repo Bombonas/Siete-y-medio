@@ -593,8 +593,8 @@ def ranking():
 
 def reports():
     seq = "1)Number of players who have been bank in each game\n2)Average bet in each game\n3)Average bet in the first round in each game"
-    seq += "4)Average bet in the last round in each game\n5)Player who places the lowest bet per game\n6)List of games won by Bots"
-    seq += "7)"
+    seq += "4)Average bet in the last round in each game\n5)Player who places the lowest bet per game\n6)List of games won by Bots\n"
+    seq += "7)Player who places the highest wager in each game"
     opt = getOpt(seq, "Option: ", [1, 2, 3, 4, 5, 6, 7])
     if opt == 1:
         clear()
@@ -646,10 +646,12 @@ def reports():
             print(row[0], " " * 10, row[1], " " * 10, row[2])
     else:
         clear()
-        print("")
-        query = "SELECT * FROM player;"
+        print("Player who places the highest wager in each game")
+        query = "select lb.cardgame_id, p.player_id, lb.max_bet from (select cardgame_id, max(bet_points) as max_bet from player_game_round where bet_points is not null group by cardgame_id) as lb, player_game_round p where p.cardgame_id = lb.cardgame_id and  p.bet_points = lb.max_bet;"
         cursor.execute(query)
         result = cursor.fetchall()
+        for row in result:
+            print(row[0], " " * 10, row[1], " " * 10, row[2])
 
 
 def setCardsDeck():
