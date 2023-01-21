@@ -99,7 +99,10 @@ def resetPoints():
 
 
 def generate_game_id():
-    new_cardgame_id = len(cardgame_ids)
+    query = "SELECT count(cardgame_id) FROM cardgame;"
+    cursor.execute(query)
+    result = cursor.fetchall()
+    new_cardgame_id = result[0][0]
     return new_cardgame_id
 
 
@@ -366,6 +369,102 @@ def nif_validator():
 
     return newnif.upper()
 
+def savePlayer(tup_player):
+    query = "INSERT INTO player (player_id, player_name, player_risk, human) VALUES (%s,%s,%s,%s);"
+    cursor.execute(query, tup_player)
+    db.commit()
+
+def getPlayers():
+    players.clear()
+    query = "SELECT * FROM player;"
+    cursor.execute(query)
+    result = cursor.fetchall()
+    for i in result:
+        dict_aux = {}
+        dni = i[0]
+        name = i[1]
+        profile = i[2]
+        if i[3] == 1:
+            human = True
+        else:
+            human = False
+        tup = newPlayer(dni, name, profile, human)
+        dict_aux = {tup[0]: tup[1]}
+        players.update(dict_aux)
+
+def delBBDDPlayer(nif):
+    query = "DELETE FROM player WHERE player_id = '" + nif + "';"
+    cursor.execute(query)
+    db.commit()
+
+def removeBBDDPlayer():
+    while True:
+        clear()
+        getPlayers()
+        showhPlayersBBDD()
+        opt = input("Option (-id to remove player, -1 to go back): ")
+        try:
+            if len(opt) < 2:
+                raise TypeError()
+            elif opt[0] == "-":
+                if opt[1] == "1" and len(opt) == 2:
+                    clear()
+                    break
+                elif len(opt) == 10 and opt[1:] in list(players.keys()):
+                    print(opt[1:])
+                    input()
+                    delBBDDPlayer(opt[1:])
+                else:
+                    raise TypeError()
+            else:
+                raise TypeError()
+        except TypeError:
+            print("Invalid Option".center(140, "="))
+            print(" " * 40, "Enter to continue".center(60), sep="")
+            input("")
+
+def showhPlayersBBDD():
+    bots = []
+    humans = []
+    for id in players:
+        if players[id]["human"]:
+            humans.append(id)
+        else:
+            bots.append(id)
+    if len(humans) > 0:
+        order_list(humans, "asc")
+    if len(bots) > 0:
+        order_list(bots, "asc")
+    print("Select Players".center(140, "*"))
+    print("Bot Players".center(69), "||", "Human Players".center(69), "\n", "-"*140,  sep="")
+    print("ID".ljust(11), " "*9, "Name".ljust(18), " "*5, "Type".ljust(26), "||", "ID".ljust(11), " "*9, "Name".ljust(15), " "*5, "Type".ljust(26), sep="")
+    print("*"*140)
+
+    while len(bots) > 0 or len(humans) > 0:
+        string = ""
+        if len(bots) > 0:
+            string = bots[0].ljust(11) + " "*9 + players[bots[0]]["name"].ljust(18) + " "*5
+            if players[bots[0]]["type"] == 30:
+                string += "Cautious".ljust(26)
+            elif players[bots[0]]["type"] == 40:
+                string += "Moderated".ljust(26)
+            elif players[bots[0]]["type"] == 50:
+                string += "Bold".ljust(26)
+            bots.remove(bots[0])
+        else:
+            string = " "*69
+        string += "||"
+        if len(humans) > 0:
+            string += humans[0].ljust(11) + " " * 9 + players[humans[0]]["name"].ljust(15) + " " * 5
+            if players[humans[0]]["type"] == 30:
+                string += "Cautious".ljust(26)
+            elif players[humans[0]]["type"] == 40:
+                string += "Moderated".ljust(26)
+            elif players[humans[0]]["type"] == 50:
+                string += "Bold".ljust(26)
+            humans.remove(humans[0])
+        print(string)
+    print("*"*140)
 
 def addRemovePlayers():
     while True:
@@ -557,17 +656,16 @@ def showhPlayersBBDD():
 
 #editar para evitar que se repitan dnis
 def newRandomDNI():
-    correct = False
+    correct = True
     DNI = ''
     while correct:
         DNI = random.randint(10000000, 99999999)
         letra = letrasDni[DNI % 23]
         DNI = str(DNI) + letra.upper()
         if DNI not in list(players):
-            correct = True
+            correct = False
 
     return DNI
-
 
 def setNewPlayer(human=True):
     dni = ""
@@ -593,7 +691,8 @@ def setNewPlayer(human=True):
             print("Incorrect name, please, enter a name not empty with only letters")
         else:
             correct = True
-    tup_player = newPlayer(dni, name, profile, human)
+    tup_player = (dni, name, profile, human)
+    return tup_player
 
 
 def newPlayer(dni, name, profile, human):
@@ -626,25 +725,38 @@ def printStats(titulo_superior="", titulo_inferior=''):
                         cards += ";" + k
                 seq += cards.ljust(40)
         print(seq)
-#COPIAR DE GITHUB DE PABLO
+
 def set_card_deck():
-    opt = getOpt(func_text_opts('1) ESP,2) POK,0) Go Back', deckofcards), 'Option: ', [0, 1, 2])
-    if opt == 1:
-        contextGame['deck'] = 'ESP'
-        #IMPORTAR MAZO DETERMINADO A CARTAS
-        print('Established Card Deck ESP, Baraja Española')
-        input(''*50+'Enter to continue')
+    query = "select deck_id from deck;"
+    cursor.execute(query)
+    result = cursor.fetchall()
+    id_deck = []
+    seq = ""
+    primero = True
+    for id in result:
+        if primero:
+            primero = False
+            id_deck.append(id[0])
+            seq += id[0]
+        else:
+            id_deck.append(id[0])
+            seq += "," + id[0]
 
-    elif opt == 2:
-        contextGame['deck'] = 'POK'
-        #IMPORTAR MAZO DETERMINADO A CARTAS
-        print('Established Card Deck POK, Poker Deck')
-        input(''*50+'Enter to continue')
-
-    elif opt == 0:
-        print('Deck not chosen.')
+    opt = getOpt(func_text_opts(seq, deckofcards), 'Option(-1 to go back): ', [-1], id_deck)
+    print(''.ljust(50) + 'The deck {} has been chosen.'.format(opt))
+    if opt == -1:
+        print(''.ljust(50) + 'Deck not chosen.')
         input(enter)
+    else:
+        query = "select * from card where deck_id = %s;"
+        cursor.execute(query, (opt,))
+        result = cursor.fetchall()
+        contextGame['deck'] = opt
 
+        for row in result:
+            dict_aux = {"literal": row[1], "value": row[2], "priority": row[3], "realValue": row[4]}
+            cartas[row[0]] = dict_aux
+        input(enter)
 
 def distributionPointAndNewBankCandidates(banco, sorted_players_main=[]):
     # SUSTITUIR CODIGO DE JUEGO ACTUAL POR ESTA FUNCION
@@ -830,7 +942,13 @@ def play_game():
     banca = ''
     order = setGamePriority(list(cartas), game)
     jugadores_ordenados = []
+    ply_perma = []
+    ini_cards = []
+    for tup in order:
+        ply_perma.append(tup[0])
+        ini_cards.append(tup[1])
     priority = 0
+    gameID = generate_game_id()
     for i in order:
         jugadores_ordenados.append(i[0])
         priority += 1

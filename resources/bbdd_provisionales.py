@@ -68,13 +68,13 @@ players = {"11115555A":
                 "bet": 4, "points": 0, "cards": [], "roundPoints": 0}
            }
 
-cardgame = {'cardgame_id': '', 'players': '', 'start_hour': '', 'rounds': '', 'end_hour': ''}
+cardgame = {'cardgame_id': '', 'players': '', 'start_hour': '', 'rounds': '', 'end_hour': '', "deck": ""}
 
 player_game = {'cardgame_id': {'id_player_1': {'initial_card_id': 'card_id', 'starting_points': '', 'ending_points': ''}}}
 
-player_game_round = {'round': {
+player_game_round = {'cardgame_id': {'round': {
     'id_player_1': {'is_bank': '', 'bet_points': '', 'starting_round_points': '', 'cards_value': '',
-                    'ending_round_points': ''}}}
+                    'ending_round_points': ''}}}}
 
 game = []
 cardgame_ids = []
