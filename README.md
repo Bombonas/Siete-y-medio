@@ -7,4 +7,4 @@ Marc Argüelles - marcarguelles@gmail.com
 Pablo Mejías - pablomejiast@gmail.com  
 
 ## INSTRUCCIONES  
-Para el buen funcionamiento del programa es necesario la instalación de la librería, <b>mysql-connector-python</b>
+Para el buen funcionamiento del programa es necesaria la instalación de la librería, <b>mysql-connector-python</b>
