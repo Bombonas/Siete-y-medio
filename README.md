@@ -2,7 +2,7 @@
 Proyecto Siete y medio 
 
 ## INTEGRANTES
-Álvaro Ponce -   
+Álvaro Ponce - alvarp50@gmail.com  
 Marc Argüelles - marcarguelles@gmail.com  
 Pablo Mejías - pablomejiast@gmail.com  
 
