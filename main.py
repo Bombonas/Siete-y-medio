@@ -1,5 +1,4 @@
 from resources.funciones import *
-from resources.bbdd_provisionales import *
 
 
 menu1 = False
@@ -56,54 +55,19 @@ while not salir:
             menu00 = False
 
     while menu1:
-        option = getOpt(func_text_opts(opts_bbdd, bbddplayers), opt_text, list(range(1, 5)))
-        if option == 1:
-            menu11 = True
-            menu1 = False
-        elif option == 2:
-            menu12 = True
-            menu1 = False
-        elif option == 3:
-            menu13 = True
-            menu1 = False
-        elif option == 4:
+        menu1 = addRemovePlayers()
+        if menu1 is False:
             menu00 = True
-            menu1 = False
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     while menu2:
         menu2 = settings()
-        if menu2 == False:
+        if menu2 is False:
             menu00 = True
-
-    while menu21:
-        pass
-
-
-
-
 
     while menu3:
         play_game()
         menu3 = False
         menu00 = True
-
-
-
 
     while menu4:
         option = getOpt(func_text_opts(opts_ranking, ranking), opt_text, list(range(1, 5)))
@@ -119,11 +83,6 @@ while not salir:
         elif option == 4:
             menu4 = False
             menu00 = True
-
-
-
-
-
 
 
 

@@ -122,8 +122,23 @@ def fill_player_game(gameID, jugadores=[], card_id_list=[], starting_points_list
                 starting_points_list[i], 'ending_points': ending_points_list[i]}
     return player_game
 
+def fill_cardgame(gameID, num_players, start_hour = "", rounds = 0, end_hour = "", deck = ""):
+    cardgame[gameID] = {'players': num_players, "start_hour": start_hour, 'rounds': rounds, 'end_hour': end_hour, "deck": deck}
 
-# fill_player_game(generate_game_id(), list(setGamePriority(list(cartas), list(players))), card_id_list(setGamePriority(list(cartas), list(players))),
+def player_game_round(gameID, round, jugadores = [], start_points = [], end_points = [], id_bank = ""):
+    for id in jugadores:
+        if id == id_bank:
+            stats = {'is_bank': True, 'bet_points': "NULL", 'starting_round_points': start_points,
+                    'cards_value': players[id]["roundPoints"], 'ending_round_points': end_points}
+        else:
+            stats = {'is_bank': False, 'bet_points': players[id]["bet"], 'starting_round_points': start_points,
+                     'cards_value': players[id]["roundPoints"], 'ending_round_points': end_points}
+        dict_pl = {id: stats}
+        dict_round = {round: dict_pl}
+        player_game_round[gameID] = dict_round
+
+
+# fill_player_game(generate_game_id(), list(setGamePriority(list(cartas), list(players))), card_id_list(setGamePriority(list(cartas)), list(players))),
 #                  [20,20,20,20], [3, 1, 45, 0])
 
 def checkMinimun2PlayerWithPoints():
@@ -166,8 +181,11 @@ def orderAllPlayers():
 def setBets():
     # Funcion que establece las apuestas según el tipo de jugador
     for i in game:
-        if players[i]['points'] > 0:
+        if players[i]['bank'] is True:
+            players[i]['bet'] = 0
+        elif players[i]['points'] > 0:
             players[i]['bet'] = math.ceil(players[i]['points'] / 100 * players[i]['type'])
+
 
 
 def standardRound(id, mazo1):
@@ -191,11 +209,25 @@ def standardRound(id, mazo1):
                 else:
                     return tirada_cartas
         else:
+            tirar = 0
             if baknOrderNewCard(id) or chanceExceedingSevenAndHalf(id, mazo1) <= players[id]['type']:
-                nueva_carta = random.choice(mazo1)
-                mazo1.remove(nueva_carta)
-                tirada_cartas.append(nueva_carta)
-                players[id]['roundPoints'] += cartas[nueva_carta]['realValue']
+
+                if len(tirada_cartas) == 0:
+                    nueva_carta = random.choice(mazo1)
+                    mazo1.remove(nueva_carta)
+                    tirada_cartas.append(nueva_carta)
+                    players[id]['roundPoints'] += cartas[nueva_carta]['realValue']
+                else:
+
+                    for i in game:
+                        if players[i]['bank'] is False:
+                            if 7.5 >= players[i]['roundPoints'] > players[id]['roundPoints']:
+                                tirar += 1
+                    if tirar > 0:
+                        nueva_carta = random.choice(mazo1)
+                        mazo1.remove(nueva_carta)
+                        tirada_cartas.append(nueva_carta)
+                        players[id]['roundPoints'] += cartas[nueva_carta]['realValue']
 
             else:
                 return tirada_cartas
@@ -235,7 +267,7 @@ def getOpt(textOpts="", inputOptText="", rangeList=[], exceptions=[]):
 
 def func_text_opts(text='', header=''):
     if header == '':
-        seq = ''
+        seq = '\n'
     else:
         seq = header + '\n\n'
     optlist = text.split(',')
@@ -272,7 +304,9 @@ def chanceExceedingSevenAndHalf(id, mazo2):
 
 
 def printPlayerStats(id):
-    print("Stats of {}".format(players[id]["name"]).center(140, "*"))
+    clear()
+    print('*'*140 + '\n' + gameprint)
+    print(" Stats of {} ".format(players[id]["name"]).center(140, "*"))
     for i in players[id]:
         if i == "cards":
             print(str(i).ljust(55), end="")
@@ -334,16 +368,18 @@ def nif_validator():
 
 
 def addRemovePlayers():
-    menu = "1)New Human Player\n2)New Bot\n3)Show/Remove Players\n4)Go back"
-    opt = getOpt(menu, "Option: ", [1, 2, 3, 4])
-    if opt == 1:
-        print("opt1")
-    elif opt == 2:
-        print("opt2")
-    elif opt == 3:
-        print("opt3")
-    elif opt == 4:
-        print("opt4")
+    while True:
+        opt = getOpt(func_text_opts(add_remove_text, bbddplayers), opt_text, [1, 2, 3, 4])
+        if opt == 1:
+            tup_player = setNewPlayer()
+            savePlayer(tup_player)
+        elif opt == 2:
+            tup_player = setNewPlayer(human = False)
+            savePlayer(tup_player)
+        elif opt == 3:
+            removeBBDDPlayer()
+        elif opt == 4:
+            return False
 
 
 def setMaxRounds():
@@ -566,9 +602,12 @@ def newPlayer(dni, name, profile, human):
     return (dni, dic_aux)
 
 
-def printStats(titulo=""):
+def printStats(titulo_superior="", titulo_inferior=''):
+    clear()
     # PREGUNTAR LAS VARIABLES
-    print(titulo.center(140, "*"))
+    print(titulo_superior.center(140, "*"))
+    print(gameprint)
+    print(titulo_inferior.center(140, "*"))
     lista = ["Name", "Human", "Priority", "Type", "Bank", "Bet", "Points", "Cards", "Roundpoints"]
     arguments = ["name", "human", "priority", "type", "bank", "bet", "points", "cards", "roundPoints"]
     for i in range(0, 9):
@@ -639,6 +678,9 @@ def distributionPointAndNewBankCandidates(banco, sorted_players_main=[]):
                 banca_cobra += players[j]['bet']
                 players[j]['points'] -= players[j]['bet']
             elif players[banco]['roundPoints'] == players[j]['roundPoints']:
+                banca_cobra += players[j]['bet']
+                players[j]['points'] -= players[j]['bet']
+            elif players[j]['roundPoints'] > 7.5:
                 banca_cobra += players[j]['bet']
                 players[j]['points'] -= players[j]['bet']
             elif players[j]['roundPoints'] == 7.5:
@@ -726,8 +768,63 @@ def reset_stats():
         players[i]['roundPoints'] = 0
         players[i]['cards'] = []
 
+def reset_bets():
+    for i in game:
+        players[i]['bet'] = 0
+
+def winner():
+    if len(game) > 1:
+        winner_id = game.copy()
+        for pasada in range(len(winner_id) - 1):
+            lista_ordenada = True
+            for i in range(len(winner_id) - 1 - pasada):
+                if players[game[i]]["points"] < players[game[i+1]]["points"]:
+                    lista_ordenada = False
+                    aux = winner_id[i]
+                    winner_id[i] = winner_id[i + 1]
+                    winner_id[i + 1] = aux
+            if lista_ordenada:
+                break
+
+        return winner_id[0]
+    else:
+        return game[0]
+
+
+def turn_of_human(ronda, player_id, numero_ronda):
+    while True:
+        option = getOpt(func_text_opts(human_opts, ronda), opt_text, list(range(1, 7)))
+        if option == 1:
+            printPlayerStats(player_id)
+            input(enter)
+        elif option == 2:
+            printStats(titulo_inferior=' Round {}, Turn of {} '.format(numero_ronda, players[player_id]['name']))
+            input(enter)
+        elif option == 3:
+            new_bet = 0
+            correct = False
+            clear()
+            while not correct:
+                try:
+                    new_bet = int(input(''.ljust(50) + 'Set new Bet: '))
+                    if new_bet > players[player_id]['points'] or new_bet < 1:
+                        raise TypeError(''.ljust(50)+'The new bet has to be between 1 and {}'.format(players[player_id]['points']))
+                    else:
+                        correct = True
+                except ValueError:
+                    print(''.ljust(50)+'Please, introduce only numbers')
+
+                except TypeError as e:
+                    print(e)
+            players[player_id]['bet'] = new_bet
+            input(enter)
+        elif option == 4:
+            pass
 
 def play_game():
+    ini_hour = datetime.datetime.now()
+    send = False
+    print("SEND = FALSE; CAMBIAR!!!!!")
     resetPoints()
     banca_debe = 0
     banca = ''
@@ -742,38 +839,92 @@ def play_game():
         if priority == 1:
             banca = i[0]
             players[i[0]]['bank'] = True
-
+    rounds = 0
     for i in range(0, contextGame['maxRounds']):
-        print(i)
         mazo = list(cartas)
-        print(game)
+        rounds += 1
         reset_stats()
         setBets()
-
-        printStats()
-
-        input('asdasd')
+        if i == 0:
+            printStats(titulo_superior=' ROUND 1 ')
+            input(enter)
         jugadores_ordenados = orderAllPlayers()
-        #ORDENAR JUGADORES EN JUGADORES_ORDENADOS CADA RONDA
-        for jugador in jugadores_ordenados:
-            # Si es humano, mostrar menu game
-            players[jugador]['cards'] = (standardRound(jugador, mazo))
-            print(players[jugador]['cards'])
+        # ORDENAR JUGADORES EN JUGADORES_ORDENADOS CADA RONDA
+        start_pts = []
+        for id in jugadores_ordenados:
+            start_pts.append(players[id]["points"])
+        # GUARDAMOS LOS PUNTOS INICIALES
 
+        for jugador in jugadores_ordenados:
+            if players[jugador]['human'] is True:
+                imprimir_ronda = '*'*140 + '\n' + gameprint + ' Round {}, Turn of {} '.format(i+1, players[jugador]['name']).center(140, '*')
+                turn_of_human(imprimir_ronda, jugador, rounds)
+            else:
+                players[jugador]['cards'] = (standardRound(jugador, mazo))
+                printStats(titulo_inferior=' Round {}, Turn of {} '.format(i+1, players[jugador]['name']))
+                input(enter)
         distributionPointAndNewBankCandidates(banca, jugadores_ordenados)
 
+        end_pts_round = []
+        for id in jugadores_ordenados:
+            end_pts_round.append(players[id]["points"])
+        # GUARDAMOS LOS PUNTOS FINALES
+
+        player_game_round(gameID, rounds, jugadores_ordenados, start_pts, end_pts_round, banca)
+
+        reset_bets()
         for j in game:
             if players[j]['bank'] is True:
                 banca = j
+        printStats(titulo_superior=' STATS AFTER ROUND {} '.format(i+1))
 
         if not checkMinimun2PlayerWithPoints():
             break
+        out = input('Enter to continue to new Round, exit to leave the game: ')
 
-        printStats()
-        print(game)
-        input('asdasd')
+        if out == 'exit':
+            send = False
+            break
+    str_pts = []
+    end_pts = []
+
+    for id in ply_perma:
+        str_pts.append(20)
+        if players[id]["points"] < 20:
+            end_pts.append(players[id]["points"] - 20)
+        else:
+            end_pts.append(players[id]["points"])
+    end_hour = datetime.datetime.now()
+    fill_player_game(gameID, ply_perma, ini_cards, str_pts, end_pts)
+    fill_cardgame(gameID, len(ply_perma), str(ini_hour), rounds, str(end_hour), contextGame["deck"])
+
     print(gameover)
-    game.clear()
-    print(game)
+    print('The winner is {} - {}, in {} rounds, with {} points.'.format(winner(), players[winner()]['name'], rounds,
+                                                                        players[winner()]['points']).center(140))
+    if send:
+        query = "INSERT INTO cardgame (cardgame_id, players, rounds, start_hour, end_hour, deck_id) " \
+                "VALUES (%s,%s,%s,%s,%s,%s)"
+        cursor.execute(query, (gameID, cardgame[gameID]["players"], cardgame[gameID]["rounds"], cardgame[gameID]["start_hour"],
+                               cardgame[gameID]["end_hour"], cardgame[gameID]["deck"]))
+        db.commit()
+
+        for id in player_game[gameID]:
+            query = "INSERT INTO player_game (cardgame_id, player_id, initial_card_id, starting_points, ending_points)" \
+                    "VALUES (%s,%s,%s,%s,%s)"
+            cursor.execute(query, (gameID, id, player_game[gameID][id]["initial_card_id"], player_game[gameID][id]["starting_points"],
+                                   player_game[gameID][id]["ending_points"]))
+            db.commit()
+        for round in player_game_round[gameID]:
+            for id in player_game_round[gameID][round]:
+                query = "INSERT INTO player_game_round (cardgame_id, round_num, player_id, is_bank, bet_points, cards_value," \
+                        "starting_round_points, ending_round_points) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+                cursor.execute(query, (gameID, round, id, player_game_round[gameID][round]["is_bank"],
+                                       player_game_round[gameID][round]["bet_points"],
+                                       player_game_round[gameID][round]["cards_value"],
+                                       player_game_round[gameID][round]["starting_round_points"],
+                                       player_game_round[gameID][round]["ending_round_points"]))
+                db.commit()
     input(enter)
+    game.clear()
+
 

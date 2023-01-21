@@ -1,3 +1,5 @@
+import datetime
+
 cartas = {
     "O01": {"literal": "As de Oros", "value": 1, "priority": 4, "realValue": 1},
     "O02": {"literal": "Dos de Oros", "value": 2, "priority": 4, "realValue": 2},
@@ -76,8 +78,6 @@ player_game_round = {'round': {
 
 game = []
 cardgame_ids = []
-mazo = list(cartas)
-
 letrasDni = ["T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N",
              "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"]
 

@@ -174,11 +174,37 @@ gameover = '''
 ********************************************************************************************************************************************
 '''
 
+
+gameprint = '''
+                                     _____                         ___              __   __  __      ______
+                                    / ___/___ _   _____  ____     /   |  ____  ____/ /  / / / /___ _/ / __/
+                                    \__ \/ _ \ | / / _ \/ __ \   / /| | / __ \/ __  /  / /_/ / __ `/ / /_
+                                   ___/ /  __/ |/ /  __/ / / /  / ___ |/ / / / /_/ /  / __  / /_/ / / __/
+                                  /____/\___/|___/\___/_/ /_/  /_/  |_/_/ /_/\__,_/  /_/ /_/\__,_/_/_/
+
+'''
+
+playerstats = '''
+********************************************************************************************************************************************
+
+                                       ____   __                             _____  __          __
+                                      / __ \ / /____ _ __  __ ___   _____   / ___/ / /_ ____ _ / /_ _____
+                                     / /_/ // // __ `// / / // _ \ / ___/   \__ \ / __// __ `// __// ___/
+                                    / ____// // /_/ // /_/ //  __// /      ___/ // /_ / /_/ // /_ (__  )
+                                   /_/    /_/ \__,_/ \__, / \___//_/      /____/ \__/ \__,_/ \__//____/
+                                                    /____/
+
+
+'''
+
+
+
+
 opts_main = '1)Add/Remove/Show Players,2)Settings,3)Play Game,4)Ranking,5)Reports,6)Exit'
-opts_bbdd = '1)New Human Player,2)New Bot,3)Show/Remove Players,4)Go back'
 opts_settings = "1)Set Game Players,2)Set Card's Deck,3)Set Max Rounds (Default 5 Rounds),4)Go back"
 opts_ranking = "1)Players With More Earnings,2)Players With More Games Played,3)Players With More Minutes Played,4)Go back"
-
+human_opts = "1)View Stats,2)View Game Stats,3)Set Bet,4)Order Card,5)Automatic Play,6)Stand"
+add_remove_text = '1)New Human Player,2)New Bot,3)Show/Remove Players,4)Go back'
 opt_text = 'Option: '
 enter = 'Enter to continue'.center(140)
 onlynumbers = ' Please, introduce only numbers '.center(140, '=')
@@ -190,3 +216,4 @@ set_game_players_cabecera = setgameplayers + '\n' + ' Select Players '.center(14
                             + '||' + 'Human Players'.center(69) + '\n' + '_'*140 + '\n' + 'ID'.ljust(14) + '  ' + \
                             'Name'.ljust(30) + '  ' + 'Type'.ljust(20) + ' ' + '||' + '  ' + 'ID'.ljust(14) + '  ' + \
                             'Name'.ljust(30) + '  ' + 'Type'.ljust(18) + ' ' + '\n' + '*'*140 + '\n'
+
