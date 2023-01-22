@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="949ad04a-035b-4b17-b0c2-95b0e41fb6cb" name="Changes" comment="commit23:17">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22_01_2023_15_32__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22_01_2023_15_32__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/funciones.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/funciones.py" afterDir="false" />
-    </list>
+    <list default="true" id="949ad04a-035b-4b17-b0c2-95b0e41fb6cb" name="Changes" comment="commit23:46" />
     <list id="5c742a21-ddf7-4ec4-bd08-9707415343bd" name="Changes by pabloos e_ " comment="Changes by pabloos e_" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -282,7 +278,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674236000143</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="commit23:46">
+      <created>1674427618408</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1674427618408</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -309,6 +312,7 @@
     <MESSAGE value="commit reports entera" />
     <MESSAGE value="commit reports" />
     <MESSAGE value="commit MYSQL files actualizado" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit MYSQL files actualizado" />
+    <MESSAGE value="commit23:46" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit23:46" />
   </component>
 </project>
