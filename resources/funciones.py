@@ -219,8 +219,8 @@ def standardRound(id, mazo1, tirada_cartas = []):
                     mazo1.remove(nueva_carta)
                     tirada_cartas.append(nueva_carta)
                     players[id]['roundPoints'] += cartas[nueva_carta]['realValue']
-                else:
 
+                else:
                     for i in game:
                         if players[i]['bank'] is False:
                             if 7.5 >= players[i]['roundPoints'] > players[id]['roundPoints']:
@@ -230,6 +230,8 @@ def standardRound(id, mazo1, tirada_cartas = []):
                         mazo1.remove(nueva_carta)
                         tirada_cartas.append(nueva_carta)
                         players[id]['roundPoints'] += cartas[nueva_carta]['realValue']
+                    else:
+                        return tirada_cartas
 
             else:
                 return tirada_cartas
@@ -410,8 +412,8 @@ def removeBBDDPlayer():
                 if opt[1] == "1" and len(opt) == 2:
                     clear()
                     break
-                elif len(opt) == 10 and opt[1:] in list(players.keys()):
-                    print(opt[1:])
+                elif len(opt) == 10 and opt[1:] in list(players.keys()) and opt[1:] not in game:
+                    print(''.ljust(50) + opt[1:], 'has been deleted')
                     input()
                     delBBDDPlayer(opt[1:])
                 else:
@@ -692,9 +694,9 @@ def setNewPlayer(human=True):
 
     correct = False
     while not correct:
-        name = input("Name: ")
+        name = input(''.ljust(50)+"Name: ")
         if not name.isalnum():
-            print("Incorrect name, please, enter a name not empty with only letters")
+            print(''.ljust(50)+"Incorrect name, please, enter a name not empty with only letters")
         else:
             correct = True
     tup_player = (dni, name, profile, human)
@@ -709,7 +711,7 @@ def newPlayer(dni, name, profile, human):
 
 def printStats(titulo_superior="", titulo_inferior=''):
     clear()
-    # PREGUNTAR LAS VARIABLES
+
     print(titulo_superior.center(140, "*"))
     print(gameprint)
     print(titulo_inferior.center(140, "*"))
@@ -717,7 +719,7 @@ def printStats(titulo_superior="", titulo_inferior=''):
     arguments = ["name", "human", "priority", "type", "bank", "bet", "points", "cards", "roundPoints"]
     for i in range(0, 9):
         seq = lista[i].ljust(20) + " "*5
-        for j in game:
+        for j in game[:3]:
             if arguments[i] != "cards":
                 seq += str(players[j][arguments[i]]).ljust(40)
             else:
@@ -731,7 +733,24 @@ def printStats(titulo_superior="", titulo_inferior=''):
                         cards += ";" + k
                 seq += cards.ljust(40)
         print(seq)
-
+    if len(game) > 3:
+        print('*'*140)
+        for i in range(0, 9):
+            seq = lista[i].ljust(20) + " " * 5
+            for j in game[3:]:
+                if arguments[i] != "cards":
+                    seq += str(players[j][arguments[i]]).ljust(40)
+                else:
+                    cards = ""
+                    primero = True
+                    for k in players[j]["cards"]:
+                        if primero:
+                            primero = False
+                            cards += k
+                        else:
+                            cards += ";" + k
+                    seq += cards.ljust(40)
+            print(seq)
 def set_card_deck():
     query = "select deck_id from deck;"
     cursor.execute(query)
@@ -981,8 +1000,7 @@ def turn_of_human(ronda, player_id, numero_ronda, mazo1):
 def play_game():
     getPlayers()
     ini_hour = datetime.datetime.now()
-    send = False
-    print("SEND = FALSE; CAMBIAR!!!!!")
+    send = True
     resetPoints()
     banca_debe = 0
     banca = ''
