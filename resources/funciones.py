@@ -503,10 +503,24 @@ def addRemovePlayers():
         opt = getOpt(func_text_opts(add_remove_text, bbddplayers), opt_text, [1, 2, 3, 4])
         if opt == 1:
             tup_player = setNewPlayer()
-            savePlayer(tup_player)
+            save = input(''.ljust(50)+'Do you want to save the new player? Y/y= Yes, other key = No: ')
+            if save.casefold() == 'y':
+                savePlayer(tup_player)
+                print(''.ljust(50)+'Player saved')
+                input(ljust_enter)
+            else:
+                print(''.ljust(50)+'Player not saved')
+                input(ljust_enter)
         elif opt == 2:
             tup_player = setNewPlayer(human = False)
-            savePlayer(tup_player)
+            save = input(''.ljust(50)+'Do you want to save the new player? Y/y= Yes, other key = No: ')
+            if save.casefold() == 'y':
+                savePlayer(tup_player)
+                print(''.ljust(50)+'Player saved')
+                input(ljust_enter)
+            else:
+                print(''.ljust(50)+'Player not saved')
+                input(ljust_enter)
         elif opt == 3:
             removeBBDDPlayer()
         elif opt == 4:
