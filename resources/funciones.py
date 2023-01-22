@@ -133,6 +133,10 @@ def fill_cardgame(gameID, num_players, start_hour = "", rounds = 0, end_hour = "
     cardgame[gameID] = {'players': num_players, "start_hour": start_hour, 'rounds': rounds, 'end_hour': end_hour, "deck": deck}
 
 def playergameround(gameID, round, jugadores = [], start_points = [], end_points = [], id_bank = ""):
+    # PRE: gameID, ID de la partida; round, número de ronda; jugadores, lista con los jugadores ordenados; start_points,
+    #      lista con los puntos inicales de cada jugador en la ronda ordenados segun la lista jugadores; end_points,
+    #      lista con los puntos finales de cada jugador en la ronda ordenados segun la lista jugadores; id_bank, id de la banca,
+    # POST: guarda en el diccionario player_game_round los datos de la ronda
     for i in range(len(jugadores)):
         if jugadores[i] == id_bank:
             stats = {'is_bank': True, 'bet_points': None, 'starting_round_points': start_points[i],
@@ -145,8 +149,8 @@ def playergameround(gameID, round, jugadores = [], start_points = [], end_points
 
 
 def checkMinimun2PlayerWithPoints():
-    # Funcion que devuelve True si hay 2 o más jugadores con puntos, de lo contrario devuelve False
-
+    # PRE: No recibe ningun parámetro
+    # POST: devuelve True si hay 2 o más jugadores con puntos, de lo contrario devuelve False
     contador = 0
     for i in game:
         if players[i]['points'] > 0:
@@ -160,8 +164,8 @@ def checkMinimun2PlayerWithPoints():
     return seguir_jugando
 
 def orderAllPlayers():
-    # Funcion que crea una lista con los puntos de los jugadores y ordena la lista de jugadores de forma inversa segun su prioridad, pone la banca al principio
-    # POST: Devuelve una lista con los ID_player ordenados.
+    # PRE: No recibe ningun parámetro
+    # POST: Devuelve una lista con los ID_player ordenados segun el orden de escoger cartas.
     prioridad = []
     for i in game:
         prioridad.append(players[i]['priority'])
@@ -182,7 +186,8 @@ def orderAllPlayers():
     return game
 
 def setBets():
-    # Funcion que establece las apuestas según el tipo de jugador
+    # PRE: No recibe ningun parámetro
+    # POST: establece las apuestas según el tipo de jugador
     for i in game:
         if players[i]['bank'] is True:
             players[i]['bet'] = 0
@@ -192,7 +197,9 @@ def setBets():
 
 
 def standardRound(id, mazo1, tirada_cartas = []):
-
+    # PRE: id, id del jugador; mazo1, mazo de cartas sin las cartas que ya se han jugado; tirada_cartas, cartas que ha podido
+    #      coger antes de pulsar automatic play
+    # POST: Lista con las cartas escogidas
     while True:
         if players[id]['bank'] == False:
 
@@ -269,6 +276,8 @@ def getOpt(textOpts="", inputOptText="", rangeList=[], exceptions=[]):
 
 
 def func_text_opts(text='', header=''):
+    # PRE: text, se le pasa un texto; header, se le pasa el header que se quiera poner al principio del print
+    # POST: muestra un header y un texto debajo centrado, si el texto lleva comas estas se interpretan como saltos de linea.
     if header == '':
         seq = '\n'
     else:
@@ -280,6 +289,8 @@ def func_text_opts(text='', header=''):
 
 
 def orderPlayersByPoints(listaDNIs):
+    # PRE: listaDNIs, lista con los DNI's de los jugadores
+    # POST: devuelve la lista ordenada según los puntos de los jugadores
     dic_PL_Points = {}
     # Llamamos a una funcion que pida los DNI y calcule los puntos que tiene un jugador a la BBDD,
     # y los devuelva en formato diccionario; dni: puntos
@@ -298,6 +309,8 @@ def orderPlayersByPoints(listaDNIs):
 
 
 def chanceExceedingSevenAndHalf(id, mazo2):
+    # PRE: id, id del jugador; mazo2, mazo sin las cartas ya jugadas
+    # POST: devuelve el riesgo de exceder el 7.5 según los puntos que tienes
     bad_cards = 0
     for i in mazo2:
         if cartas[i]["realValue"] + players[id]["roundPoints"] > 7.5:
@@ -307,6 +320,8 @@ def chanceExceedingSevenAndHalf(id, mazo2):
 
 
 def printPlayerStats(id):
+    # PRE: id, id del jugador
+    # POST: imprime las stats del jugador
     clear()
     print('*'*140 + '\n' + gameprint)
     print(" Stats of {} ".format(players[id]["name"]).center(140, "*"))
@@ -326,6 +341,8 @@ def printPlayerStats(id):
 
 
 def baknOrderNewCard(id):
+    # PRE: id, id del jugador
+    # POST: Devuelve true si la banca esta obligada a coger carta o false si no lo está
     earnings = 0
     looses = 0
     ret = False
@@ -346,7 +363,7 @@ def baknOrderNewCard(id):
 
 
 def nif_validator():
-    # PRE:
+    # PRE: No recibe ningun parámetro, pide que intoduzcas un dni
     # POST: Devuelve un NIF válido
     getPlayers()
     correct = False
@@ -371,11 +388,15 @@ def nif_validator():
     return newnif.upper()
 
 def savePlayer(tup_player):
+    # PRE: tup_player, tupla con los datos del jugador
+    # POST: Guarda los datos del jugador en la BBDD
     query = "INSERT INTO player (player_id, player_name, player_risk, human) VALUES (%s,%s,%s,%s);"
     cursor.execute(query, tup_player)
     db.commit()
 
 def getPlayers():
+    # PRE: no recibe ningún parámetro
+    # POST: Actualiza el diccionario players, con los payers de la BBDD
     players.clear()
     query = "SELECT * FROM player;"
     cursor.execute(query)
@@ -394,11 +415,15 @@ def getPlayers():
         players.update(dict_aux)
 
 def delBBDDPlayer(nif):
+    # PRE: nif, dni del jugador
+    # POST: elimina los datos del jugador en la BBDD
     query = "DELETE FROM player WHERE player_id = '" + nif + "';"
     cursor.execute(query)
     db.commit()
 
 def removeBBDDPlayer():
+    # PRE: no recibe ningún parámetro
+    # POST: Muestra el menu ShowAndRemove
     while True:
         clear()
         getPlayers()
@@ -427,6 +452,8 @@ def removeBBDDPlayer():
             input("")
 
 def showhPlayersBBDD():
+    # PRE: no recibe ningún parámetro
+    # POST: Muestra los players de la BBDD separados entre bots y humanos
     bots = []
     humans = []
     for id in players:
@@ -470,6 +497,8 @@ def showhPlayersBBDD():
     print("*"*140)
 
 def addRemovePlayers():
+    # PRE: no recibe ningún parámetro
+    # POST: muestra el menu addRemovePlayers
     while True:
         opt = getOpt(func_text_opts(add_remove_text, bbddplayers), opt_text, [1, 2, 3, 4])
         if opt == 1:
@@ -485,6 +514,8 @@ def addRemovePlayers():
 
 
 def setMaxRounds():
+    # PRE: no recibe ningún parámetro
+    # POST: establece el máximo de rondas deseadas
     correct = False
     rounds = 5
     while not correct:
@@ -506,6 +537,8 @@ def setMaxRounds():
 
 
 def tipo_de_riesgo(id):
+    # PRE: id, id del jugador
+    # POST: transforma el riesgo numérico a texto
     riesgo = ''
     if players[id]['type'] == 30:
         riesgo = 'Cautious'
@@ -517,12 +550,16 @@ def tipo_de_riesgo(id):
     return riesgo
 
 def bot_or_human(dni):
+    # PRE: id, id del jugador
+    # POST: devuelve si la id introducida es de un bot o un humano
     if players[dni]['human'] is True:
         return 'Human'
     elif players[dni]['human'] is False:
         return 'Bot'
 
 def setPlayersGame():
+    # PRE: no recibe ningún parámetro
+    # POST: muestra los jugadores disponibles para una partida, y los guarda en la lista game si son seleccionados
     getPlayers()
     clear()
     actualPlayers = setgameplayers + '\n' * 3 + '********************** Actual Players In Game **********************'.center(
@@ -903,6 +940,10 @@ def winner():
     return game1[0]
 
 def turn_of_human(ronda, player_id, numero_ronda, mazo1):
+    # PRE: ronda, texto de la ronda; player_id, Id del jugador; numero_ronda, número de ronda; mazo1, mazo de cartas
+    #      sin las cartas ya jugadas
+    # POST: Muestra el menu de opciones una vez es el turno de un humano: Print Player stats, print game stats,
+    # Set bet, Order new card, automatic play y Stand
     tirada_cartas = []
     carta_pedida = False
     while True:
@@ -981,6 +1022,8 @@ def turn_of_human(ronda, player_id, numero_ronda, mazo1):
             break
 
 def play_game():
+    # PRE: No recive ningun parámetro
+    # POST: muestra el juego y sus estadísticas
     getPlayers()
     ini_hour = datetime.datetime.now()
     send = True
@@ -1097,6 +1140,8 @@ def play_game():
 
 
 def reports():
+    # PRE: No recive ningun parámetro
+    # POST: muestra el menú reports y si es seleccionada, muestra el contenido de la query
     while True:
         seq = "1)Number of players who have been bank in each game,2)Average bet in each game," \
               "3)Average bet in the first round in each game,4)Average bet in the last round in each game," \
@@ -1184,6 +1229,8 @@ def reports():
             return False
 
 def getBBDDRanking():
+    # PRE: No recive ningun parámetro
+    # POST: devuelve el diccionario rank con el contenido de la view "player_earnings" de la BBDD
     query = "SELECT * FROM player_earnings;"
     cursor.execute(query)
     result = cursor.fetchall()
@@ -1194,6 +1241,8 @@ def getBBDDRanking():
     return rank
 
 def returnListRanking(rank, field="earnings"):
+    # PRE: rank, es un diccionario; field, es una key del diccionario rank
+    # POST: devuelve el diccionario rank ordenado según el campo deseado en field
     listR = list(rank.keys())
     for pasada in range(len(listR) - 1):
         lista_ordenada = True
@@ -1208,6 +1257,8 @@ def returnListRanking(rank, field="earnings"):
     return listR
 
 def ranking():
+    # PRE: No recibe ningún parámetro
+    # POST: Genera el menu ranking
     while True:
         seq = "1)Players With More Earnings,2)Players With More Games Played,3)Players With More Minutes Played,4)Go back"
         opt = getOpt(func_text_opts(seq, ranking_header), "Option: ", [1, 2, 3, 4])
