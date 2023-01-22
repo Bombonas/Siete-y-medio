@@ -102,9 +102,8 @@ def generate_game_id():
     query = "SELECT count(cardgame_id) FROM cardgame;"
     cursor.execute(query)
     result = cursor.fetchall()
-    new_cardgame_id = result[0][0]
+    new_cardgame_id = result[0][0] + 1
     return new_cardgame_id
-
 
 def card_id_list(diccionario):
     lista_card_id = []
@@ -136,9 +135,9 @@ def playergameround(gameID, round, jugadores = [], start_points = [], end_points
         else:
             stats = {'is_bank': False, 'bet_points': players[jugadores[i]]["bet"], 'starting_round_points': start_points[i],
                      'cards_value': players[jugadores[i]]["roundPoints"], 'ending_round_points': end_points[i]}
-        dict_pl = {jugadores[i]: stats}
-        dict_round = {round: dict_pl}
-        player_game_round[gameID] = dict_round
+
+        player_game_round[gameID][round][jugadores[i]] = stats
+
 
 def checkMinimun2PlayerWithPoints():
     # Funcion que devuelve True si hay 2 o más jugadores con puntos, de lo contrario devuelve False
@@ -1005,6 +1004,7 @@ def play_game():
         ini_cards.append(tup[1])
     priority = 0
     gameID = generate_game_id()
+    player_game_round[gameID] = {}
     for i in order:
         jugadores_ordenados.append(i[0])
         priority += 1
@@ -1043,7 +1043,7 @@ def play_game():
         for id in jugadores_ordenados:
             end_pts_round.append(players[id]["points"])
         # GUARDAMOS LOS PUNTOS FINALES
-
+        player_game_round[gameID][rounds] = {}
         playergameround(gameID, rounds, jugadores_ordenados, start_pts, end_pts_round, banca)
 
         reset_bets()
@@ -1081,13 +1081,13 @@ def play_game():
         cursor.execute(query, (gameID, cardgame[gameID]["players"], cardgame[gameID]["rounds"], cardgame[gameID]["start_hour"],
                                cardgame[gameID]["end_hour"], cardgame[gameID]["deck"]))
         db.commit()
-
         for id in player_game[gameID]:
             query = "INSERT INTO player_game (cardgame_id, player_id, initial_card_id, starting_points, ending_points)" \
                     "VALUES (%s,%s,%s,%s,%s)"
             cursor.execute(query, (gameID, id, player_game[gameID][id]["initial_card_id"], player_game[gameID][id]["starting_points"],
                                    player_game[gameID][id]["ending_points"]))
             db.commit()
+
         for round in player_game_round[gameID]:
             for id in player_game_round[gameID][round]:
                 query = "INSERT INTO player_game_round (cardgame_id, round_num, player_id, bet_points, is_bank, cards_value," \
@@ -1098,87 +1098,98 @@ def play_game():
                                        player_game_round[gameID][round][id]["starting_round_points"],
                                        player_game_round[gameID][round][id]["ending_round_points"]))
                 db.commit()
+
     input(enter)
     game.clear()
 
 
 
 def reports():
-    seq = "1)Number of players who have been bank in each game,2)Average bet in each game," \
-          "3)Average bet in the first round in each game,4)Average bet in the last round in each game," \
-          "5)Player who places the lowest bet per game,6)List of games won by Bots," \
-          "7)Player who places the highest wager in each game"
-    opt = getOpt(func_text_opts(seq, reports_header), "Option(0 to go back): ", [0, 1, 2, 3, 4, 5, 6, 7])
-    if opt == 1:
-        clear()
-        print("Number of players who have been bank in each game")
-        query = "select pb.cardgame_id, count(pb.player_id) from (select player_id, cardgame_id from player_game_round where is_bank = 1 group by player_id, cardgame_id) as pb group by cardgame_id;"
-        cursor.execute(query)
-        result = cursor.fetchall()
-        print(" ".ljust(50), "Game ID", " "*5, "Number of Banks", sep="")
-        for row in result:
-            print(" ".ljust(50), row[0], " "*10, row[1], sep="")
-        input(ljust_enter)
-    elif opt == 2:
-        clear()
-        print("Average bet in each game")
-        query = "select pb.cardgame_id, avg(pb.bet_points) from (select cardgame_id, bet_points from player_game_round) as pb group by pb.cardgame_id;"
-        cursor.execute(query)
-        result = cursor.fetchall()
-        print(" ".ljust(50), "Game ID", " " * 5, "Average bet", sep="")
-        for row in result:
-            print(" ".ljust(50), row[0], " "*10, row[1], sep="")
-        input(ljust_enter)
-    elif opt == 3:
-        clear()
-        print("Average bet in the first round in each game")
-        query = "select ab.cardgame_id, avg(ab.bet_points) from (select cardgame_id, bet_points from player_game_round where round_num = 1 and bet_points is not NULL) as ab group by ab.cardgame_id;"
-        cursor.execute(query)
-        result = cursor.fetchall()
-        print(" ".ljust(50), "Game ID", " " * 5, "Average bet", sep="")
-        for row in result:
-            print(" ".ljust(50), row[0], " "*10, row[1], sep="")
-        input(ljust_enter)
-    elif opt == 4:
-        clear()
-        print("Average bet in the last round in each game")
-        query = "select p.cardgame_id, avg(p.bet_points) from (select cardgame_id, max(round_num) as last_round from player_game_round group by cardgame_id) as ab, player_game_round p  where p.cardgame_id = ab.cardgame_id and round_num = ab.last_round group by p.cardgame_id;"
-        cursor.execute(query)
-        result = cursor.fetchall()
-        print(" ".ljust(50), "Game ID", " " * 5, "Average bet", sep="")
-        for row in result:
-            print(" ".ljust(50), row[0], " "*10, row[1], sep="")
-        input(ljust_enter)
-    elif opt == 5:
-        clear()
-        print("Player who places the lowest bet per game")
-        query = "select lb.cardgame_id, p.player_id, lb.min_bet from (select cardgame_id, min(bet_points) as min_bet from player_game_round where bet_points is not null group by cardgame_id) as lb, player_game_round p where p.cardgame_id = lb.cardgame_id and  p.bet_points = lb.min_bet;"
-        cursor.execute(query)
-        result = cursor.fetchall()
-        print(" ".ljust(50), "Game ID", " " * 5, "Player NIF", " " * 5, "Bet", sep="")
-        for row in result:
-            print(" ".ljust(50), row[0], " "*10, row[1], " "*10, row[2], sep="")
-        input(ljust_enter)
-    elif opt == 6:
-        clear()
-        print("List of games won by Bots")
-        query = "select pg.cardgame_id, w.win_pts, pg.player_id from (select cardgame_id, max(ending_points) as win_pts from player_game group by cardgame_id) as w, player_game pg, player p where pg.cardgame_id = w.cardgame_id and p.player_id = pg.player_id and  pg.ending_points = w.win_pts and p.human = 0;"
-        cursor.execute(query)
-        result = cursor.fetchall()
-        print(" ".ljust(50), "Game ID", " " * 5, "Points", " " * 5, "Bot NIF", sep="")
-        for row in result:
-            print(" ".ljust(50), row[0], " " * 10, row[1], " " * 10, row[2], sep="")
-        input(ljust_enter)
-    elif opt == 7:
-        clear()
-        print("Player who places the highest bet in each game")
-        query = "select lb.cardgame_id, p.player_id, lb.max_bet from (select cardgame_id, max(bet_points) as max_bet from player_game_round where bet_points is not null group by cardgame_id) as lb, player_game_round p where p.cardgame_id = lb.cardgame_id and  p.bet_points = lb.max_bet;"
-        cursor.execute(query)
-        result = cursor.fetchall()
-        print(" ".ljust(50), "Game ID", " " * 5, "Player NIF", " " * 5, "Bet", sep="")
-        for row in result:
-            print(" ".ljust(50), row[0], " " * 10, row[1], " " * 10, row[2], sep="")
-        input(ljust_enter)
+    while True:
+        seq = "1)Number of players who have been bank in each game,2)Average bet in each game," \
+              "3)Average bet in the first round in each game,4)Average bet in the last round in each game," \
+              "5)Player who places the lowest bet per game,6)List of games won by Bots," \
+              "7)Player who places the highest bet in each game"
+        opt = getOpt(func_text_opts(seq, reports_header), "Option(0 to go back): ", [0, 1, 2, 3, 4, 5, 6, 7])
+        if opt == 1:
+            clear()
+            print(reports_header)
+            print("Number of players who have been bank in each game".center(140))
+            query = "select pb.cardgame_id, count(pb.player_id) from (select player_id, cardgame_id from player_game_round where is_bank = 1 group by player_id, cardgame_id) as pb group by cardgame_id;"
+            cursor.execute(query)
+            result = cursor.fetchall()
+            print(" ".ljust(50), "Game ID".ljust(14), "Number of Banks", sep="")
+            for row in result:
+                print(" ".ljust(50), str(row[0]).ljust(14), row[1], sep="")
+            input(ljust_enter)
+        elif opt == 2:
+            clear()
+            print(reports_header)
+            print("Average bet in each game".center(140))
+            query = "select pb.cardgame_id, avg(pb.bet_points) from (select cardgame_id, bet_points from player_game_round) as pb group by pb.cardgame_id;"
+            cursor.execute(query)
+            result = cursor.fetchall()
+            print(" ".ljust(50), "Game ID".ljust(14), "Average bet", sep="")
+            for row in result:
+                print(" ".ljust(50), str(row[0]).ljust(14), row[1], sep="")
+            input(ljust_enter)
+        elif opt == 3:
+            clear()
+            print(reports_header)
+            print("Average bet in the first round in each game".center(140))
+            query = "select ab.cardgame_id, avg(ab.bet_points) from (select cardgame_id, bet_points from player_game_round where round_num = 1 and bet_points is not NULL) as ab group by ab.cardgame_id;"
+            cursor.execute(query)
+            result = cursor.fetchall()
+            print(" ".ljust(50), "Game ID".ljust(14), "Average bet", sep="")
+            for row in result:
+                print(" ".ljust(50), str(row[0]).ljust(14), row[1], sep="")
+            input(ljust_enter)
+        elif opt == 4:
+            clear()
+            print(reports_header)
+            print("Average bet in the last round in each game".center(140))
+            query = "select p.cardgame_id, avg(p.bet_points) from (select cardgame_id, max(round_num) as last_round from player_game_round group by cardgame_id) as ab, player_game_round p  where p.cardgame_id = ab.cardgame_id and round_num = ab.last_round group by p.cardgame_id;"
+            cursor.execute(query)
+            result = cursor.fetchall()
+            print(" ".ljust(50), "Game ID".ljust(14), "Average bet", sep="")
+            for row in result:
+                print(" ".ljust(50), str(row[0]).ljust(14), row[1], sep="")
+            input(ljust_enter)
+        elif opt == 5:
+            clear()
+            print(reports_header)
+            print("Player who places the lowest bet per game".center(140))
+            query = "select lb.cardgame_id, p.player_id, lb.min_bet from (select cardgame_id, min(bet_points) as min_bet from player_game_round where bet_points is not null group by cardgame_id) as lb, player_game_round p where p.cardgame_id = lb.cardgame_id and  p.bet_points = lb.min_bet;"
+            cursor.execute(query)
+            result = cursor.fetchall()
+            print(" ".ljust(50), "Game ID".ljust(14), "Player NIF".ljust(14), "Bet", sep="")
+            for row in result:
+                print(" ".ljust(50), str(row[0]).ljust(14), str(row[1]).ljust(14), row[2], sep="")
+            input(ljust_enter)
+        elif opt == 6:
+            clear()
+            print(reports_header)
+            print("List of games won by Bots".center(140))
+            query = "select pg.cardgame_id, w.win_pts, pg.player_id from (select cardgame_id, max(ending_points) as win_pts from player_game group by cardgame_id) as w, player_game pg, player p where pg.cardgame_id = w.cardgame_id and p.player_id = pg.player_id and  pg.ending_points = w.win_pts and p.human = 0;"
+            cursor.execute(query)
+            result = cursor.fetchall()
+            print(" ".ljust(50), "Game ID".ljust(14), "Points".ljust(14), "Bot NIF", sep="")
+            for row in result:
+                print(" ".ljust(50), str(row[0]).ljust(14), str(row[1]).ljust(14), row[2], sep="")
+            input(ljust_enter)
+        elif opt == 7:
+            clear()
+            print(reports_header)
+            print("Player who places the highest bet in each game".center(140))
+            query = "select lb.cardgame_id, p.player_id, lb.max_bet from (select cardgame_id, max(bet_points) as max_bet from player_game_round where bet_points is not null group by cardgame_id) as lb, player_game_round p where p.cardgame_id = lb.cardgame_id and  p.bet_points = lb.max_bet;"
+            cursor.execute(query)
+            result = cursor.fetchall()
+            print(" ".ljust(50), "Game ID".ljust(14), "Player NIF".ljust(14), "Bet", sep="")
+            for row in result:
+                print(" ".ljust(50), str(row[0]).ljust(14), str(row[1]).ljust(14), row[2], sep="")
+            input(ljust_enter)
+        elif opt == 0:
+            return False
 
 def getBBDDRanking():
     query = "SELECT * FROM player_earnings;"
@@ -1187,7 +1198,7 @@ def getBBDDRanking():
     rank = {}
     for row in result:
         dict_aux = {"earnings": row[1], "games_played": row[2], "minutes_played": row[3]}
-        rank = {row[0]: dict_aux}
+        rank[row[0]] = dict_aux
     return rank
 
 def returnListRanking(rank, field="earnings"):
