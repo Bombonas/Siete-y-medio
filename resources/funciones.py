@@ -129,20 +129,16 @@ def fill_cardgame(gameID, num_players, start_hour = "", rounds = 0, end_hour = "
     cardgame[gameID] = {'players': num_players, "start_hour": start_hour, 'rounds': rounds, 'end_hour': end_hour, "deck": deck}
 
 def playergameround(gameID, round, jugadores = [], start_points = [], end_points = [], id_bank = ""):
-    for id in jugadores:
-        if id == id_bank:
-            stats = {'is_bank': True, 'bet_points': "NULL", 'starting_round_points': start_points,
-                    'cards_value': players[id]["roundPoints"], 'ending_round_points': end_points}
+    for i in range(len(jugadores)):
+        if jugadores[i] == id_bank:
+            stats = {'is_bank': True, 'bet_points': None, 'starting_round_points': start_points[i],
+                    'cards_value': players[jugadores[i]]["roundPoints"], 'ending_round_points': end_points[i]}
         else:
-            stats = {'is_bank': False, 'bet_points': players[id]["bet"], 'starting_round_points': start_points,
-                     'cards_value': players[id]["roundPoints"], 'ending_round_points': end_points}
-        dict_pl = {id: stats}
+            stats = {'is_bank': False, 'bet_points': players[jugadores[i]]["bet"], 'starting_round_points': start_points[i],
+                     'cards_value': players[jugadores[i]]["roundPoints"], 'ending_round_points': end_points[i]}
+        dict_pl = {jugadores[i]: stats}
         dict_round = {round: dict_pl}
         player_game_round[gameID] = dict_round
-
-
-# fill_player_game(generate_game_id(), list(setGamePriority(list(cartas), list(players))), card_id_list(setGamePriority(list(cartas)), list(players))),
-#                  [20,20,20,20], [3, 1, 45, 0])
 
 def checkMinimun2PlayerWithPoints():
     # Funcion que devuelve True si hay 2 o más jugadores con puntos, de lo contrario devuelve False
@@ -911,23 +907,36 @@ def reset_bets():
         players[i]['bet'] = 0
 
 def winner():
-    if len(game) > 1:
-        winner_id = game.copy()
-        for pasada in range(len(winner_id) - 1):
-            lista_ordenada = True
-            for i in range(len(winner_id) - 1 - pasada):
-                if players[game[i]]["points"] < players[game[i+1]]["points"]:
-                    lista_ordenada = False
-                    aux = winner_id[i]
-                    winner_id[i] = winner_id[i + 1]
-                    winner_id[i + 1] = aux
-            if lista_ordenada:
-                break
+    # if len(game) > 1:
+    #     winner_id = game.copy()
+    #     for pasada in range(len(winner_id) - 1):
+    #         lista_ordenada = True
+    #         for i in range(len(winner_id) - 1 - pasada):
+    #             if players[game[i]]["points"] < players[game[i+1]]["points"]:
+    #                 lista_ordenada = False
+    #                 aux = winner_id[i]
+    #                 winner_id[i] = winner_id[i + 1]
+    #                 winner_id[i + 1] = aux
+    #         if lista_ordenada:
+    #             break
+    #
+    #     return winner_id[0]
+    # else:
+    #     return game[0]
 
-        return winner_id[0]
-    else:
-        return game[0]
+    game1 = game.copy()
+    prioridad = []
+    for i in game:
+        prioridad.append(players[i]['points'])
 
+    mida_llista = len(prioridad)
+
+    for i in range(mida_llista - 1):
+        for j in range(0, mida_llista - i - 1):
+            if prioridad[j] < prioridad[j + 1]:
+                prioridad[j], prioridad[j + 1] = prioridad[j + 1], prioridad[j]
+                game1[j], game1[j + 1] = game1[j + 1], game1[j]
+    return game1[0]
 
 def turn_of_human(ronda, player_id, numero_ronda, mazo1):
     tirada_cartas = []
@@ -1043,7 +1052,7 @@ def play_game():
                 imprimir_ronda = '*'*140 + '\n' + gameprint + ' Round {}, Turn of {} '.format(i+1, players[jugador]['name']).center(140, '*')
                 turn_of_human(imprimir_ronda, jugador, rounds, mazo)
             else:
-                players[jugador]['cards'] = (standardRound(jugador, mazo))
+                players[jugador]['cards'] = (standardRound(jugador, mazo, []))
                 printStats(titulo_inferior=' Round {}, Turn of {} '.format(i+1, players[jugador]['name']))
                 input(enter)
         distributionPointAndNewBankCandidates(banca, jugadores_ordenados)
@@ -1099,13 +1108,13 @@ def play_game():
             db.commit()
         for round in player_game_round[gameID]:
             for id in player_game_round[gameID][round]:
-                query = "INSERT INTO player_game_round (cardgame_id, round_num, player_id, is_bank, bet_points, cards_value," \
+                query = "INSERT INTO player_game_round (cardgame_id, round_num, player_id, bet_points, is_bank, cards_value," \
                         "starting_round_points, ending_round_points) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-                cursor.execute(query, (gameID, round, id, player_game_round[gameID][round]["is_bank"],
-                                       player_game_round[gameID][round]["bet_points"],
-                                       player_game_round[gameID][round]["cards_value"],
-                                       player_game_round[gameID][round]["starting_round_points"],
-                                       player_game_round[gameID][round]["ending_round_points"]))
+                cursor.execute(query, (gameID, round, id, player_game_round[gameID][round][id]["bet_points"],
+                                       player_game_round[gameID][round][id]["is_bank"],
+                                       player_game_round[gameID][round][id]["cards_value"],
+                                       player_game_round[gameID][round][id]["starting_round_points"],
+                                       player_game_round[gameID][round][id]["ending_round_points"]))
                 db.commit()
     input(enter)
     game.clear()
