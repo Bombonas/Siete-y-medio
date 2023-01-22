@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <title>Siete y medio</title>
+        <link rel="stylesheet" href="desarrollo2.css">
+        <script src="https://kit.fontawesome.com/ce54afd456.js" crossorigin="anonymous"></script>
+        <script src="shadowPartial.js"></script>
+    </head>
+
+    <body>
+
+        <nav>
+            <div class="logo">
+                <a href="landing.html"><img src="./logotipo siete y medio-blanco.png" alt=""></a>
+            </div>
+
+            <div class="menu">
+                <a href="reglas.html"><i class="fa-solid fa-scale-balanced"></i>REGLAS</a></li>
+                <a href="tutorial.html"><i class="fa-solid fa-book"></i>TUTORIAL</a></li>
+                <a href="jugadores.html"><i class="fa-solid fa-user"></i>EQUIPO</a></li>
+                <a href="desarrollo.html"><i class="fa-solid fa-computer-classic"></i>DESARROLLO</a></li>
+            </div>
+        </nav>
+        
+    <div class="container">
+
+        <div class="texto">
+            <h1>LOGICA DEL JUEGO DE UN BOT</h1>
+            <p>La lógica del bot se decide en standardRound(), a la cual le pasamos la id del bot  y el mazo, si el bot no es la banca; Cogerá carta si no ha cogido ninguna aún, y si ya ha cogido, volverá a coger si su personalidad encaja con el riesgo que hay de exceder el 7.5
+                En cambio, si es la banca, 
+                Decidirá si coger carta mediante dos opciones, si el riesgo no excede su personalidad o si la función bankOrderNewCard() lo permite. Esta función calcula los puntos que ganará y los que perderá si se planta, y si la diferencia da mayor a los puntos que tiene actualmente, es decir, si pierde al plantarse. Esta le obligará a coger carta, aunque haya mucho riesgo de exceder 7.5</p>
+                
+            
+        
+        </div>
+    </div>
+
+    <div class="flechas">
+        <a href="desarrollo1.html"><i class="fa-solid fa-arrow-left"></i></a>
+        <a id="desarrollo1" href="#">1</a>
+        <a id="desarrollo2" href="#">2</a>
+        <a id="desarrollo3" href="#">3</a>
+        <a id="desarrollo4" href="#">4</a>
+        <a href="desarrollo3.html"><i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+    <shadow-partial data-html="footer.html" data-css="footer.css"></shadow-partial>
+        
+
+    </body>
+</html>

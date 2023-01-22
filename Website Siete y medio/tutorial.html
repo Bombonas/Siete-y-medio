@@ -1,0 +1,168 @@
+<html>
+    <head>
+        <title>Siete y medio</title>
+        <link rel="stylesheet" href="tutorial.css">
+        <script src="https://kit.fontawesome.com/ce54afd456.js" crossorigin="anonymous"></script>
+        <script src="shadowPartial.js"></script>
+    </head>
+
+    <body>
+
+        <nav>
+            <div class="logo">
+                <a href="landing.html"><img src="./logotipo siete y medio-blanco.png" alt=""></a>
+            </div>
+
+            <div class="menu">
+                <a href="reglas.html"><i class="fa-solid fa-scale-balanced"></i>REGLAS</a></li>
+                <a href="tutorial.html"><i class="fa-solid fa-book"></i>TUTORIAL</a></li>
+                <a href="jugadores.html"><i class="fa-solid fa-user"></i>EQUIPO</a></li>
+                <a href="desarrollo.html"><i class="fa-solid fa-computer-classic"></i>DESARROLLO</a></li>
+            </div>
+        </nav>
+
+        <div class="container">
+
+            <h1>TUTORIAL</h1>
+
+            <div class="texto">
+                <p>Podrán jugar tanto jugadores humanos como jugadores «máquina» y Se establecerá una baraja de entre las posibles para jugar.</p>
+                <p>Cada jugador tiene un perfil de riesgo del tipo:</p>
+                <ul>
+                    <li>«atrevido» que se cuantifica como 50</li>
+                    <li>«normal» que se cuantifica como 40</li>
+                    <li>«prudente» que se cuantifica como 30</li>
+                </ul>
+                <p>El perfil de un jugador definirá qué cantidad de puntos apuesta en función de los que le
+                    quedan, y también lo que arriesgará a la hora de pedir una nueva carta.</p>
+
+                <p>Se reparten 1 carta del mazo a cada jugador para establecer prioridades. El jugador que
+                    consiga la carta más alta es el que tiene mayor prioridad. En caso de que 2 o más jugadores
+                    saquen la carta más alta, la prioridad es:</p>
+                <ul>
+                    <li>1. Oros</li>
+                    <li>2. Copas</li>
+                    <li>3. Espadas</li>
+                    <li>4. Bastos</li>
+                </ul>
+                <p>En caso de jugar una baraja de póker, por ejemplo, la prioridad de las cartas se establecen
+                    según los equivalentes a oros, copas, espadas, bastos.</p>
+
+                <p>El jugador con mayor prioridad será la banca, y los turnos irán en función de la prioridad,
+                    primero el jugador con menor prioridad, luego el siguiente con menor prioridad, y por
+                    último la banca</p>
+                <p>Antes de repartirse ninguna carta, se establecen las apuestas para cada ronda, cada jugador
+                    apuesta según su perfil. Hay que tener en cuenta que un jugador nunca apostará más
+                    puntos de los que tiene la banca, dado que sería incoherente.
+                    Por turnos, según prioridad, cada jugador en cada ronda:</p>
+
+                <ul>
+                    <li>Al iniciar la ronda se le ha repartido una carta.</li>
+                    <li>Seguidamente, debe decidir si desea recibir más cartas del mazo.</li>
+                    <li>Si no lo desea, debe indicarlo diciendo que se planta.</li>
+                    <li>Si por el contrario, desea cartas para intentar acercarse lo más posible a
+                        sumar siete y medio, podrá pedir todas las que quiera de una en una,
+                        pudiéndose plantar cuando quiera.</li>
+                    <li>El último jugador en cada ronda es la banca.</li>
+                </ul>
+
+                <h2>Juega la banca</h2>
+                <p>Una vez hayan hecho las apuestas todos los jugadores, le llega el turno a la banca.</p>
+                <ul>
+                    <li>Si quedara algún jugador que no se hubiese pasado de siete y medio, y, por lo tanto,
+                        está todavía en condiciones de poder ganar su apuesta, la banca procederá a su vez
+                        a jugar.</li>
+                </ul>
+                <p>La banca no hace apuestas, simplemente recibe las de los jugadores. Juega como los demás jugadores:</p>
+                <ul>
+                    <li>plantándose (si cree que así gana a todos o algunos de los jugadores que quedan)</li>
+                    <li>dándose cartas, de una en una, pero con todas sus cartas boca arriba hasta decidir plantarse.</li>
+                    <li>Si la banca ve que no supera a suficientes jugadores y que puede quedarse sin
+                        puntos (eliminada) se verá obligada a pedir carta, sea cual sea el riesgo de pasarse.</li>
+                </ul>
+                <p>Reglas para repartir los puntos apostados:</p>
+                <ul>
+                    <li> La banca juega contra todos y cada uno de los jugadores, y, por lo tanto, si ella se ha
+                        pasado, deberá pagar su apuesta a todos aquellos jugadores que se hubieran
+                        plantado sin pasarse.</li>
+                    <li>Si la banca se ha plantado, comprueba con cada jugador su jugada para ver a quién
+                        vence y con quién pierde. En cada apuesta vence quien más se acerque a siete y
+                        medio.</li>
+                    <li> En caso de empate gana la banca; por lo tanto, si la banca tiene siete y medio, gana
+                        automáticamente a todos los jugadores.</li>
+                    <li>La banca debe pagar la cantidad apostada, a cada jugador con el que pierda, y a la
+                        inversa, cada jugador que pierda con la banca debe pagarle a esta lo apostado.</li>
+                    <li> Si un jugador tiene siete y medio (y la banca no) cobra el doble de lo apostado y
+                        además toma pasa a ser candidato a banca la ronda siguiente.</li>
+
+                    <li>En caso de que haya más de un jugador con siete y medio, y la banca NO, el jugador
+                        con más prioridad de entre los que tienen siete y medio pasará a ser la banca.</li>
+                    <li>El jugador que pierde sus puntos queda eliminado de la partida.</li>
+                    <li> Si la banca queda eliminada y ningún jugador tiene siete y medio, el jugador con más
+                        prioridad pasará a ser la banca.</li>
+                    <li> Si la banca ha de pagar a varios jugadores, pero no tiene suficientes puntos para
+                        pagar a todos, irá realizando los pagos que pueda según la prioridad de los
+                        jugadores. Es decir:</li>
+                    <li>Primero paga al jugador con más prioridad, luego al segundo, y así
+                        sucesivamente mientras tenga puntos para pagar. Es posible que el último
+                        jugador al que tenga que pagar no reciba los puntos que debería ( la banca
+                        no tiene más puntos).</li>
+                    <li> Si la banca se queda sin puntos, quedará eliminada y se elegirá una nueva
+                        banca:</li>
+                    <li>o bien entre los jugadores que tengan 7.5, si hay alguno,
+                        o bien entre todos si no hay ningún jugador con 7.5, siempre en
+                        función de la prioridad de los jugadores.</li>
+                    </ul>
+                    <p>La partida continúa hasta que:</p>
+                    <ul>
+                        <li>un único jugador se hace con todos los puntos en juego, quedando los demás
+                            eliminados o bien hasta que se disputa el máximo de manos fijadas para la partida, que
+                            puede ser hasta un máximo de 30, en cuyo caso el vencedor es quien
+                            acumula mayor cantidad de puntos al final de la partida.</li>
+                        <li>o bien hasta que se disputa el máximo de manos fijadas para la partida, que
+                            puede ser hasta un máximo de 30, en cuyo caso el vencedor es quien
+                            acumula mayor cantidad de puntos al final de la partida</li>
+                        <li>La cantidad de puntos a apostar, salvo en el caso de un jugador humano, que podrá
+                            establecer la apuesta manualmente, se realizará en función del perfil de jugador.</li>
+                    </ul>
+                    <h2>Logica de pedir cartas</h2>
+                    <p>Cuando un jugador decide pedir una carta, lo hará en función de las cartas que hay
+                        repartidas, y lo hará calculando la probabilidad de pasarse si recibiese una nueva carta:</p>
+                        <ul>
+                            <li>Si un jugador tiene por ejemplo un cinco, calculará todas las posibles cartas que
+                                supongan pasarse de 7 y medio, así como el número total de cartas que quedan por
+                                salir</li>
+                            <li>La división entre el número de cartas que supongan pasarse de 7 y medio y el
+                                número de cartas que quedan por salir multiplicado por 100 nos da la probabilidad
+                                de pasarnos de 7 y medio. Si quedan 10 cartas que suponen pasarnos de 7 y medio y
+                                un total de 20 cartas por salir, esta probabilidad sería (10/20)*100 = 50%.
+                                </li>
+                        </ul>
+                        <p>Si esta probabilidad supera el perfil de riesgo del jugador ( prudente–30, normal–40,
+                            arriesgado-50) se plantará. Salvo en el caso de</p>
+                        <ul>
+                            <li>un humano que juegue manualmente</li>
+                            <li>la banca, que está obligada a pedir cartas si ve que puede quedar eliminada o no
+                                gana a ningún jugador.</li>
+                        </ul>
+                        <p> La banca sigue el siguiente criterio:</p>
+                        <ul>
+                            <li>Si ya tiene 7.5 no pedirá más cartas</li>
+                            <li>Si ya se ha pasado, no pedirá cartas.</li>
+                            <li>Si no tiene 7.5, pero después de repartir puntos se quedase sin puntos, pedirá carta</li>
+                            <li>Si ya gana a todos los jugadores, no pedirá carta.</li>
+                            <li>Si no supera a ningún jugador, pedirá carta</li>
+                            <li>Si ya supera a algún jugador, y con esta situación no se queda sin puntos,
+                                pedirá carta según su perfil de riesgo.</li>
+                        </ul>
+                        
+            </div>
+
+        </div>
+
+        <shadow-partial data-html="footer.html" data-css="footer.css"></shadow-partial>
+        
+    </body>
+
+
+</html>
