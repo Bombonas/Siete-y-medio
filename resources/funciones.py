@@ -921,6 +921,7 @@ def winner():
 
 def turn_of_human(ronda, player_id, numero_ronda, mazo1):
     tirada_cartas = []
+    carta_pedida = False
     while True:
         option = getOpt(func_text_opts(human_opts, ronda), opt_text, list(range(1, 7)))
         if option == 1:
@@ -929,26 +930,36 @@ def turn_of_human(ronda, player_id, numero_ronda, mazo1):
         elif option == 2:
             printStats(titulo_inferior=' Round {}, Turn of {} '.format(numero_ronda, players[player_id]['name']))
             input(enter)
-        elif option == 3:
-            new_bet = 0
-            correct = False
-            clear()
-            while not correct:
-                try:
-                    new_bet = int(input(''.ljust(50) + 'Set new Bet: '))
-                    if new_bet > players[player_id]['points'] or new_bet < 1:
-                        raise TypeError(''.ljust(50)+'The new bet has to be between 1 and {}'.format(players[player_id]['points']))
-                    else:
-                        correct = True
-                except ValueError:
-                    print(''.ljust(50)+'Please, introduce only numbers')
 
-                except TypeError as e:
-                    print(e)
-            players[player_id]['bet'] = new_bet
-            input(enter)
+        elif option == 3:
+            if players[player_id]['bank'] is True:
+                print(''.ljust(50) + "You are the bank, therefore you can't bet.")
+                input(ljust_enter)
+            elif carta_pedida:
+                print(''.ljust(50) + "Can't change the bet if you have already ordered a card.")
+                input(ljust_enter)
+            else:
+                new_bet = 0
+                correct = False
+                clear()
+                while not correct:
+                    try:
+                        new_bet = int(input(''.ljust(50) + 'Set new Bet: '))
+                        if new_bet > players[player_id]['points'] or new_bet < 1:
+                            raise TypeError(''.ljust(50)+'The new bet has to be between 1 and {}'.format(players[player_id]['points']))
+                        else:
+                            correct = True
+                    except ValueError:
+                        print(''.ljust(50)+'Please, introduce only numbers')
+
+                    except TypeError as e:
+                        print(e)
+                players[player_id]['bet'] = new_bet
+                input(enter)
+
         elif option == 4:
             print(''.ljust(50) + 'Order Card')
+            carta_pedida = True
             if len(tirada_cartas) == 0:
                 nueva_carta = random.choice(mazo1)
                 mazo1.remove(nueva_carta)
@@ -958,9 +969,11 @@ def turn_of_human(ronda, player_id, numero_ronda, mazo1):
                 print(''.ljust(50) + 'Now you have {} points'.format(players[player_id]['roundPoints']))
                 input(ljust_enter)
             else:
-                print(''.ljust(50) + 'Chance of exceeding 7.5 = {:.2f}%'.format(chanceExceedingSevenAndHalf(player_id, mazo1)))
-                sure = input(''.ljust(50) + 'Are you sure you want to order a new card? Y/y = Yes, another key = Not: ')
-                if players[player_id]['roundPoints'] < 7.5:
+                if players[player_id]['roundPoints'] >= 7.5:
+                    print(''.ljust(50) + "You have 7.5 points or more! You're not allowed to order another card.")
+                else:
+                    print(''.ljust(50) + 'Chance of exceeding 7.5 = {:.2f}%'.format(chanceExceedingSevenAndHalf(player_id, mazo1)))
+                    sure = input(''.ljust(50) + 'Are you sure you want to order a new card? Y/y = Yes, another key = Not: ')
                     if sure.casefold() == 'y':
                         nueva_carta = random.choice(mazo1)
                         mazo1.remove(nueva_carta)
@@ -972,10 +985,6 @@ def turn_of_human(ronda, player_id, numero_ronda, mazo1):
                     else:
                         print(''.ljust(50) + 'Card not ordered')
 
-                elif sure.casefold() == 'y':
-                    print(''.ljust(50) + "You have exceed 7.5 points! You're not allowed to order another card.")
-                else:
-                    print(''.ljust(50) + 'Card not ordered')
                 input(ljust_enter)
             players[player_id]['cards'] = tirada_cartas
         elif option == 5:
