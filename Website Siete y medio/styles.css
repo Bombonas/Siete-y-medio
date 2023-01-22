@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@200;400;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+
+
+.autocenter {
+    margin: auto;
+}
+
+.hero{
+    display: flex;
+    align-items: center;
+    background-image: url(./bg-negro.png);
+    padding: 100px;
+    height: 1000px;
+}
+
+.hero .left-text{
+    width: 50%;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.hero .left-text h1 {
+    font-size: 3em;
+    color: #50FF7D;
+}
+
+.hero .left-text h3 {
+    font-size: 2.5em;
+    color: #ffffff;
+}
+
+.hero .left-text p {
+    color: #ffffff;
+    width: 60%;
+}
+
+.hero .left-text button {
+    padding: 20px 40px;
+    background-color: #50FF7D ;
+    border-radius: 25px;
+    border: none;
+    margin-top: 35px;
+    cursor: pointer;
+
+}
+
+.hero .left-text button a{
+    text-decoration: none;
+    color: white;
+    font-size: 30px;
+}
+.hero .right-image{
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero .right-image img {
+    width: 70%;
+    justify-content: center;
+    align-items: center;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%{
+        transform: translateY(0px);
+    }
+
+    50%{
+        transform: translateY(20px);
+    }
+
+    100%{
+        transform: translateY(0px);
+    }
+  
+}

@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <title>Siete y medio</title>
+        <link rel="stylesheet" href="desarrollo4.css">
+        <script src="https://kit.fontawesome.com/ce54afd456.js" crossorigin="anonymous"></script>
+        <script src="shadowPartial.js"></script>
+    </head>
+
+    <body>
+
+        <nav>
+            <div class="logo">
+                <a href="landing.html"><img src="./logotipo siete y medio-blanco.png" alt=""></a>
+            </div>
+
+            <div class="menu">
+                <a href="reglas.html"><i class="fa-solid fa-scale-balanced"></i>REGLAS</a></li>
+                <a href="tutorial.html"><i class="fa-solid fa-book"></i>TUTORIAL</a></li>
+                <a href="jugadores.html"><i class="fa-solid fa-user"></i>EQUIPO</a></li>
+                <a href="desarrollo.html"><i class="fa-solid fa-computer-classic"></i>DESARROLLO</a></li>
+            </div>
+        </nav>
+        
+    <div class="container">
+
+        <div class="texto">
+            <h1>Inserción en BBDD de las tablas cardgame, player_round,
+                player_round_game.</h1>
+            <p>Para la inserción de datos en la tabla “player_game_round”, necesitamos 8 parámetros:
+                cardgame_id, round_num, player_id, is_bank, bet_points, cards_value, starting_round_points, ending_round_points</p>
+                
+                <p>Para la tabla “cardgame”, necesitamos 6 parámetros:
+                cardgame_id, players, rounds, start_hour, end_hour, deck_id</p>
+                
+                <p>Al comienzo de la partida guardamos en una variable la fecha en la que se ha iniciado la partida, ini_hour, después llamamos a la función “generate_game_id()” la cual hace un select count de la tabla cardgame y le suma 1, consiguiendo de esta manera una ID única para este juego.</p>
+                
+                <p>También guardamos en la lista ply_perma a los jugadores que participan en la partida, aunque estos sean eliminados durante el juego.
+                A la vez guardamos en otra lista ini_cards, las cartas iniciales de cada jugador.</p>
+                
+                <p>Luego, al comenzar la ronda, guardamos en variables el número de la ronda y los puntos iniciales, luego una vez jugada la ronda guardamos en la lista end_pts_round los puntos finales.</p>
+                
+                <p>Una vez se han recogido los puntos finales se llama a la función playergameround(), la cual le pasamos los parámetros gameID, rounds(que es la variable que contiene el número de la ronda), jugadores_ordenados(lista con los jugadores ordenados), start_pts(lista con los puntos iniciales de los jugadores ordenados), end_pts_round(lista con los puntos finales de los jugadores ordenados), banca(el ID de la banca). Esta función guardará estos datos en el diccionario player_game_round.</p>
+                
+                <p>Una vez terminada la partida, lo primero que hacemos es guardar en otra variable él fina de la partida, end_hour.</p>
+                
+                <p>Luego llamamos a la función fill_player_game() la cual le pasamos los parámetros: gameID, ply_perma, ini_cards, str_pts, end_pts. Esta completará el diccionario player_game.</p>
+                
+                <p>Después fill_cardgame(), con los parámetros, gameID, len(ply_perma), str(ini_hour), rounds, str(end_hour), contextGame[“deck”]. Que rellenará el diccionario cardgame.</p>
+                
+                <p>Una vez rellenados todos los diccionarios, si la partida no ha sido abortada, se llaman a las querys, las cuales a través de los diccionarios creados anteriormente pueden pasar los datos a la BBDD.</p>
+                
+                </p>
+            
+        
+        </div>
+    </div>
+
+    <div class="flechas">
+        <a href="desarrollo3.html"><i class="fa-solid fa-arrow-left"></i></a>
+        <a id="desarrollo1" href="desarrollo1.html">1</a>
+        <a id="desarrollo2" href="desarrollo2.html">2</a>
+        <a id="desarrollo3" href="desarrollo3.html">3</a>
+        <a id="desarrollo4" href="desarrollo4.html">4</a>
+        <a href="desarrollo1.html"><i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+    <shadow-partial data-html="footer.html" data-css="footer.css"></shadow-partial>
+        
+
+    </body>
+</html>

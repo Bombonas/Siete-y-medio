@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Space Mono', monospace;
+}
+
+section{
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    height: 8vh;
+    justify-content: space-evenly;
+    margin: auto;
+    background: rgb(42,42,51);
+    background: linear-gradient(90deg, rgba(42,42,51,1) 0%, rgba(9,31,16,1) 100%);
+}
+
+nav .logo img{
+    width: 100px;
+    align-items: center;
+}
+
+nav .menu{
+    display: flex;
+    gap: 100px;
+}
+
+nav .menu a{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #ffffff;
+    gap: 10px;
+}
+
+nav .menu a:hover{
+    color: #50FF7D;
+    transform: scale(1.1);
+    transition: all 0.8s ease;
+}
+
+.container{
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    text-align: justify;
+    margin-top: 100px;
+    display: flex;
+    max-width: 1200px;
+}
+
+.container h1{
+    color: #50FF7D;
+    font-size: 35px;
+    text-align: left;
+}
+
+.texto{
+
+    margin: auto;
+    background: #ffffff;
+    border-radius: 30px;
+    padding: 10px 50px;
+    margin-top: 50px;
+    width: 80%;
+}
+
+.texto p{
+    text-align: justify;
+    font-size: large;
+}
+
+
+.flechas{
+    margin: auto;
+    justify-content: center;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 50px;
+}
+
+.flechas a{
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    text-align: center;
+   
+}
+
+.flechas a i{
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+   
+}
+
+#desarrollo3{
+    color: #50FF7D;
+}
+
+
+
+@media only screen and (max-width: 768px) {
+
+    nav{
+        padding: 5px 10px;
+    }
+
+    nav .menu{
+        gap: 15px;
+    }
+
+    nav .menu a{
+        font-size: 15px;
+    }
+
+    .container h1{
+        font-size: 1.3em;
+        margin-top: 20px;
+    }
+
+    .texto{
+        border-radius: 0px;
+        padding: 0px 60px;
+        width: 100%;
+    }
+
+    .texto p{
+        font-size: 0.8em;   
+    }
+
+    .container{
+        margin-top: 0;
+    }
+
+    
+}

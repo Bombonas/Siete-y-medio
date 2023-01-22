@@ -1,0 +1,272 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Space Mono', monospace;
+}
+
+section{
+    margin: 0;
+    padding: 0;
+}
+
+
+nav {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    height: 8vh;
+    justify-content: space-evenly;
+    margin: auto;
+}
+
+nav .logo img{
+    width: 100px;
+    align-items: center;
+}
+
+nav .menu{
+    display: flex;
+    gap: 100px;
+}
+
+nav .menu a{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #ffffff;
+    gap: 10px;
+}
+
+nav .menu a:hover{
+    color: #50FF7D;
+    transform: scale(1.1);
+    transition: all 0.8s ease;
+}
+
+
+#hero{
+    margin: auto;
+    background-image: url(./bg.png);
+    padding: 25px;
+
+}
+
+#hero .top{
+    margin-top: 40px;
+    text-align: center;
+}
+
+#hero .top h1{
+    font-size: 100px;
+    color: #ffffff;
+
+}
+
+#hero .top h2{
+    font-size: 50px;
+    color: #ffffff;
+}
+
+#hero .bottom{
+    justify-content: center;
+    text-align: center;
+
+}
+
+#hero .bottom p{
+    width: 30%;
+    margin: auto;
+    color: #ffffff;
+}
+
+#hero .bottom img {
+    width: 800px;
+    animation: float 5s infinite;
+}
+
+ @keyframes float {
+    0%{
+        transform: translateY(0px);
+    }
+
+    50%{
+        transform: translateY(-30px);
+    }
+
+    100%{
+        transform: translateY(0px);
+    }
+    
+ }
+
+#reglas{
+    background-image: url(./bg2.png);
+    
+}
+
+.container-reglas{
+    max-width: 1200px;
+    border-radius: 50px;
+    background-image: url(./bg.png);
+    margin: auto;
+    padding: 50px 80px;
+}
+
+.container-reglas .fila{
+    display: flex;
+    gap: 75px;
+}
+
+
+#reglas h1{
+    font-size: 50px;
+    text-align: center;
+    color: #ffffff;
+}
+
+#reglas .bloque{
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    width: 30%;
+    margin: auto;
+    margin-top: 40px;
+    gap: 20px;
+    background-color: #ffffff;
+    border-radius: 50px;
+    height: 300px;
+    padding: 50px;
+}
+
+#reglas .bloque p{
+    text-align: center;
+}
+
+.fila .bloque img{
+    width: 50px;
+}
+
+.btn-reglas{
+    margin: auto;
+    justify-content: center;
+    margin-top: 50px;
+    width: 120px
+
+}
+
+.btn-reglas button {
+    padding: 10px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.5s;
+
+}
+
+.btn-reglas button:hover{
+    transform: scale(1.2);
+}
+
+.btn-reglas button a{
+    text-decoration: none;
+    color: black;
+}
+
+
+.container-desarrollo{
+    margin: auto;
+    max-width: 1200px;
+    display: flex;
+    margin-top: 150px;
+
+}
+
+@media only screen and (max-width: 768px) {
+    nav{
+        padding: 5px 10px;
+    }
+
+    nav .menu{
+        gap: 20px;
+    }
+
+    .container-desarrollo{
+        flex-direction: column;
+        width: 100%;
+        margin: auto;
+    }
+
+    .container-right .slider{
+        margin: 0;
+    }
+
+
+}
+
+.container-left{
+    width: 30%;
+}
+
+.container-left h1{
+    font-size: 40px;
+}
+
+.container-left button{
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 15px;
+    border: none;
+
+}
+
+.container-left button a{
+    text-decoration: none;
+    color: black;
+   
+
+}
+
+.container-right{
+    width: 70%;
+}
+
+.slider{
+    width: 70%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.slider ul{
+    padding: 0;
+    display: flex;
+    width: 300%;
+
+    animation: slide 15s infinite alternate;
+}
+
+.slider li{
+    list-style: none;
+    width: 100%;
+
+}
+
+.slider img{
+    width: 100%;
+
+}
+
+@keyframes slide {
+    0%{margin-left: 0;}
+    30%{margin-left: 0;}
+
+    35%{margin-left: -100%;}
+    70%{margin-left: -100%;}
+
+    75%{margin-left: -200%;}
+    100%{margin-left: -200%;}
+    
+}
