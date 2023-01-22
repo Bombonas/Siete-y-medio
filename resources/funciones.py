@@ -213,7 +213,6 @@ def standardRound(id, mazo1, tirada_cartas = []):
         else:
             tirar = 0
             if baknOrderNewCard(id) or chanceExceedingSevenAndHalf(id, mazo1) <= players[id]['type']:
-
                 if players[id]['roundPoints'] == 0:
                     nueva_carta = random.choice(mazo1)
                     mazo1.remove(nueva_carta)
@@ -416,6 +415,8 @@ def removeBBDDPlayer():
                     print(''.ljust(50) + opt[1:], 'has been deleted')
                     input()
                     delBBDDPlayer(opt[1:])
+                elif opt[1:] in game:
+                    print(''.ljust(50)+"You can't remove a player if it's in game")
                 else:
                     raise TypeError()
             else:

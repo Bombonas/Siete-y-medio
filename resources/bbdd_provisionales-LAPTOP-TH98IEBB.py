@@ -1,4 +1,5 @@
-cartas = {
+
+cartas3 = {
     "O01": {"literal": "As de Oros", "value": 1, "priority": 4, "realValue": 1},
     "O02": {"literal": "Dos de Oros", "value": 2, "priority": 4, "realValue": 2},
     "O03": {"literal": "Tres de Oros", "value": 3, "priority": 4, "realValue": 3},
