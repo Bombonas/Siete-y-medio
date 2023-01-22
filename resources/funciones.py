@@ -347,6 +347,7 @@ def baknOrderNewCard(id):
 def nif_validator():
     # PRE:
     # POST: Devuelve un NIF válido
+    getPlayers()
     correct = False
     newnif = ''
     while not correct:
@@ -656,6 +657,7 @@ def showhPlayersBBDD():
 
 #editar para evitar que se repitan dnis
 def newRandomDNI():
+    getPlayers()
     correct = True
     DNI = ''
     while correct:
@@ -672,7 +674,11 @@ def setNewPlayer(human=True):
     profile = 0
     name = ""
     if human:
-        dni = nif_validator()
+        opt = getOpt(func_text_opts("1)Random DNI,2)Custom DNI"), "Option: ", [1, 2])
+        if opt == 1:
+            dni = newRandomDNI()
+        else:
+            dni = nif_validator()
     else:
         dni = newRandomDNI()
 
