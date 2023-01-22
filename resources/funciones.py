@@ -883,8 +883,7 @@ def distributionPointAndNewBankCandidates(banco, sorted_players_main=[]):
             players[orderAllPlayers()[-1]]['bank'] = True
 
 
-# USAR UNA FUNCION PARA CADA COSA, QUE NO DEJE SALIR HASTA QUE HAYAN 2 PLAYERS EN "GAME" Y UNA BARAJA ESCOGIDA,
-# DEFAULT ROUND SETTINGS = 5
+
 def settings():
     while True:
         option = getOpt(func_text_opts(opts_settings, settings_print), opt_text, list(range(1, 5)))
@@ -907,34 +906,17 @@ def reset_bets():
         players[i]['bet'] = 0
 
 def winner():
-    # if len(game) > 1:
-    #     winner_id = game.copy()
-    #     for pasada in range(len(winner_id) - 1):
-    #         lista_ordenada = True
-    #         for i in range(len(winner_id) - 1 - pasada):
-    #             if players[game[i]]["points"] < players[game[i+1]]["points"]:
-    #                 lista_ordenada = False
-    #                 aux = winner_id[i]
-    #                 winner_id[i] = winner_id[i + 1]
-    #                 winner_id[i + 1] = aux
-    #         if lista_ordenada:
-    #             break
-    #
-    #     return winner_id[0]
-    # else:
-    #     return game[0]
-
     game1 = game.copy()
-    prioridad = []
+    puntos = []
     for i in game:
-        prioridad.append(players[i]['points'])
+        puntos.append(players[i]['points'])
 
-    mida_llista = len(prioridad)
+    mida_llista = len(puntos)
 
     for i in range(mida_llista - 1):
         for j in range(0, mida_llista - i - 1):
-            if prioridad[j] < prioridad[j + 1]:
-                prioridad[j], prioridad[j + 1] = prioridad[j + 1], prioridad[j]
+            if puntos[j] < puntos[j + 1]:
+                puntos[j], puntos[j + 1] = puntos[j + 1], puntos[j]
                 game1[j], game1[j + 1] = game1[j + 1], game1[j]
     return game1[0]
 
@@ -1223,26 +1205,32 @@ def returnListRanking(rank, field="earnings"):
     return listR
 
 def ranking():
-    seq = "1)Players With More Earnings,2)Players With More Games Played,3)Players With More Minutes Played,4)Go back"
-    opt = getOpt(func_text_opts(seq, ranking_header), "Option: ", [1, 2, 3, 4])
-    clear()
-    getPlayers()
-    rank = getBBDDRanking()
-    if opt == 1:
-        listR = returnListRanking(rank)
-        print(" " * 69, "Name".ljust(20), " " * 5, "Earnings")
-        for i in listR:
-            print(" "*69, players[i]["name"].ljust(20), " "*5, rank[i]["earnings"])
-        input(ljust_enter)
-    elif opt == 2:
-        listR = returnListRanking(rank, "games_played")
-        print(" " * 69, "Name".ljust(20), " " * 5, "Games Played")
-        for i in listR:
-            print(" " * 69, players[i]["name"].ljust(20), " " * 5, rank[i]["games_played"])
-        input(ljust_enter)
-    elif opt == 3:
-        listR = returnListRanking(rank, "minutes_played")
-        print(" " * 69, "Name".ljust(20), " " * 5, "Minutes Played")
-        for i in listR:
-            print(" " * 69, players[i]["name"].ljust(20), " " * 5, rank[i]["minutes_played"])
-        input(ljust_enter)
+    while True:
+        seq = "1)Players With More Earnings,2)Players With More Games Played,3)Players With More Minutes Played,4)Go back"
+        opt = getOpt(func_text_opts(seq, ranking_header), "Option: ", [1, 2, 3, 4])
+        clear()
+        getPlayers()
+        rank = getBBDDRanking()
+        if opt == 1:
+            listR = returnListRanking(rank)
+            print(ranking_header)
+            print(" " * 50, "Name".ljust(25), "Earnings".rjust(15))
+            for i in listR:
+                print(" "*50, players[i]["name"].ljust(25), str(rank[i]["earnings"]).rjust(15))
+            input(ljust_enter)
+        elif opt == 2:
+            listR = returnListRanking(rank, "games_played")
+            print(ranking_header)
+            print(" " * 50, "Name".ljust(25), "Games Played".rjust(15))
+            for i in listR:
+                print(" " * 50, players[i]["name"].ljust(25), str(rank[i]["games_played"]).rjust(15))
+            input(ljust_enter)
+        elif opt == 3:
+            listR = returnListRanking(rank, "minutes_played")
+            print(ranking_header)
+            print(" " * 50, "Name".ljust(25), "Minutes Played".rjust(15))
+            for i in listR:
+                print(" " * 50, players[i]["name"].ljust(25), str(rank[i]["minutes_played"]).rjust(15))
+            input(ljust_enter)
+        elif opt == 4:
+            return False

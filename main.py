@@ -70,11 +70,11 @@ while not salir:
         menu00 = True
 
     while menu4:
-        ranking()
-        menu4 = False
-        menu00 = True
+        menu4 = ranking()
+        if menu4 is False:
+            menu00 = True
 
     while menu5:
-        reports()
-        menu5 = False
-        menu00 = True
+        menu5 = reports()
+        if menu5 is False:
+            menu00 = True
