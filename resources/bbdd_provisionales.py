@@ -54,19 +54,7 @@ cartas = {
     "B12": {"literal": "Rey de Bastos", "value": 12, "priority": 1, "realValue": 0.5},
 }
 
-players = {"11115555A":
-               {"name": "Mario", "human": True, "bank": False, "initialCard": "", "priority": 0, "type": 40,
-                "bet": 4, "points": 0, "cards": [], "roundPoints": 0},
-           "22225555A":
-               {"name": "Pedro", "human": True, "bank": False, "initialCard": "", "priority": 0, "type": 40,
-                "bet": 4, "points": 0, "cards": [], "roundPoints": 0},
-           "34343434H":
-               {"name": "Bot1", "human": False, "bank": False, "initialCard": "", "priority": 0, "type": 30,
-                "bet": 4, "points": 0, "cards": [], "roundPoints": 0},
-           "11111111A":
-               {"name": "Bot2", "human": False, "bank": False, "initialCard": "", "priority": 0, "type": 50,
-                "bet": 4, "points": 0, "cards": [], "roundPoints": 0}
-           }
+players = {}
 
 cardgame = {'cardgame_id': '', 'players': '', 'start_hour': '', 'rounds': '', 'end_hour': '', "deck": ""}
 

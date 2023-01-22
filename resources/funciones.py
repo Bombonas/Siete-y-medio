@@ -214,7 +214,7 @@ def standardRound(id, mazo1, tirada_cartas = []):
             tirar = 0
             if baknOrderNewCard(id) or chanceExceedingSevenAndHalf(id, mazo1) <= players[id]['type']:
 
-                if len(tirada_cartas) == 0:
+                if players[id]['roundPoints'] == 0:
                     nueva_carta = random.choice(mazo1)
                     mazo1.remove(nueva_carta)
                     tirada_cartas.append(nueva_carta)
@@ -486,18 +486,18 @@ def setMaxRounds():
     while not correct:
         clear()
         print(setmaxrounds)
-        rounds = input(''.ljust(60)+"Max Rounds: ")
+        rounds = input(''.ljust(50)+"Max Rounds: ")
         if not rounds.isdigit():
-            print(''.ljust(60)+"Please, only introduce numbers")
-            input(''.ljust(60)+'Enter to continue')
-        elif int(rounds) <= 0:
-            print(''.ljust(60)+"Please, introduce a number bigger than 0")
-            input(''.ljust(60)+'Enter to continue')
+            print(''.ljust(50)+"Please, only introduce numbers")
+            input(''.ljust(50)+'Enter to continue')
+        elif int(rounds) <= 0 or int(rounds) > 30:
+            print(''.ljust(50)+"Please, introduce a number bigger than 0 and smaller than 30")
+            input(''.ljust(50)+'Enter to continue')
         else:
             correct = True
 
-            print(''.ljust(60)+'Established maximum of rounds to', rounds)
-            input(''.ljust(60)+'Enter to continue')
+            print(''.ljust(50)+'Established maximum of rounds to', rounds)
+            input(''.ljust(50)+'Enter to continue')
     contextGame["maxRounds"] = int(rounds)
 
 
@@ -519,6 +519,7 @@ def bot_or_human(dni):
         return 'Bot'
 
 def setPlayersGame():
+    getPlayers()
     clear()
     actualPlayers = setgameplayers + '\n' * 3 + '********************** Actual Players In Game **********************'.center(
         140) + '\n'
@@ -675,7 +676,7 @@ def setNewPlayer(human=True):
     else:
         dni = newRandomDNI()
 
-    opt = getOpt("Select your Profile:,1)Cautious,2)Moderated,3)Bold", "Option", [1, 2, 3])
+    opt = getOpt(func_text_opts("Select your Profile:,1)Cautious,2)Moderated,3)Bold"), "Option: ", [1, 2, 3])
     if opt == 1:
         profile = 30
     elif opt == 2:
@@ -972,6 +973,7 @@ def turn_of_human(ronda, player_id, numero_ronda, mazo1):
             break
 
 def play_game():
+    getPlayers()
     ini_hour = datetime.datetime.now()
     send = False
     print("SEND = FALSE; CAMBIAR!!!!!")
