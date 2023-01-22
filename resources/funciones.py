@@ -1136,6 +1136,7 @@ def reports():
         print(" ".ljust(50), "Game ID", " "*5, "Number of Banks", sep="")
         for row in result:
             print(" ".ljust(50), row[0], " "*10, row[1], sep="")
+        input(ljust_enter)
     elif opt == 2:
         clear()
         print("Average bet in each game")
@@ -1145,6 +1146,7 @@ def reports():
         print(" ".ljust(50), "Game ID", " " * 5, "Average bet", sep="")
         for row in result:
             print(" ".ljust(50), row[0], " "*10, row[1], sep="")
+        input(ljust_enter)
     elif opt == 3:
         clear()
         print("Average bet in the first round in each game")
@@ -1154,6 +1156,7 @@ def reports():
         print(" ".ljust(50), "Game ID", " " * 5, "Average bet", sep="")
         for row in result:
             print(" ".ljust(50), row[0], " "*10, row[1], sep="")
+        input(ljust_enter)
     elif opt == 4:
         clear()
         print("Average bet in the last round in each game")
@@ -1163,6 +1166,7 @@ def reports():
         print(" ".ljust(50), "Game ID", " " * 5, "Average bet", sep="")
         for row in result:
             print(" ".ljust(50), row[0], " "*10, row[1], sep="")
+        input(ljust_enter)
     elif opt == 5:
         clear()
         print("Player who places the lowest bet per game")
@@ -1172,6 +1176,7 @@ def reports():
         print(" ".ljust(50), "Game ID", " " * 5, "Player NIF", " " * 5, "Bet", sep="")
         for row in result:
             print(" ".ljust(50), row[0], " "*10, row[1], " "*10, row[2], sep="")
+        input(ljust_enter)
     elif opt == 6:
         clear()
         print("List of games won by Bots")
@@ -1181,6 +1186,7 @@ def reports():
         print(" ".ljust(50), "Game ID", " " * 5, "Points", " " * 5, "Bot NIF", sep="")
         for row in result:
             print(" ".ljust(50), row[0], " " * 10, row[1], " " * 10, row[2], sep="")
+        input(ljust_enter)
     elif opt == 7:
         clear()
         print("Player who places the highest bet in each game")
@@ -1190,6 +1196,7 @@ def reports():
         print(" ".ljust(50), "Game ID", " " * 5, "Player NIF", " " * 5, "Bet", sep="")
         for row in result:
             print(" ".ljust(50), row[0], " " * 10, row[1], " " * 10, row[2], sep="")
+        input(ljust_enter)
 
 def getBBDDRanking():
     query = "SELECT * FROM player_earnings;"
@@ -1226,13 +1233,16 @@ def ranking():
         print(" " * 69, "Name".ljust(20), " " * 5, "Earnings")
         for i in listR:
             print(" "*69, players[i]["name"].ljust(20), " "*5, rank[i]["earnings"])
+        input(ljust_enter)
     elif opt == 2:
         listR = returnListRanking(rank, "games_played")
         print(" " * 69, "Name".ljust(20), " " * 5, "Games Played")
         for i in listR:
             print(" " * 69, players[i]["name"].ljust(20), " " * 5, rank[i]["games_played"])
+        input(ljust_enter)
     elif opt == 3:
         listR = returnListRanking(rank, "minutes_played")
         print(" " * 69, "Name".ljust(20), " " * 5, "Minutes Played")
         for i in listR:
             print(" " * 69, players[i]["name"].ljust(20), " " * 5, rank[i]["minutes_played"])
+        input(ljust_enter)
