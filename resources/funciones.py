@@ -15,6 +15,8 @@ db = mysql.connector.connect(user="MAP", password="2023Proyecto",
 cursor = db.cursor()
 
 def clear():
+    # PRE: No le llega ningun parametro
+    # POST: Limpia la pantalla de la cmd segun si el nombre del sistema es windows o no
     if os.name == 'nt':
         os.system('cls')
     else:
@@ -66,7 +68,7 @@ def setGamePriority(mazo=[], jugadores=[]):
     # PRE: Introducimos la list(cartas) y la game=[]
     # Repartimos una carta a cada uno
     # Creamos otra lista en el mismo orden con los valores de las cartas para ordenarlas
-    # Devolvemos una lista de tuplas con (DNI, CARTA)
+    # POST: Devolvemos una lista de tuplas con (DNI, CARTA)
     mazo1 = mazo.copy()
     cartasRepartidas = {}
     cartasOrdenadas = []
@@ -94,26 +96,26 @@ def setGamePriority(mazo=[], jugadores=[]):
     return cartasOrdenadas
 
 def resetPoints():
+    # PRE: No le llega ningun parametro
+    # POST: Establece los puntos de los jugadores de la lista game a 20
     for i in game:
         players[i]['points'] = 20
 
 
 def generate_game_id():
+    # PRE: Pide la cantidad de ID que hay en la base de datos
+    # POST: Suma 1 a ducha cantidad para que sea el nuevo ID
     query = "SELECT count(cardgame_id) FROM cardgame;"
     cursor.execute(query)
     result = cursor.fetchall()
     new_cardgame_id = result[0][0] + 1
     return new_cardgame_id
 
-def card_id_list(diccionario):
-    lista_card_id = []
-    for i in diccionario:
-        lista_card_id.append(diccionario[i])
-
-    return lista_card_id
-
 
 def fill_player_game(gameID, jugadores=[], card_id_list=[], starting_points_list=[], ending_points_list=[]):
+    # PRE: Recibe la ID de la partida, la lista game, la lista de cartas, la lista de puntos iniciales y la lista
+    # de puntos finales
+    # POST: Devuelve el diccionario player_game con los datos estructurados
     player_game.update({gameID: ''})
     for i in range(len(jugadores)):
         if i == 0:
@@ -125,6 +127,9 @@ def fill_player_game(gameID, jugadores=[], card_id_list=[], starting_points_list
     return player_game
 
 def fill_cardgame(gameID, num_players, start_hour = "", rounds = 0, end_hour = "", deck = ""):
+    # PRE: gameID, ID de la partida; num_players, número de jugadores de la partida; start_hour, hora de comienzo;
+    #      end_hour, hora al finalizar la partida; deck, mazo usado en la partida
+    # POST: guarda los datos de la partida en el diccionario cardgame
     cardgame[gameID] = {'players': num_players, "start_hour": start_hour, 'rounds': rounds, 'end_hour': end_hour, "deck": deck}
 
 def playergameround(gameID, round, jugadores = [], start_points = [], end_points = [], id_bank = ""):
@@ -610,51 +615,10 @@ def setPlayersGame():
             input(enter)
 
 
-def showhPlayersBBDD():
-    bots = []
-    humans = []
-    for id in players:
-        if players[id]["human"]:
-            humans.append(id)
-        else:
-            bots.append(id)
-    if len(humans) > 0:
-        order_list(humans, "asc")
-    if len(bots) > 0:
-        order_list(bots, "asc")
-    print("Select Players".center(140, "*"))
-    print("Bot Players".center(69), "||", "Human Players".center(69), "\n", "-"*140,  sep="")
-    print("ID".ljust(11), " "*9, "Name".ljust(18), " "*5, "Type".ljust(26), "||", "ID".ljust(11), " "*9, "Name".ljust(15), " "*5, "Type".ljust(26), sep="")
-    print("*"*140)
-
-    while len(bots) > 0 or len(humans) > 0:
-        string = ""
-        if len(bots) > 0:
-            string = bots[0].ljust(11) + " "*9 + players[bots[0]]["name"].ljust(18) + " "*5
-            if players[bots[0]]["type"] == 30:
-                string += "Cautious".ljust(26)
-            elif players[bots[0]]["type"] == 40:
-                string += "Moderated".ljust(26)
-            elif players[bots[0]]["type"] == 50:
-                string += "Bold".ljust(26)
-            bots.remove(bots[0])
-        else:
-            string = " "*69
-        string += "||"
-        if len(humans) > 0:
-            string += humans[0].ljust(11) + " " * 9 + players[humans[0]]["name"].ljust(15) + " " * 5
-            if players[humans[0]]["type"] == 30:
-                string += "Cautious".ljust(26)
-            elif players[humans[0]]["type"] == 40:
-                string += "Moderated".ljust(26)
-            elif players[humans[0]]["type"] == 50:
-                string += "Bold".ljust(26)
-            humans.remove(humans[0])
-        print(string)
-    print("*"*140)
-
-#editar para evitar que se repitan dnis
 def newRandomDNI():
+    # PRE: No recibe ningun parametro
+    # POST: Actualiza y descarga la lista de jugadores de la base de datos y genera un ID aleatorio que no este
+    # en dicha lista. Devuelve el ID generado
     getPlayers()
     correct = True
     DNI = ''
@@ -668,6 +632,9 @@ def newRandomDNI():
     return DNI
 
 def setNewPlayer(human=True):
+    # PRE: Human=True
+    # POST: Te pide que introduzcas DNI, el perfil de riesgo y el nombre, devuelve una tupla con ID del jugador,
+    # nombre, perfil de riesgo y human = true
     dni = ""
     profile = 0
     name = ""
@@ -700,12 +667,17 @@ def setNewPlayer(human=True):
 
 
 def newPlayer(dni, name, profile, human):
+    # PRE: ID del jugador, nombre, riesgo, human (True or False)
+    # POST: Devuelve una tupla con el ID del jugador y el diccionario con los datos del nuevo jugador
     dic_aux = {"name": name, "human": human, "bank": False, "initialCard": "", "priority": 0, "type": profile,
                "bet": 4, "points": 0, "cards": [], "roundPoints": 0}
     return (dni, dic_aux)
 
 
 def printStats(titulo_superior="", titulo_inferior=''):
+    # PRE: titulo_superior recibe una string con la parte superior de la cabecera, titulo_inferior recibe una string
+    # con la parte inferior de la cabecera
+    # POST: Imprime los Stats de la partida
     clear()
 
     print(titulo_superior.center(140, "*"))
@@ -748,6 +720,8 @@ def printStats(titulo_superior="", titulo_inferior=''):
                     seq += cards.ljust(40)
             print(seq)
 def set_card_deck():
+    # PRE: No recibe ningun parametro
+    # POST: Pide una ID de un mazo por consola y descarga el mazo de la base de datos al diccionario cartas
     query = "select deck_id from deck;"
     cursor.execute(query)
     result = cursor.fetchall()
@@ -780,8 +754,8 @@ def set_card_deck():
         input(enter)
 
 def distributionPointAndNewBankCandidates(banco, sorted_players_main=[]):
-    # SUSTITUIR CODIGO DE JUEGO ACTUAL POR ESTA FUNCION
-
+    # PRE: ID del jugador que es el banco, lista de jugadores ordenados inversamente por prioridad ([4,3,2,1])
+    # POST: Hace los calculos del resultado de la ronda.
     # Los puntos que pierden los jugadores se les resta inmediatamente, los que ganan se les suma en funcion de la
     # prioridad, la banca hace una resta entre los puntos ganados y perdidos y se suma o resta el resultado.
     # Establecemos la nueva banca y eliminamos los jugadores sin puntos.
@@ -884,6 +858,9 @@ def distributionPointAndNewBankCandidates(banco, sorted_players_main=[]):
 
 
 def settings():
+    # PRE: No recibe ningun parametro
+    # POST: Devuelve el menu settings: Set Players game, set card deck y set max rounds.
+    # Devulve False si se selecciona 4
     while True:
         option = getOpt(func_text_opts(opts_settings, settings_print), opt_text, list(range(1, 5)))
         if option == 1:
@@ -896,15 +873,21 @@ def settings():
             return False
 
 def reset_stats():
+    # PRE: No recibe ningun parametro
+    # POST: Establece los roundPoints y la lista de cartas a 0 y a lista vacía.
     for i in game:
         players[i]['roundPoints'] = 0
         players[i]['cards'] = []
 
 def reset_bets():
+    # PRE: No recibe ningun parametro
+    # POST: Establece las bets de los jugadores a 0
     for i in game:
         players[i]['bet'] = 0
 
 def winner():
+    # PRE: Recoge los jugadores restantes al final de la partida y sus puntos.
+    # POST: Devuelve el ganador segun los puntos restantes.
     game1 = game.copy()
     puntos = []
     for i in game:
