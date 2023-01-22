@@ -128,7 +128,7 @@ def fill_player_game(gameID, jugadores=[], card_id_list=[], starting_points_list
 def fill_cardgame(gameID, num_players, start_hour = "", rounds = 0, end_hour = "", deck = ""):
     cardgame[gameID] = {'players': num_players, "start_hour": start_hour, 'rounds': rounds, 'end_hour': end_hour, "deck": deck}
 
-def player_game_round(gameID, round, jugadores = [], start_points = [], end_points = [], id_bank = ""):
+def playergameround(gameID, round, jugadores = [], start_points = [], end_points = [], id_bank = ""):
     for id in jugadores:
         if id == id_bank:
             stats = {'is_bank': True, 'bet_points': "NULL", 'starting_round_points': start_points,
@@ -191,9 +191,8 @@ def setBets():
 
 
 
-def standardRound(id, mazo1):
+def standardRound(id, mazo1, tirada_cartas = []):
 
-    tirada_cartas = []
     while True:
         if players[id]['bank'] == False:
 
@@ -903,7 +902,8 @@ def winner():
         return game[0]
 
 
-def turn_of_human(ronda, player_id, numero_ronda):
+def turn_of_human(ronda, player_id, numero_ronda, mazo1):
+    tirada_cartas = []
     while True:
         option = getOpt(func_text_opts(human_opts, ronda), opt_text, list(range(1, 7)))
         if option == 1:
@@ -931,7 +931,45 @@ def turn_of_human(ronda, player_id, numero_ronda):
             players[player_id]['bet'] = new_bet
             input(enter)
         elif option == 4:
-            pass
+            print(''.ljust(50) + 'Order Card')
+            if len(tirada_cartas) == 0:
+                nueva_carta = random.choice(mazo1)
+                mazo1.remove(nueva_carta)
+                tirada_cartas.append(nueva_carta)
+                players[player_id]['roundPoints'] += cartas[nueva_carta]['realValue']
+                print(''.ljust(50) + 'The new card is {}'.format(cartas[nueva_carta]['literal']))
+                print(''.ljust(50) + 'Now you have {} points'.format(players[player_id]['roundPoints']))
+                input(ljust_enter)
+            else:
+                print(''.ljust(50) + 'Chance of exceeding 7.5 = {:.2f}%'.format(chanceExceedingSevenAndHalf(player_id, mazo1)))
+                sure = input(''.ljust(50) + 'Are you sure you want to order a new card? Y/y = Yes, another key = Not: ')
+                if players[player_id]['roundPoints'] < 7.5:
+                    if sure.casefold() == 'y':
+                        nueva_carta = random.choice(mazo1)
+                        mazo1.remove(nueva_carta)
+                        tirada_cartas.append(nueva_carta)
+                        players[player_id]['roundPoints'] += cartas[nueva_carta]['realValue']
+                        print(''.ljust(50) + 'The new card is {}'.format(cartas[nueva_carta]['literal']))
+                        print(''.ljust(50) + 'Now you have {} points'.format(players[player_id]['roundPoints']))
+
+                    else:
+                        print(''.ljust(50) + 'Card not ordered')
+
+                elif sure.casefold() == 'y':
+                    print(''.ljust(50) + "You have exceed 7.5 points! You're not allowed to order another card.")
+                else:
+                    print(''.ljust(50) + 'Card not ordered')
+                input(ljust_enter)
+            players[player_id]['cards'] = tirada_cartas
+        elif option == 5:
+            players[player_id]['cards'] = (standardRound(player_id, mazo1, tirada_cartas))
+            printStats(titulo_inferior=' Round {}, Turn of {} '.format(numero_ronda, players[player_id]['name']))
+            input(enter)
+            break
+        elif option == 6:
+            printStats(titulo_inferior=' Round {}, Turn of {} '.format(numero_ronda, players[player_id]['name']))
+            input(enter)
+            break
 
 def play_game():
     ini_hour = datetime.datetime.now()
@@ -976,7 +1014,7 @@ def play_game():
         for jugador in jugadores_ordenados:
             if players[jugador]['human'] is True:
                 imprimir_ronda = '*'*140 + '\n' + gameprint + ' Round {}, Turn of {} '.format(i+1, players[jugador]['name']).center(140, '*')
-                turn_of_human(imprimir_ronda, jugador, rounds)
+                turn_of_human(imprimir_ronda, jugador, rounds, mazo)
             else:
                 players[jugador]['cards'] = (standardRound(jugador, mazo))
                 printStats(titulo_inferior=' Round {}, Turn of {} '.format(i+1, players[jugador]['name']))
@@ -988,7 +1026,7 @@ def play_game():
             end_pts_round.append(players[id]["points"])
         # GUARDAMOS LOS PUNTOS FINALES
 
-        player_game_round(gameID, rounds, jugadores_ordenados, start_pts, end_pts_round, banca)
+        playergameround(gameID, rounds, jugadores_ordenados, start_pts, end_pts_round, banca)
 
         reset_bets()
         for j in game:
@@ -1046,3 +1084,119 @@ def play_game():
     game.clear()
 
 
+
+def reports():
+    seq = "1)Number of players who have been bank in each game,2)Average bet in each game," \
+          "3)Average bet in the first round in each game,4)Average bet in the last round in each game," \
+          "5)Player who places the lowest bet per game,6)List of games won by Bots," \
+          "7)Player who places the highest wager in each game"
+    opt = getOpt(func_text_opts(seq, reports_header), "Option(0 to go back): ", [0, 1, 2, 3, 4, 5, 6, 7])
+    if opt == 1:
+        clear()
+        print("Number of players who have been bank in each game")
+        query = "select pb.cardgame_id, count(pb.player_id) from (select player_id, cardgame_id from player_game_round where is_bank = 1 group by player_id, cardgame_id) as pb group by cardgame_id;"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        print(" ".ljust(50), "Game ID", " "*5, "Number of Banks", sep="")
+        for row in result:
+            print(" ".ljust(50), row[0], " "*10, row[1], sep="")
+    elif opt == 2:
+        clear()
+        print("Average bet in each game")
+        query = "select pb.cardgame_id, avg(pb.bet_points) from (select cardgame_id, bet_points from player_game_round) as pb group by pb.cardgame_id;"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        print(" ".ljust(50), "Game ID", " " * 5, "Average bet", sep="")
+        for row in result:
+            print(" ".ljust(50), row[0], " "*10, row[1], sep="")
+    elif opt == 3:
+        clear()
+        print("Average bet in the first round in each game")
+        query = "select ab.cardgame_id, avg(ab.bet_points) from (select cardgame_id, bet_points from player_game_round where round_num = 1 and bet_points is not NULL) as ab group by ab.cardgame_id;"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        print(" ".ljust(50), "Game ID", " " * 5, "Average bet", sep="")
+        for row in result:
+            print(" ".ljust(50), row[0], " "*10, row[1], sep="")
+    elif opt == 4:
+        clear()
+        print("Average bet in the last round in each game")
+        query = "select p.cardgame_id, avg(p.bet_points) from (select cardgame_id, max(round_num) as last_round from player_game_round group by cardgame_id) as ab, player_game_round p  where p.cardgame_id = ab.cardgame_id and round_num = ab.last_round group by p.cardgame_id;"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        print(" ".ljust(50), "Game ID", " " * 5, "Average bet", sep="")
+        for row in result:
+            print(" ".ljust(50), row[0], " "*10, row[1], sep="")
+    elif opt == 5:
+        clear()
+        print("Player who places the lowest bet per game")
+        query = "select lb.cardgame_id, p.player_id, lb.min_bet from (select cardgame_id, min(bet_points) as min_bet from player_game_round where bet_points is not null group by cardgame_id) as lb, player_game_round p where p.cardgame_id = lb.cardgame_id and  p.bet_points = lb.min_bet;"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        print(" ".ljust(50), "Game ID", " " * 5, "Player NIF", " " * 5, "Bet", sep="")
+        for row in result:
+            print(" ".ljust(50), row[0], " "*10, row[1], " "*10, row[2], sep="")
+    elif opt == 6:
+        clear()
+        print("List of games won by Bots")
+        query = "select pg.cardgame_id, w.win_pts, pg.player_id from (select cardgame_id, max(ending_points) as win_pts from player_game group by cardgame_id) as w, player_game pg, player p where pg.cardgame_id = w.cardgame_id and p.player_id = pg.player_id and  pg.ending_points = w.win_pts and p.human = 0;"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        print(" ".ljust(50), "Game ID", " " * 5, "Points", " " * 5, "Bot NIF", sep="")
+        for row in result:
+            print(" ".ljust(50), row[0], " " * 10, row[1], " " * 10, row[2], sep="")
+    elif opt == 7:
+        clear()
+        print("Player who places the highest bet in each game")
+        query = "select lb.cardgame_id, p.player_id, lb.max_bet from (select cardgame_id, max(bet_points) as max_bet from player_game_round where bet_points is not null group by cardgame_id) as lb, player_game_round p where p.cardgame_id = lb.cardgame_id and  p.bet_points = lb.max_bet;"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        print(" ".ljust(50), "Game ID", " " * 5, "Player NIF", " " * 5, "Bet", sep="")
+        for row in result:
+            print(" ".ljust(50), row[0], " " * 10, row[1], " " * 10, row[2], sep="")
+
+def getBBDDRanking():
+    query = "SELECT * FROM player_earnings;"
+    cursor.execute(query)
+    result = cursor.fetchall()
+    rank = {}
+    for row in result:
+        dict_aux = {"earnings": row[1], "games_played": row[2], "minutes_played": row[3]}
+        rank = {row[0]: dict_aux}
+    return rank
+
+def returnListRanking(rank, field="earnings"):
+    listR = list(rank.keys())
+    for pasada in range(len(listR) - 1):
+        lista_ordenada = True
+        for i in range(len(listR) - 1 - pasada):
+            if rank[listR[i]][field] < rank[listR[i + 1]][field]:
+                lista_ordenada = False
+                aux = listR[i]
+                listR[i] = listR[i + 1]
+                listR[i + 1] = aux
+        if lista_ordenada:
+            break
+    return listR
+
+def ranking():
+    seq = "1)Players With More Earnings,2)Players With More Games Played,3)Players With More Minutes Played,4)Go back"
+    opt = getOpt(func_text_opts(seq, ranking_header), "Option: ", [1, 2, 3, 4])
+    clear()
+    getPlayers()
+    rank = getBBDDRanking()
+    if opt == 1:
+        listR = returnListRanking(rank)
+        print(" " * 69, "Name".ljust(20), " " * 5, "Earnings")
+        for i in listR:
+            print(" "*69, players[i]["name"].ljust(20), " "*5, rank[i]["earnings"])
+    elif opt == 2:
+        listR = returnListRanking(rank, "games_played")
+        print(" " * 69, "Name".ljust(20), " " * 5, "Games Played")
+        for i in listR:
+            print(" " * 69, players[i]["name"].ljust(20), " " * 5, rank[i]["games_played"])
+    elif opt == 3:
+        listR = returnListRanking(rank, "minutes_played")
+        print(" " * 69, "Name".ljust(20), " " * 5, "Minutes Played")
+        for i in listR:
+            print(" " * 69, players[i]["name"].ljust(20), " " * 5, rank[i]["minutes_played"])

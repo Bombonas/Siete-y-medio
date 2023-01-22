@@ -70,22 +70,11 @@ while not salir:
         menu00 = True
 
     while menu4:
-        option = getOpt(func_text_opts(opts_ranking, ranking), opt_text, list(range(1, 5)))
-        if option == 1:
-            menu41 = True
-            menu4 = False
-        elif option == 2:
-            menu42 = True
-            menu4 = False
-        elif option == 3:
-            menu43 = True
-            menu4 = False
-        elif option == 4:
-            menu4 = False
-            menu00 = True
-
-
-
+        ranking()
+        menu4 = False
+        menu00 = True
 
     while menu5:
-        pass
+        reports()
+        menu5 = False
+        menu00 = True
